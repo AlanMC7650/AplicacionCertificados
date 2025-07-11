@@ -1,0 +1,61 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.egg
+*.log
+
+# === Entornos virtuales ===
+.venv/
+venv/
+ENV/
+env/
+
+# === Configuración de entorno ===
+.env
+.env.*  # .env.development, .env.production, etc.
+
+# === Bases de datos locales / SQLite ===
+*.sqlite3
+*.db
+
+# === Flask/Migrate ===
+instance/
+migrations/versions/
+*.pid
+
+# === IDEs ===
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# === Archivos del sistema ===
+.DS_Store
+Thumbs.db
+
+# === Archivos de testing ===
+.coverage
+htmlcov/
+.tox/
+.cache/
+.pytest_cache/
+
+# === Docker (si usas) ===
+*.bak
+*.tar
+*.sql
+docker-compose.override.yml
+
+# === Documentación generada ===
+docs/_build/
+*.pdf
+
+# === Otros ===
+*.swp
+*.bak
+*.orig
+*.tmp
