@@ -30,7 +30,7 @@ awesome-project/
 ├── manage.py                 ← comandos personalizados
 ├── setup.cfg                 ← linters y formatos
 │
-├── backend/
+├── app/
 │   ├── __init__.py           ← create_app(), registros
 │   ├── config.py             ← configuración por entorno
 │   ├── extensions.py         ← db, migrate, cors
