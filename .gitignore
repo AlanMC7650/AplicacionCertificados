@@ -17,7 +17,7 @@ env/
 # === Configuración de entorno ===
 .env
 .env.*  # .env.development, .env.production, etc.
-
+.env.example
 # === Bases de datos locales / SQLite ===
 *.sqlite3
 *.db

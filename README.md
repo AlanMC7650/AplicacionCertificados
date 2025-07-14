@@ -45,3 +45,5 @@ awesome-project/
 │
 ├── tests/                    ← pruebas unitarias
 └── docs/                     ← swagger.json, diagramas, etc.
+
+# whfl jxtm enio wnvm
