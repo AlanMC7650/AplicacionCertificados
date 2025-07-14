@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Química</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="left-panel">
+      <div class="back-arrow">←</div>
+      <h1>Cursos Postgrado<br />Carrera de Química<br /><span>3ra Versión</span></h1>
+      <p>¡Bienvenido! Por favor ingrese su cuenta.</p>
+      <form class="login-form" action="/dashboard" method="get">
+        <label for="email">Direccion de Correo Electronico</label>
+        <input type="email" id="email" required />
+        <label for="password">contrasena</label>
+        <input type="password" id="password" required />
+        <div class="options">
+          <label><input type="checkbox"> Recuerdame</label>
+          <a href="#">Olvide mi contrasena?</a>
+        </div>
+        <button type="submit" class="login-btn">Iniciar Sesion</button>
+      </form>
+    </div>
+    <div class="right-panel">
+      <img src="/static/images/Flag_of_UNESCO.png" alt="UNESCO Logo">
+    </div>
+  </div>
+</body>
+</html>
