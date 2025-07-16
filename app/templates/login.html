@@ -19,7 +19,7 @@
         <input type="password" id="password" required />
         <div class="options">
           <label><input type="checkbox"> Recuerdame</label>
-          <a href="#">Olvide mi contrasena?</a>
+          <a href="{{ url_for('forgot_password_route') }}">Olvide mi contrasena?</a>
         </div>
         <button type="submit" class="login-btn">Iniciar Sesion</button>
       </form>
