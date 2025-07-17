@@ -33,11 +33,11 @@ def insertar_usuario(nombre, apellido, email, contrasena_plana, documento, pais_
 # Ejemplo de uso
 if __name__ == "__main__":
     insertar_usuario(
-        nombre="Juan",
+        nombre="Diego",
         apellido="Gutierrez",
-        email="adios.adios@gmail.com",
-        contrasena_plana="holabuenosdias",
-        documento="12423888",
+        email="andresguti2003@gmail.com",
+        contrasena_plana="123456",
+        documento="12423877",
         pais_origen="Bolivia",
     )
     conn.close()
