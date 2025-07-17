@@ -1,17 +1,15 @@
-from sqlalchemy import Column, Integer, String
-from app.db import Base  # Asegúrate de tener esta base desde tu SQLAlchemy setup
+from app.extensions import db
 
 
-class Usuario(Base):
+class Usuario(db.Model):
+    """docstring for Usuario"""
+
     __tablename__ = "usuarios"
 
-    id_usuario = Column(Integer, primary_key=True, autoincrement=True)
-    nombre = Column(String(50), nullable=False)
-    apellido = Column(String(50), nullable=False)
-    email = Column(String(100), nullable=False, unique=True)
-    contrasena = Column(String(200), nullable=False)
-    documento = Column(String(30), nullable=False)
-    pais_origen = Column(String(50), nullable=False)
-
-    def __repr__(self):
-        return f"<Usuario {self.nombre} {self.apellido} - {self.email}>"
+    id_usuario = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(50), nullable=False)
+    apellido = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(100), nullable=False, unique=True)
+    contrasena = db.Column(db.String(200), nullable=False)
+    documento = db.Column(db.String(30), nullable=False)
+    pais_origen = db.Column(db.String(50), nullable=False)

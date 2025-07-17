@@ -1,0 +1,43 @@
+import psycopg2
+from psycopg2 import sql
+from werkzeug.security import generate_password_hash
+
+# Datos de conexión a la base de datos PostgreSQL
+conn = psycopg2.connect(
+    dbname="bd_Aprendizaje",
+    user="postgres",
+    password="123456",
+    host="localhost",
+    port="5432",
+)
+
+
+def insertar_usuario(nombre, apellido, email, contrasena_plana, documento, pais_origen):
+    # Hashear la contraseña usando werkzeug (por defecto usa pbkdf2:sha256)
+    contrasena_hashed = generate_password_hash(contrasena_plana)
+
+    with conn.cursor() as cur:
+        query = sql.SQL(
+            """
+            INSERT INTO usuarios (nombre, apellido, email, contrasena, documento, pais_origen)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        )
+        cur.execute(
+            query, (nombre, apellido, email, contrasena_hashed, documento, pais_origen)
+        )
+        conn.commit()
+    print("Usuario insertado correctamente.")
+
+
+# Ejemplo de uso
+if __name__ == "__main__":
+    insertar_usuario(
+        nombre="Juan",
+        apellido="Gutierrez",
+        email="adios.adios@gmail.com",
+        contrasena_plana="holabuenosdias",
+        documento="12423888",
+        pais_origen="Bolivia",
+    )
+    conn.close()
