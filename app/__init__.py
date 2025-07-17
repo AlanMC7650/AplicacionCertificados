@@ -1,6 +1,7 @@
 from flask import Flask
 from dotenv import load_dotenv
 from .extensions import db, mail
+from datetime import timedelta
 import os
 
 
@@ -15,6 +16,7 @@ def create_app():
     app.config["MAIL_USE_TLS"] = True
     app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME")
     app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
+    app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days=7)
 
     db.init_app(app)
     mail.init_app(app)

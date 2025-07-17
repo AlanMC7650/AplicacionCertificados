@@ -23,6 +23,7 @@ def login():
     if request.method == "POST":
         email = request.form["email"]
         contrasena = request.form["contrasena"]
+        recuerdame = request.form.get("recuerdame") == "on"
 
         print(f"Email recibido: {email}")
         print(f"Contraseña recibida: {contrasena}")
@@ -34,6 +35,7 @@ def login():
             print("Contrasena correcta")
             session["user_id"] = user.id_usuario
             session["nombre"] = user.nombre
+            session.permanent = recuerdame
             flash("Inicio de sesión exitoso", "success")
             return redirect(
                 url_for("auth.dashboard")
@@ -47,10 +49,8 @@ def login():
 @auth_bp.route("/dashboard", methods=["GET"])
 def dashboard():
     if "user_id" in session:
-        return render_template(
-            "dashboard.html", nombre="DIEGO ANDRÉS FLORES GUTIERREZ"
-        )  # // ya que no hay base de datos aqui insertamos el nombre del estudiante a mostrar en la vista de dashboard
-    return "Acceso denegado"
+        return render_template("dashboard.html", nombre=session.get("nombre"))
+    return redirect(url_for("auth.login"))
 
 
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])
