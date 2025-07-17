@@ -21,11 +21,17 @@ def create_app():
     db.init_app(app)
     mail.init_app(app)
 
-    # Añadimos el blueprint a nuestra aplicación
+    # Añadimos el blueprint auth login a nuestra aplicación
     from app.api.auth import auth_bp
 
     app.register_blueprint(auth_bp, url_prefix="/")
 
+    # Añadimos el blueprint de qrs a nuestra aplicacion
+    from app.api.qrs import qrs_bp
+
+    app.register_blueprint(qrs_bp, url_prefix="/qr")
+
+    # Hacer accesible los QRs generados
     with app.app_context():
         db.create_all()
 

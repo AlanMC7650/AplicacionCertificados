@@ -8,6 +8,10 @@ __pycache__/
 *.egg
 *.log
 
+# Archivos QR generados
+static/qrs/
+
+
 # === Entornos virtuales ===
 .venv/
 venv/

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Generar qr</title>
+</head>
+<body>
+	<p>Esta página solamente guarda la estructura del bonton generar qr y renderizar el qr en la imagen</p>
+	<p>¿Cómo utilizar?</p>
+	<p>Simplemente copiar la etiqueta <code>script</code>, <code>button onclick</code> y <code>img</code> en donde se lo necesite, genera un qr de la página donde fue colocado</p>
+
+	<!--CODIGO JS PARA EL BOTON DE GENERAR QR Y RENDERIZAR LA IMG--->
+	<script>
+    async function generarQR() {
+      const urlActual = window.location.href;
+
+      const response = await fetch('/qr/generate_qr', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ url: urlActual })
+      });
+
+
+      const data = await response.json();
+      if (response.ok) {
+        alert("QR generado correctamente: " + data.filename);
+        // Podrías mostrar el QR con una imagen:
+        document.getElementById("qr-img").src = "static/qrs/" + data.filename;
+      } else {
+        alert("Error: " + data.error);
+      }
+    	}
+  	</script>
+
+
+	<!--CODIGO HTML PARA EL BOTON DE GENERAR QR--->
+	<button onclick="generarQR()">Generar QR</button>
+
+	<!--CODIGO HTML PARA RENDERIZAR LA IMAGEN -->
+	<img id="qr-img" alt="QR generado aparecerá aquí" />
+
+</body>
+</html>
