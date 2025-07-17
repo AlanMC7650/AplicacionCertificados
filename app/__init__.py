@@ -22,7 +22,7 @@ def create_app():
     mail.init_app(app)
 
     # Añadimos el blueprint a nuestra aplicación
-    from app.static.services.auth import auth_bp
+    from app.api.auth import auth_bp
 
     app.register_blueprint(auth_bp, url_prefix="/")
 
