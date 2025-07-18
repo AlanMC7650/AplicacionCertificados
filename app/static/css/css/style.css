@@ -158,3 +158,28 @@ h4 {
   background-color: #006ab0;
   color: white;
 }
+.text-negrita {
+  font-size: 20px;
+  font-weight: bold;
+  color: #004d84;
+}
+.texto {
+    margin: 5px 0;
+    line-height: 1.2;
+}
+.text-rojo {
+  font-size: 20px;
+    font-weight: bold;
+    color: #eb0505;
+    animation: realce 1.5s infinite;
+}
+@keyframes realce {
+    0%, 100% {
+        color: #2a2a2a;
+        text-shadow: none;
+    }
+    50% {
+        color: #ff0000;
+        text-shadow: 0 0 10px #1e1616;
+    }
+}
