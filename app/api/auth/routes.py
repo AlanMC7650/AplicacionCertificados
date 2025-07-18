@@ -16,41 +16,37 @@ from .forms import ForgotPasswordForm, ResetPasswordForm
 # Impotamos las funciones útiles para forgot my password
 from .utils import send_reset_email, verify_reset_token
 
+# Importamos librerias para trabajar con el login
+from flask_login import login_user, logout_user, login_required, current_user
+
 
 # Creamos la ruta a la debe dirigirnos el blueprint
-@auth_bp.route("/", methods=["GET", "POST"])
+@auth_bp.route("/login", methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("auth.dashboard"))
+
     if request.method == "POST":
         email = request.form["email"]
         contrasena = request.form["contrasena"]
         recuerdame = request.form.get("recuerdame") == "on"
 
-        print(f"Email recibido: {email}")
-        print(f"Contraseña recibida: {contrasena}")
-
         user = Usuario.query.filter_by(email=email).first()
-        print(f"Usuario encontrado: {user}")
-        print(user and check_password_hash(user.contrasena, contrasena))
+
         if user and check_password_hash(user.contrasena, contrasena):
-            print("Contrasena correcta")
-            session["user_id"] = user.id_usuario
-            session["nombre"] = user.nombre
-            session.permanent = recuerdame
+            login_user(user, remember=recuerdame)
             flash("Inicio de sesión exitoso", "success")
-            return redirect(
-                url_for("auth.dashboard")
-            )  # o el nombre correcto del endpoint dashboard
+            return redirect(url_for("auth.dashboard"))
         else:
-            flash("Credenciales incorrectas", "danger")
+            flash("Usuario y/o contraseña invalidos", "danger")
 
     return render_template("login.html")
 
 
 @auth_bp.route("/dashboard", methods=["GET"])
+@login_required
 def dashboard():
-    if "user_id" in session:
-        return render_template("dashboard.html", nombre=session.get("nombre"))
-    return redirect(url_for("auth.login"))
+    return render_template("dashboard.html", nombre=current_user.nombre)
 
 
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])
@@ -60,7 +56,10 @@ def forgot_password():
         user = Usuario.query.filter_by(email=form.email.data).first()
         if user:
             send_reset_email(user)
-        flash("If your email is in our system, you will receive a reset link.", "info")
+        flash(
+            "Si el correo existe, se enviará un enlace para restablecer la contraseña.",
+            "info",
+        )
         return redirect(url_for("auth.forgot_password"))
     return render_template("forgot_password.html", form=form)
 
@@ -69,17 +68,24 @@ def forgot_password():
 def reset_token(token):
     email = verify_reset_token(token)
     if not email:
-        flash("That link is invalid or has expired.", "danger")
+        flash("El enlace es inválido o ha expirado.", "danger")
         return redirect(url_for("auth.forgot_password"))
 
     user = Usuario.query.filter_by(email=email).first_or_404()
     form = ResetPasswordForm()
 
     if form.validate_on_submit():
-        user.hashed_password = generate_password_hash(form.password.data)
+        user.contrasena = generate_password_hash(form.password.data)
         db.session.commit()
-        flash("Your password has been updated!", "success")
-        print("Your password has been updated!", "success")
-        return redirect(url_for("auth.forgot_password"))
+        flash("¡Tu contraseña ha sido actualizada!", "success")
+        return redirect(url_for("auth.login"))
 
-    return render_template("login.html")
+    return render_template("reset_password.html", form=form)
+
+
+@auth_bp.route("/logout", methods=["GET", "POST"])
+@login_required
+def logout():
+    logout_user()
+    flash("Has cerrado sesión exitosamente.", "info")
+    return redirect(url_for("auth.login"))

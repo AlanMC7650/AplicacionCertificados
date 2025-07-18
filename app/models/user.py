@@ -1,9 +1,8 @@
 from app.extensions import db
+from flask_login import UserMixin
 
 
-class Usuario(db.Model):
-    """docstring for Usuario"""
-
+class Usuario(UserMixin, db.Model):
     __tablename__ = "usuarios"
 
     id_usuario = db.Column(db.Integer, primary_key=True)
@@ -13,3 +12,6 @@ class Usuario(db.Model):
     contrasena = db.Column(db.String(200), nullable=False)
     documento = db.Column(db.String(30), nullable=False)
     pais_origen = db.Column(db.String(50), nullable=False)
+
+    def get_id(self):
+        return str(self.id_usuario)
