@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+from datetime import timedelta
 
 # ─────────────────────────────────────────────
 # Helpers
@@ -48,8 +49,19 @@ class BaseConfig:
     JSON_SORT_KEYS = False
     JSONIFY_PRETTYPRINT_REGULAR = False
 
-    # JWT, mail, etc.  (añade aquí lo que uses)
+    # JWT
     JWT_SECRET_KEY = getenv("JWT_SECRET_KEY", SECRET_KEY)
+
+    # Correo electrónico (Flask-Mail)
+    MAIL_SERVER = getenv("MAIL_SERVER", "smtp.gmail.com")
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = getenv("MAIL_USERNAME")
+    MAIL_PASSWORD = getenv("MAIL_PASSWORD")
+
+    # Flask-Login: Remember Me
+    # Duración del inicio de sesión
+    REMEMBER_COOKIE_DURATION = timedelta(minutes=1)
 
 
 class DevConfig(BaseConfig):
@@ -57,9 +69,7 @@ class DevConfig(BaseConfig):
 
     DEBUG = True
     FLASK_ENV = "development"
-
-    # CORS: permite todo en local
-    CORS_ORIGINS = ["*"]
+    CORS_ORIGINS = ["*"]  # Permitir todo en desarrollo
 
 
 class TestConfig(BaseConfig):
@@ -80,6 +90,6 @@ class ProdConfig(BaseConfig):
     # CORS más restrictivo
     CORS_ORIGINS = getenv("CORS_ORIGINS", "").split(",")
 
-    # Ejemplo de conexión SSL forzada
+    # Seguridad en cookies (https)
     SESSION_COOKIE_SECURE = True
     REMEMBER_COOKIE_SECURE = True
