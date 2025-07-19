@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Enviar Certificado</title>
+</head>
+<body>
+    <h2>Enviar Certificado a {{ student }} {{ apellido }}</h2>
+    <p>Email: {{ email }}</p>
+
+    <form method="POST">
+        <label for="asunto">Asunto:</label><br>
+        <input type="text" id="asunto" name="asunto" required><br><br>
+
+        <label for="mensaje">Mensaje:</label><br>
+        <textarea id="mensaje" name="mensaje" rows="5" cols="40" required></textarea><br><br>
+
+        <button type="submit">Enviar Certificado</button>
+    </form>
+</body>
+</html>

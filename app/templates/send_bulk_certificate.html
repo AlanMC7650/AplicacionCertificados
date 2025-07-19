@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Enviar certificados a todos</title>
+</head>
+<body>
+  <h2>Enviar certificados a todos los usuarios</h2>
+  <form method="POST">
+    <label for="asunto">Asunto:</label><br>
+    <input type="text" id="asunto" name="asunto" size="50" required value="{{ asunto|default('Tu certificado generado') }}"><br><br>
+
+    <label for="mensaje">Mensaje:</label><br>
+    <textarea id="mensaje" name="mensaje" rows="10" cols="70" required>{{ mensaje|default('Hola, adjuntamos tu certificado.') }}</textarea><br><br>
+
+    <button type="submit">Enviar certificados</button>
+  </form>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul>
+        {% for category, message in messages %}
+          <li style="color: {% if category == 'error' %}red{% else %}green{% endif %}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+</body>
+</html>
