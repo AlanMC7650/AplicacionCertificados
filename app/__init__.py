@@ -27,6 +27,11 @@ def create_app(config_class=DevConfig):
 
     app.register_blueprint(qrs_bp, url_prefix="/qr")
 
+    from app.api.usuarios import usuario_bp
+
+    app.register_blueprint(usuario_bp, url_prefix="/usuarios")
+
+    
     # Configurar Flask-Login
     login_manager = LoginManager(app)
     login_manager.login_view = "auth.login"
