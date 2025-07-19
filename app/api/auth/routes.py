@@ -10,9 +10,6 @@ from . import auth_bp
 # Importamos el modelo usuario de SQLAlchemy
 from app.models.user import db, Usuario
 
-# Importamos los formularios generados por python
-from .forms import ForgotPasswordForm, ResetPasswordForm
-
 # Impotamos las funciones útiles para forgot my password
 from .utils import send_reset_email, verify_reset_token
 
@@ -51,17 +48,20 @@ def dashboard():
 
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])
 def forgot_password():
-    form = ForgotPasswordForm()
-    if form.validate_on_submit():
-        user = Usuario.query.filter_by(email=form.email.data).first()
-        if user:
-            send_reset_email(user)
+    if request.method == "POST":
+        email = request.form.get("email")
+        if email:
+            user = Usuario.query.filter_by(email=email).first()
+            if user:
+                send_reset_email(user)
+
         flash(
             "Si el correo existe, se enviará un enlace para restablecer la contraseña.",
             "info",
         )
-        return redirect(url_for("auth.forgot_password"))
-    return render_template("forgot_password.html", form=form)
+        return redirect(url_for("auth.forgot_password_alert"))
+
+    return render_template("ForgotPassword.html")
 
 
 @auth_bp.route("/reset-password/<token>", methods=["GET", "POST"])
@@ -72,15 +72,27 @@ def reset_token(token):
         return redirect(url_for("auth.forgot_password"))
 
     user = Usuario.query.filter_by(email=email).first_or_404()
-    form = ResetPasswordForm()
 
-    if form.validate_on_submit():
-        user.contrasena = generate_password_hash(form.password.data)
-        db.session.commit()
-        flash("¡Tu contraseña ha sido actualizada!", "success")
-        return redirect(url_for("auth.login"))
+    if request.method == "POST":
+        nueva = request.form.get("new_password")
+        confirmar = request.form.get("confirm_password")
 
-    return render_template("reset_password.html", form=form)
+        if not nueva or not confirmar:
+            flash("Por favor completa ambos campos.", "warning")
+        elif nueva != confirmar:
+            flash("Las contraseñas no coinciden.", "danger")
+        else:
+            user.contrasena = generate_password_hash(nueva)
+            db.session.commit()
+            flash("¡Tu contraseña ha sido actualizada!", "success")
+            return redirect(url_for("auth.login"))
+
+    return render_template("ForgotPasswordverificado.html")
+
+
+@auth_bp.route("forgot-password-alert", methods=["GET", "POST"])
+def forgot_password_alert():
+    return render_template("ForgotPasswordAlert.html")
 
 
 @auth_bp.route("/logout", methods=["GET", "POST"])
