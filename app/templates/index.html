@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Curso Postgrado UMSA</title>
    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/css/styleinicio.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styleinicio.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 </head>
 <body>
   <!-- HEADER -->
   <header class="header">
-    <img src="/static/images/Unesco-TWAS.jpg" alt="UNESCO" class="logo" />
+    <img src="{{ url_for('static', filename='images/Unesco-TWAS.jpg') }}" alt="UNESCO" class="logo" />
    <nav class="nav">
   <a href="#inicioid" class="active">Inicio</a>
   <a href="#informacionid">Información</a>
@@ -21,7 +21,7 @@
     </nav>
 
     <div class="login-container">
-      <a href="/templates/login.html"><button class="btn-login"> Login</button></a>
+      <a href="{{ url_for('login') }}"><button class="btn-login">Login</button></a>
       <img src="/static/images/umsalogo.png" alt="UMSA" class="logo-umsa" />
     </div>
   </header>

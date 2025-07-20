@@ -1,0 +1,93 @@
+/* static/css/expositor.css */
+body {
+  margin: 0;
+  font-family: 'Montserrat Alternates', sans-serif;
+  background: #fff;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 30px;
+  border-bottom: 2px solid #0070c0;
+  position: relative;
+}
+
+.top-bar .logo {
+  width: 70px;
+}
+
+.top-bar .logo-der {
+  width: 50px;
+  position: absolute;
+  right: 30px;
+}
+
+.top-bar h1 {
+  color: #0070c0;
+  font-weight: 500;
+}
+
+.top-actions button {
+  margin: 0 5px;
+  padding: 5px 20px;
+  border: 1px solid #0070c0;
+  background: white;
+  color: #0070c0;
+  cursor: pointer;
+}
+
+.main {
+  display: flex;
+  height: calc(100vh - 80px);
+}
+
+.sidebar {
+  width: 260px;
+  background: white;
+  padding: 30px;
+  border-right: 2px solid #0070c0;
+}
+
+.sidebar h2, .sidebar h3, .sidebar p {
+  color: #0070c0;
+  margin: 10px 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.sidebar li a {
+  display: block;
+  padding: 12px;
+  border: 1px solid #ccc;
+  margin-bottom: 5px;
+  color: #333;
+  text-decoration: none;
+}
+
+.sidebar li a:hover,
+.sidebar li a:focus {
+  background-color: #0070c0;
+  color: white;
+}
+
+.contenido {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+iframe#contenido-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.back-arrow {
+  font-size: 24px;
+  color: #006ab0;
+  margin-bottom: 20px;
+}

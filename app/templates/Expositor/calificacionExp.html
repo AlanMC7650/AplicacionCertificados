@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Calificaciones del Curso</title>
+  <link rel="stylesheet" href="/static/css/Expositor/calificacionExp.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="calificacion-container">
+    <div class="tabla-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Estudiantes</th>
+            <th>Identificador</th>
+            <th>Nota Promedio</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Filas de ejemplo -->
+          <tr>
+            <td>Juan Pérez</td>
+            <td>987654</td>
+            <td><input type="number" min="0" max="100" value="85" onchange="actualizarEstado(this)"></td>
+            <td class="estado"></td>
+          </tr>
+          <tr>
+            <td>Laura Díaz</td>
+            <td>123456</td>
+            <td><input type="number" min="0" max="100" value="65" onchange="actualizarEstado(this)"></td>
+            <td class="estado"></td>
+          </tr>
+          <tr>
+            <td>Pedro Sánchez</td>
+            <td>741852</td>
+            <td><input type="number" min="0" max="100" value="20" onchange="actualizarEstado(this)"></td>
+            <td class="estado"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function actualizarEstado(input) {
+      const nota = parseFloat(input.value);
+      const tdEstado = input.parentElement.nextElementSibling;
+
+      if (nota >= 71) {
+        tdEstado.textContent = "Aprobado";
+        tdEstado.className = "estado aprobado";
+      } else if (nota >= 51) {
+        tdEstado.textContent = "Participacion";
+        tdEstado.className = "estado participacion";
+      } else {
+        tdEstado.textContent = "Abandono";
+        tdEstado.className = "estado abandono";
+      }
+    }
+
+    // Ejecutar al cargar para valores ya existentes
+    window.onload = () => {
+      document.querySelectorAll("input[type='number']").forEach(input => actualizarEstado(input));
+    };
+  </script>
+</body>
+</html>
