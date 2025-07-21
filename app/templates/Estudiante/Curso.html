@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Curso</title>
+  <link rel="stylesheet" href="/static/css/styleCurso.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="curso-contenido">
+    <label for="curso">Curso: </label>
+  
+
+    <h2>cursos - mañana</h2>
+    <table class="tabla-asistencia">
+      <thead>
+        <tr>
+          <th>Lunes</th><th>Martes</th><th>Miércoles</th><th>Jueves</th><th>Viernes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-turno="manana" data-dia="lunes"></td>
+          <td data-turno="manana" data-dia="martes"></td>
+          <td data-turno="manana" data-dia="miercoles"></td>
+          <td data-turno="manana" data-dia="jueves"></td>
+          <td data-turno="manana" data-dia="viernes"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>cursos - tarde</h2>
+    <table class="tabla-asistencia">
+      <thead>
+        <tr>
+          <th>Lunes</th><th>Martes</th><th>Miércoles</th><th>Jueves</th><th>Viernes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-turno="tarde" data-dia="lunes"></td>
+          <td data-turno="tarde" data-dia="martes"></td>
+          <td data-turno="tarde" data-dia="miercoles"></td>
+          <td data-turno="tarde" data-dia="jueves"></td>
+          <td data-turno="tarde" data-dia="viernes"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="/static/js/cursoAsistencia.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gestión Estudiante</title>
+  <link rel="stylesheet" href="/AplicacionCertificados/app/static/css/Estudiante/styleEstudiantes.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div class="logo-back">
+      <img src="/static/images/logo-unesco.png" class="logo" />
+    </div>
+    <h1 class="titulo">GESTION ESTUDIANTE</h1>
+    <div class="top-actions">
+      <button>Estudiante</button>
+      <button>Cerrar Sesión</button>
+    </div>
+  </div>
+
+  <!-- Contenedor principal -->
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>BIENVENIDO</h2>
+      <h3>DIEGO ANDRÉS<br>FLORES GUTIERREZ</h3>
+
+      <p>Funciones</p>
+      <ul class="menu">
+        <li><a href="#" class="activo" onclick="mostrarSeccion('datos')">Datos Personales</a></li>
+        <li><a href="#" onclick="mostrarIframe('Curso.html', this)">Curso</a></li>
+      </ul>
+    </aside>
+
+    <!-- Contenido -->
+    <main class="contenido">
+      <!-- Datos personales por defecto -->
+      <div id="seccion-datos" class="datos-container">
+        <div class="datos-content">
+          <div class="info-estudiante">
+            <input class="input-info" value="Nombre" readonly />
+            <input class="input-info" value="Identificación" readonly />
+            <input class="input-info" value="Género" readonly />
+            <input class="input-info" value="Edad" readonly />
+            <input class="input-info" value="Nacionalidad" readonly />
+          </div>
+          <div class="qr-container">
+            <img src="/static/images/cuere.png" class="qr-img" alt="QR Estudiante" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Iframe dinámico -->
+      <iframe id="seccion-iframe" name="contenido-frame" class="iframe-oculto"></iframe>
+    </main>
+  </div>
+
+  <script src="/static/js/estudianteControl.js"></script>
+</body>
+</html>

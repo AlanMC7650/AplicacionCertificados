@@ -19,10 +19,12 @@ def create_app(config_class=DevConfig):
     mail.init_app(app)
 
     # Registrar blueprints
+    ## Autenticador (Forgot my password)
     from app.api.auth import auth_bp
 
     app.register_blueprint(auth_bp, url_prefix="/auth")
 
+    ## Generador de qr
     from app.api.qrs import qrs_bp
 
     app.register_blueprint(qrs_bp, url_prefix="/qr")
@@ -30,6 +32,15 @@ def create_app(config_class=DevConfig):
     from app.api.home import home_bp
 
     app.register_blueprint(home_bp, url_prefix="/")
+
+    from app.api.usuarios import usuario_bp
+
+    app.register_blueprint(usuario_bp, url_prefix="/usuarios")
+
+    ## Generador de certificados
+    from app.api.certificate import certificate_bp
+
+    app.register_blueprint(certificate_bp, url_prefix="/cert")
 
     # Configurar Flask-Login
     login_manager = LoginManager(app)
