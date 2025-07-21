@@ -29,10 +29,12 @@ def create_app(config_class=DevConfig):
 
     app.register_blueprint(qrs_bp, url_prefix="/qr")
 
+    # Página principal index
     from app.api.home import home_bp
 
     app.register_blueprint(home_bp, url_prefix="/")
 
+    # CRUD Usuarios
     from app.api.usuarios import usuario_bp
 
     app.register_blueprint(usuario_bp, url_prefix="/usuarios")
@@ -42,6 +44,10 @@ def create_app(config_class=DevConfig):
 
     app.register_blueprint(certificate_bp, url_prefix="/cert")
 
+    # Escaner QR's
+    from app.api.qrscan import qrscan_bp
+
+    app.register_blueprint(qrscan_bp, url_prefix="/scan")
     # Configurar Flask-Login
     login_manager = LoginManager(app)
     login_manager.login_view = "auth.login"
