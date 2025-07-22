@@ -41,7 +41,7 @@ class BaseConfig:
     # Base de datos (SQLAlchemy)
     SQLALCHEMY_DATABASE_URI = getenv(
         "DATABASE_URL",
-        "postgresql://user:password@localhost:5432/awesome_db",
+        "postgresql://postgres:12345@localhost:5432/awesome_db",
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
