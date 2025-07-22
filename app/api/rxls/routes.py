@@ -3,6 +3,7 @@ import json
 from werkzeug.utils import secure_filename
 import pandas as pd
 import os
+import io
 
 from . import rxls_bp
 from app import db
@@ -39,7 +40,7 @@ def index():
                 if not json_str:
                     flash("No hay datos para guardar.")
                     return redirect(request.url)
-                df = pd.read_json(json_str)
+                df = pd.read_json(io.StringIO(json_str))
                 for _, row in df.iterrows():
                     usuario = Usuario(
                         nombre=row['nombre'],
