@@ -1,4 +1,5 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, session
+import json
 from werkzeug.utils import secure_filename
 import pandas as pd
 import os
@@ -16,51 +17,45 @@ def allowed_file(filename):
 @rxls_bp.route("/", methods=["GET", "POST"])
 def index():
     tabla_html = None
-    df = None
 
     if request.method == "POST":
         accion = request.form.get("accion")
 
-        if 'file' not in request.files:
-            flash('No se ha enviado ningún archivo.')
-            return redirect(request.url)
+        if accion == "vista":
+            file = request.files.get("file")
+            if not file:
+                flash("No se recibió archivo.")
+                return redirect(request.url)
 
-        file = request.files['file']
-        if file.filename == '':
-            flash('Nombre de archivo vacío.')
-            return redirect(request.url)
-
-        if file and allowed_file(file.filename):
             ext = file.filename.rsplit('.', 1)[1].lower()
+            df = pd.read_csv(file) if ext == 'csv' else pd.read_excel(file)
+            session["datos_usuarios"] = df.to_json()  # Guardamos en sesión
+            tabla_html = df.to_html(classes="table table-bordered", index=False, border=0)
+            flash("Archivo leído correctamente.")
 
+        elif accion == "guardar":
             try:
-                if ext == 'csv':
-                    df = pd.read_csv(file)
-                else:
-                    df = pd.read_excel(file)
-
-                if accion == 'vista':
-                    # Solo mostrar la tabla
-                    tabla_html = df.to_html(classes="table table-bordered", index=False, border=0)
-                    flash("Archivo leído correctamente. Revisa la vista previa.")
-                
-                elif accion == 'guardar':
-                    # Guardar en base de datos
-                    for _, row in df.iterrows():
-                        usuario = Usuario(
-                            nombre=row['nombre'],
-                            apellido=row['apellido'],
-                            email=row['email'],
-                            contrasena=row['contrasena'],
-                            documento=row['documento'],
-                            pais_origen=row['pais_origen']
-                        )
-                        db.session.add(usuario)
-                    db.session.commit()
-                    flash("Datos guardados en la base de datos.")
-                    return redirect(url_for('rxls_bp.index'))  # recargar la página limpia
+                json_str = session.get("datos_usuarios")
+                if not json_str:
+                    flash("No hay datos para guardar.")
+                    return redirect(request.url)
+                df = pd.read_json(json_str)
+                for _, row in df.iterrows():
+                    usuario = Usuario(
+                        nombre=row['nombre'],
+                        apellido=row['apellido'],
+                        email=row['email'],
+                        contrasena=row['contrasena'],
+                        documento=row['documento'],
+                        pais_origen=row['pais_origen']
+                    )
+                    db.session.add(usuario)
+                db.session.commit()
+                session.pop("datos_usuarios", None)
+                flash("Datos guardados exitosamente.")
+                return redirect(url_for("rxls_bp.index"))
 
             except Exception as e:
-                flash(f"Error al procesar el archivo: {e}")
+                flash(f"Error al guardar: {e}")
 
     return render_template("readxls/readxls.html", tabla=tabla_html)
