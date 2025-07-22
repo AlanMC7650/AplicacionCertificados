@@ -1,0 +1,37 @@
+<h3>Gestión de Cursos</h3>
+
+<table border="1" cellpadding="10" cellspacing="0">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombres</th>
+            <th>Descripcion</th>            
+            <th>Modalidad</th>
+            <th>Version</th>
+            <th>Ponente</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for curso in cursos %}        
+        <tr>
+            <td>{{ curso.id}}</td>
+            <td>{{ curso.nombre }}</td>
+            <td>{{ curso.descripcion }}</td>
+            <td>{{ curso.modalidad }}</td>
+            <td>{{ curso.version }}</td>
+            <td>{{ curso.ponente }}</td>
+            <td>
+                <button onclick="">Editar</button>
+                <button onclick="">Eliminar</button>            
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+
+<button onclick="" class="menu-btn-h">Agregar Curso</button>
+
+

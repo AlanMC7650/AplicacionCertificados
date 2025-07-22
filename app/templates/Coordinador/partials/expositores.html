@@ -1,0 +1,41 @@
+<h3>Gestión de Expositores</h3>
+
+<table border="1" cellpadding="10" cellspacing="0">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombres</th>
+            <th>Apellido Paterno</th>
+            <th>Certificado</th>
+            <th>CI / DNI</th>
+            <th>Curso</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for expositor in expositores %}
+        <!-- 'id': 1, 'nombre': 'Juan', 'apellido': 'Pérez', 'certificado': 'Sí', 'ci': '12345678', 'nota': 90 -->
+        <tr>
+            <td>{{ expositor.id}}</td>
+            <td>{{ expositor.nombre }}</td>
+            <td>{{ expositor.apellido }}</td>
+            <td>{{ expositor.certificado }}</td>
+            <td>{{ expositor.ci }}</td>
+            <td>{{ expositor.curso }}</td>
+            <td>
+                <button onclick="">Editar</button>
+                <button onclick="">Eliminar</button>
+                <button onclick="">Enviar Certificado</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+
+<button onclick="" class="menu-btn-h">Agregar Expositor</button>
+<button onclick="" class="menu-btn-h">Descargar Certificados</button>
+<button onclick="" class="menu-btn-h">Enviar Certificados</button>
+
+

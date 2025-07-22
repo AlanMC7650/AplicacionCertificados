@@ -1,0 +1,39 @@
+<h3>Gestión de Estudiantes</h3>
+
+<table border="1" cellpadding="10" cellspacing="0" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombres</th>
+            <th>Apellido Paterno</th>
+            <th>Certificado</th>
+            <th>CI / DNI</th>
+            <th>Nota</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for estudiante in estudiantes %}
+        <!-- 'id': 1, 'nombre': 'Juan', 'apellido': 'Pérez', 'certificado': 'Sí', 'ci': '12345678', 'nota': 90 -->
+        <tr>
+            <td>{{ estudiante.id }}</td>
+            <td>{{ estudiante.nombre }}</td>
+            <td>{{ estudiante.apellido }}</td>
+            <td>{{ estudiante.certificado }}</td>
+            <td>{{ estudiante.ci }}</td>
+            <td>{{ estudiante.nota }}</td>
+            <td>
+                <button onclick="" class="btn btn-primary">Editar</button>
+                <button onclick="" class="btn btn-danger">Eliminar</button>
+                <button onclick="" class="btn btn-success">Enviar Certificado</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+
+<button onclick="" class="menu-btn-h">Agregar Estudiante</button>
+<button onclick="" class="menu-btn-h">Descargar Certificados</button>
+<button onclick="" class="menu-btn-h">Enviar Certificados</button>
