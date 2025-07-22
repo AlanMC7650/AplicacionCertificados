@@ -15,7 +15,12 @@ def allowed_file(filename):
 
 @rxls_bp.route("/", methods=["GET", "POST"])
 def index():
+    tabla_html = None
+    df = None
+
     if request.method == "POST":
+        accion = request.form.get("accion")
+
         if 'file' not in request.files:
             flash('No se ha enviado ningún archivo.')
             return redirect(request.url)
@@ -26,23 +31,36 @@ def index():
             return redirect(request.url)
 
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            filepath = os.path.join(UPLOAD_FOLDER, filename)
-            os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-            file.save(filepath)
+            ext = file.filename.rsplit('.', 1)[1].lower()
 
-            # Leer y subir a la base de datos
-            df = pd.read_excel(filepath)
-            for _, row in df.iterrows():
-                usuario = Usuario(
-                    nombre=row['nombre'], apellido=row['apellido'], 
-                    email=row['email'], contrasena=row['contrasena'],
-                    documento=row['documento'], pais_origen=row['pais_origen']
-                    )
-                db.session.add(usuario)
-            db.session.commit()
+            try:
+                if ext == 'csv':
+                    df = pd.read_csv(file)
+                else:
+                    df = pd.read_excel(file)
 
-            flash("Archivo cargado y datos insertados correctamente.")
-            return redirect(url_for('main.index'))
+                if accion == 'vista':
+                    # Solo mostrar la tabla
+                    tabla_html = df.to_html(classes="table table-bordered", index=False, border=0)
+                    flash("Archivo leído correctamente. Revisa la vista previa.")
+                
+                elif accion == 'guardar':
+                    # Guardar en base de datos
+                    for _, row in df.iterrows():
+                        usuario = Usuario(
+                            nombre=row['nombre'],
+                            apellido=row['apellido'],
+                            email=row['email'],
+                            contrasena=row['contrasena'],
+                            documento=row['documento'],
+                            pais_origen=row['pais_origen']
+                        )
+                        db.session.add(usuario)
+                    db.session.commit()
+                    flash("Datos guardados en la base de datos.")
+                    return redirect(url_for('rxls_bp.index'))  # recargar la página limpia
 
-    return render_template("readxls/readxls.html")
+            except Exception as e:
+                flash(f"Error al procesar el archivo: {e}")
+
+    return render_template("readxls/readxls.html", tabla=tabla_html)
