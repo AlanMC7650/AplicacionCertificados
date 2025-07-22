@@ -21,30 +21,37 @@ def create_app(config_class=DevConfig):
     # Registrar blueprints
     ## Autenticador (Forgot my password)
     from app.api.auth import auth_bp
+
     app.register_blueprint(auth_bp, url_prefix="/auth")
 
     ## Generador de qr
     from app.api.qrs import qrs_bp
+
     app.register_blueprint(qrs_bp, url_prefix="/qr")
 
     # Página principal index
     from app.api.home import home_bp
+
     app.register_blueprint(home_bp, url_prefix="/")
 
     # CRUD Usuarios
     from app.api.usuarios import usuario_bp
+
     app.register_blueprint(usuario_bp, url_prefix="/usuarios")
 
     # Generador de certificados
     from app.api.certificate import certificate_bp
+
     app.register_blueprint(certificate_bp, url_prefix="/cert")
 
     # Escaner QR's
     from app.api.qrscan import qrscan_bp
+
     app.register_blueprint(qrscan_bp, url_prefix="/scan")
 
     # Rutas Coordinador
-    from app.api.coordinador import coordinador_bp    
+    from app.api.coordinador import coordinador_bp
+
     app.register_blueprint(coordinador_bp, url_prefix="/coordinador")
 
     # Configurar Flask-Login
