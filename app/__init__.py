@@ -44,6 +44,12 @@ def create_app(config_class=DevConfig):
 
     app.register_blueprint(certificate_bp, url_prefix="/cert")
 
+    ## Lectura archivos tipo excel o similares
+    from app.api.rxls import rxls_bp    
+
+    app.register_blueprint(rxls_bp,url_prefix="/rxls")
+
+
     # Escaner QR's
     from app.api.qrscan import qrscan_bp
 
