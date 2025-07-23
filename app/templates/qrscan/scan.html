@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Escáner QR</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>  <style>
+    #reader {
+      width: 300px;
+      height: 300px;
+      margin-top: 20px;
+      border: 2px solid #ccc;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Escáner de Códigos QR</h1>
+  <button onclick="startScanner()">Iniciar escaneo</button>
+  <div id="reader"></div>
+  <p id="resultado"></p>
+
+  <script>
+    let html5QrCode;
+
+    function startScanner() {
+      if (html5QrCode) {
+        html5QrCode.stop().then(() => {
+          html5QrCode.clear();
+          iniciar();
+        });
+      } else {
+        iniciar();
+      }
+    }
+
+    function iniciar() {
+      html5QrCode = new Html5Qrcode("reader");
+
+      html5QrCode.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        (decodedText, decodedResult) => {
+          document.getElementById("resultado").innerText = `Resultado: ${decodedText}`;
+          html5QrCode.stop().then(() => html5QrCode.clear());
+        },
+        (errorMessage) => {
+          // Se puede ignorar
+        }
+      ).catch((err) => {
+        console.error("No se pudo iniciar el escaneo", err);
+      });
+    }
+  </script>
+</body>
+</html>
