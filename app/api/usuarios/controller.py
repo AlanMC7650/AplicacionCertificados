@@ -16,20 +16,37 @@ def obtener_estudiante(id_usuario):
     return row
 
 
-def crear_estudiante(nombre, apellido, email, contrasena, documento, pais_origen):
+'''def crear_estudiante(nombre, apellido, email, contrasena, documento, pais_origen):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("INSERT INTO Usuarios (nombre, apellido, email, contrasena, documento, pais_origen) VALUES (%s, %s, %s,%s, %s, %s)", (nombre, apellido, email, contrasena, documento, pais_origen))
     conn.commit()
+    conn.close()'''
+
+def crear_estudiante(nombre, apellido, email, contrasena, documento, pais_origen):
+    conn = get_connection()
+    cursor = conn.cursor()
+    id_rol = 1  # Por defecto: estudiante
+    cursor.execute("INSERT INTO Usuarios (nombre, apellido, email, contrasena, documento, pais_origen, id_rol) VALUES (%s, %s, %s, %s, %s, %s, %s)", (nombre, apellido, email, contrasena, documento, pais_origen, id_rol))
+    conn.commit()
     conn.close()
 
+'''
 def actualizar_estudiante(id_usuario, nombre, apellido, email, contrasena, documento, pais_origen):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("UPDATE Usuarios SET nombre = %s, apellido = %s, email = %s,contrasena = %s,documento = %s,pais_origen = %s WHERE id_usuario = %s",
                    (nombre, apellido, email, contrasena, documento, pais_origen, id_usuario,))
     conn.commit()
+    conn.close()'''
+
+def actualizar_estudiante(id_usuario, nombre, apellido, email, contrasena, documento, pais_origen, id_rol):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE Usuarios SET nombre = %s, apellido = %s, email = %s, contrasena = %s, documento = %s, pais_origen = %s, id_rol = %s WHERE id_usuario = %s", (nombre, apellido, email, contrasena, documento, pais_origen, id_rol, id_usuario))
+    conn.commit()
     conn.close()
+
 
 def eliminar_estudiante(id_usuario):
     try:

@@ -27,9 +27,15 @@ def create_app(config_class=DevConfig):
     from app.api.qrs import qrs_bp
     app.register_blueprint(qrs_bp, url_prefix="/qr")
 
+    # CRUD Usuarios
     from app.api.usuarios import usuario_bp
 
     app.register_blueprint(usuario_bp, url_prefix="/usuarios")
+
+    #CRUD eventos
+    from app.api.eventos import evento_bp
+
+    app.register_blueprint(evento_bp, url_prefix="/eventos")
 
     ## Generador de certificados
     from app.api.certificate import certificate_bp

@@ -14,7 +14,8 @@ def get_estudiantes():
                 "email": row[3],
                 "contrasena": row[4],
                 "documento": row[5],
-                "pais_origen": row[6]
+                "pais_origen": row[6],
+                "id_rol": row[7]
             })
         return jsonify(estudiantes)
     except Exception as e:
@@ -33,22 +34,45 @@ def get_estudiante(id_usuario):
                 "email": row[3],
                 "contrasena": row[4],
                 "documento": row[5],
-                "pais_origen": row[6]
+                "pais_origen": row[6],
+                "id_rol": row[7]
         }
         return jsonify(estudiante)
     return jsonify({"mensaje": "Estudiante no encontrado"}), 404
 
 
-@usuario_bp.route('/estudiantes', methods=['POST'])
+'''@usuario_bp.route('/estudiantes', methods=['POST'])
 def post_estudiante():
     data = request.json
     est.crear_estudiante(data['nombre'], data['apellido'], data['email'], data['contrasena'], data['documento'], data['pais_origen'])
+    return jsonify({"mensaje": "Estudiante creado"}), 201'''
+
+@usuario_bp.route('/estudiantes', methods=['POST'])
+def post_estudiante():
+    data = request.json
+    est.crear_estudiante(
+        data['nombre'], data['apellido'], data['email'],
+        data['contrasena'], data['documento'], data['pais_origen'],
+        data['id_rol']
+    )
     return jsonify({"mensaje": "Estudiante creado"}), 201
+
+'''@usuario_bp.route('/estudiantes/<int:id_usuario>', methods=['PUT'])
+def put_estudiante(id_usuario):
+    data = request.json
+    est.actualizar_estudiante(id_usuario, data['nombre'], data['apellido'], data['email'], data['contrasena'], data['documento'], data['pais_origen'])
+    return jsonify({"mensaje": "Estudiante actualizado"})
+'''
 
 @usuario_bp.route('/estudiantes/<int:id_usuario>', methods=['PUT'])
 def put_estudiante(id_usuario):
     data = request.json
-    est.actualizar_estudiante(id_usuario, data['nombre'], data['apellido'], data['email'], data['contrasena'], data['documento'], data['pais_origen'])
+    est.actualizar_estudiante(
+        id_usuario,
+        data['nombre'], data['apellido'], data['email'],
+        data['contrasena'], data['documento'], data['pais_origen'],
+        data['id_rol']
+    )
     return jsonify({"mensaje": "Estudiante actualizado"})
 
 @usuario_bp.route('/estudiantes/<int:id_usuario>', methods=['DELETE'])
