@@ -39,10 +39,15 @@ def create_app(config_class=DevConfig):
 
     app.register_blueprint(usuario_bp, url_prefix="/usuarios")
 
-    #CRUD eventos
+    # CRUD eventos y version_evento
     from app.api.eventos import evento_bp
 
     app.register_blueprint(evento_bp, url_prefix="/eventos")
+
+    # CRUD Cursos
+    from app.api.cursos import curso_bp
+
+    app.register_blueprint(curso_bp, url_prefix="/cursos")
 
     ## Generador de certificados
     from app.api.certificate import certificate_bp
@@ -50,10 +55,9 @@ def create_app(config_class=DevConfig):
     app.register_blueprint(certificate_bp, url_prefix="/cert")
 
     ## Lectura archivos tipo excel o similares
-    from app.api.rxls import rxls_bp    
+    from app.api.rxls import rxls_bp
 
-    app.register_blueprint(rxls_bp,url_prefix="/rxls")
-
+    app.register_blueprint(rxls_bp, url_prefix="/rxls")
 
     # Escaner QR's
     from app.api.qrscan import qrscan_bp

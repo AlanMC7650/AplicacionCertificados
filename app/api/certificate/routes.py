@@ -10,7 +10,7 @@ from flask import (
 from flask_mail import Mail, Message
 from sqlalchemy import text
 from app import db, mail
-from app.api.certificate import certificate_bp
+from . import certificate_bp
 from fpdf import FPDF
 from datetime import datetime
 import pandas as pd
