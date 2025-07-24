@@ -1,9 +1,11 @@
 from flask import Blueprint, request, jsonify, render_template
 from . import curso_bp
 from . import controller as crs
+from flask_login import login_user, logout_user, login_required, current_user
 
 
 @curso_bp.route("/", methods=["GET"])
+@login_required
 def get_cursos():
     try:
         datos = crs.obtener_cursos()
@@ -29,6 +31,7 @@ def get_cursos():
 
 
 @curso_bp.route("/<int:id_curso>", methods=["GET"])
+@login_required
 def get_curso(id_curso):
     row = crs.obtener_curso(id_curso)
     if row:
@@ -45,6 +48,7 @@ def get_curso(id_curso):
 
 
 @curso_bp.route("/", methods=["POST"])
+@login_required
 def post_curso():
     data = request.json
     crs.crear_curso(
@@ -58,6 +62,7 @@ def post_curso():
 
 
 @curso_bp.route("/<int:id_curso>", methods=["PUT"])
+@login_required
 def put_curso(id_curso):
     data = request.json
     crs.actualizar_curso(
@@ -72,6 +77,7 @@ def put_curso(id_curso):
 
 
 @curso_bp.route("/<int:id_curso>", methods=["DELETE"])
+@login_required
 def delete_curso(id_curso):
     crs.eliminar_curso(id_curso)
     return jsonify({"mensaje": "Curso eliminado"})
