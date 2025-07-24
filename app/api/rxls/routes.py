@@ -8,14 +8,18 @@ import io
 from . import rxls_bp
 from app import db
 from app.models.user import Usuario
+from flask_login import login_user, logout_user, login_required, current_user
 
-UPLOAD_FOLDER = 'uploads'
-ALLOWED_EXTENSIONS = {'xlsx', 'xls', 'csv'}
+UPLOAD_FOLDER = "uploads"
+ALLOWED_EXTENSIONS = {"xlsx", "xls", "csv"}
+
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @rxls_bp.route("/", methods=["GET", "POST"])
+@login_required
 def index():
     tabla_html = None
 
@@ -28,10 +32,12 @@ def index():
                 flash("No se recibió archivo.")
                 return redirect(request.url)
 
-            ext = file.filename.rsplit('.', 1)[1].lower()
-            df = pd.read_csv(file) if ext == 'csv' else pd.read_excel(file)
+            ext = file.filename.rsplit(".", 1)[1].lower()
+            df = pd.read_csv(file) if ext == "csv" else pd.read_excel(file)
             session["datos_usuarios"] = df.to_json()  # Guardamos en sesión
-            tabla_html = df.to_html(classes="table table-bordered", index=False, border=0)
+            tabla_html = df.to_html(
+                classes="table table-bordered", index=False, border=0
+            )
             flash("Archivo leído correctamente.")
 
         elif accion == "guardar":
@@ -43,12 +49,12 @@ def index():
                 df = pd.read_json(io.StringIO(json_str))
                 for _, row in df.iterrows():
                     usuario = Usuario(
-                        nombre=row['nombre'],
-                        apellido=row['apellido'],
-                        email=row['email'],
-                        contrasena=row['contrasena'],
-                        documento=row['documento'],
-                        pais_origen=row['pais_origen']
+                        nombre=row["nombre"],
+                        apellido=row["apellido"],
+                        email=row["email"],
+                        contrasena=row["contrasena"],
+                        documento=row["documento"],
+                        pais_origen=row["pais_origen"],
                     )
                     db.session.add(usuario)
                 db.session.commit()
