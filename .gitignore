@@ -9,8 +9,8 @@ __pycache__/
 *.log
 
 # Archivos QR generados
-static/qrs/
-
+static/qrs/*
+!static/qrs/.gitkeep
 
 # === Entornos virtuales ===
 .venv/
