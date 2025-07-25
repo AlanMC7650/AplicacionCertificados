@@ -13,5 +13,8 @@ class Usuario(UserMixin, db.Model):
     documento = db.Column(db.String(30), nullable=False)
     pais_origen = db.Column(db.String(50), nullable=False)
 
+    # Clave foránea
+    id_rol = db.Column(db.Integer, db.ForeignKey("roles.id_rol"))
+
     def get_id(self):
         return str(self.id_usuario)
