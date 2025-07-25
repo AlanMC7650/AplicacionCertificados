@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, render_template
 from . import usuario_bp
-from . import controller as est
+from app.controllers import u_controller as est
 @usuario_bp.route('/estudiantes', methods=['GET'])
 def get_estudiantes():
     try:

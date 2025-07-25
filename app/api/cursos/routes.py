@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, render_template
 from . import curso_bp
-from . import controller as crs
+from app.controllers import c_controller as crs
 @curso_bp.route('/', methods=['GET'])
 def get_cursos():
     try:

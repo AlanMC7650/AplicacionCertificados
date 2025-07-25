@@ -49,6 +49,10 @@ def create_app(config_class=DevConfig):
 
     app.register_blueprint(curso_bp, url_prefix="/cursos")
 
+   #CRUD Inscripcion
+    from app.api.inscripciones import ins_bp
+
+    app.register_blueprint(ins_bp, url_prefix="/ins")
 
     ## Generador de certificados
     from app.api.certificate import certificate_bp

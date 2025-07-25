@@ -3,7 +3,7 @@ import segno
 from flask import Blueprint, request, jsonify, send_from_directory
 from datetime import datetime
 from . import qrs_bp
-from app.api.usuarios import controller as est  # Importa el controlador de estudiantes
+from app.controllers import u_controller as est  # Importa el controlador de estudiantes
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../static/qrs"))
 

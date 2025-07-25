@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, render_template
 from . import evento_bp
-from . import controller as evt
+from app.controllers import e_controller as evt
 @evento_bp.route('/', methods=['GET'])
 def get_eventos():
     try:
