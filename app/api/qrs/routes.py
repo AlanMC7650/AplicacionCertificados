@@ -4,16 +4,19 @@ from flask import Blueprint, request, jsonify, send_from_directory
 from datetime import datetime
 from . import qrs_bp
 from app.api.usuarios import controller as est  # Importa el controlador de estudiantes
+from flask_login import login_user, logout_user, login_required, current_user
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../static/qrs"))
 
 
 @qrs_bp.route("/<path:filename>", methods=["GET"])
+@login_required
 def serve_qr(filename):
     return send_from_directory(BASE_DIR, filename)
 
 
 @qrs_bp.route("/generate_qr/<int:id_usuario>", methods=["GET"])
+@login_required
 def generate_qr_by_id(id_usuario):
     try:
         row = est.obtener_estudiante(id_usuario)
