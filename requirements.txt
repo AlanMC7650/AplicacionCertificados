@@ -11,7 +11,17 @@ greenlet==3.2.3
 itsdangerous==2.2.0
 Jinja2==3.1.6
 MarkupSafe==3.0.2
+<<<<<<< HEAD
 numpy==2.3.2
+=======
+matplotlib==3.9.2
+multitasking==0.0.11
+mypy-extensions==1.0.0
+mysql-connector-python==9.1.0
+numpy==2.0.2
+openpyxl==3.1.5
+packaging==24.1
+>>>>>>> 182dd483ffc8cc570fdbd4e4d7b7a3f6e3f6844a
 pandas==2.3.1
 psycopg2==2.9.10
 python-dateutil==2.9.0.post0
