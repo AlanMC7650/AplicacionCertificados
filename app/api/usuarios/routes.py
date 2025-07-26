@@ -1,8 +1,7 @@
 from flask import Blueprint, request, jsonify, render_template
 from . import usuario_bp
-from . import controller as est
+from app.controllers import u_controller as est
 from flask_login import login_user, logout_user, login_required, current_user
-
 
 @usuario_bp.route("/estudiantes", methods=["GET"])
 @login_required

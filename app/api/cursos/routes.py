@@ -1,8 +1,7 @@
 from flask import Blueprint, request, jsonify, render_template
 from . import curso_bp
-from . import controller as crs
+from app.controllers import c_controller as crs
 from flask_login import login_user, logout_user, login_required, current_user
-
 
 @curso_bp.route("/", methods=["GET"])
 @login_required

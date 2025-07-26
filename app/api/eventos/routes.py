@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, render_template
 from . import evento_bp
-from . import controller as evt
+from app.controllers import e_controller as evt
 from flask_login import login_user, logout_user, login_required, current_user
 
 
