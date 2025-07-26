@@ -4,15 +4,17 @@ from werkzeug.security import generate_password_hash
 
 # Datos de conexión a la base de datos PostgreSQL
 conn = psycopg2.connect(
-    dbname="unesco",
+    dbname="Proyecto_Quimica",
     user="postgres",
-    password="13694538Lp",
+    password="123456",
     host="localhost",
     port="5432",
 )
 
 
-def insertar_usuario(nombre, apellido, email, contrasena_plana, documento, pais_origen, id_rol):
+def insertar_usuario(
+    nombre, apellido, email, contrasena_plana, documento, pais_origen, id_rol
+):
     # Hashear la contraseña usando werkzeug (por defecto usa pbkdf2:sha256)
     contrasena_hashed = generate_password_hash(contrasena_plana)
 
@@ -25,7 +27,15 @@ def insertar_usuario(nombre, apellido, email, contrasena_plana, documento, pais_
         )
         cur.execute(
             query,
-            (nombre, apellido, email, contrasena_hashed, documento, pais_origen, id_rol),
+            (
+                nombre,
+                apellido,
+                email,
+                contrasena_hashed,
+                documento,
+                pais_origen,
+                id_rol,
+            ),
         )
         conn.commit()
     print("Usuario insertado correctamente.")
@@ -34,12 +44,12 @@ def insertar_usuario(nombre, apellido, email, contrasena_plana, documento, pais_
 # Ejemplo de uso
 if __name__ == "__main__":
     insertar_usuario(
-        nombre="Michael Stephen",
-        apellido="Quispe Lipa",
-        email="michaelstephenquispelipa@gmail.com",
-        contrasena_plana="admin",
+        nombre="Pablo Nicolas",
+        apellido="Gutierrez Flores",
+        email="nicogutiflow2008@gmail.com",
+        contrasena_plana="12345678",
         documento="admin",
         pais_origen="Bolivia",
-        id_rol=3
+        id_rol=6,
     )
     conn.close()
