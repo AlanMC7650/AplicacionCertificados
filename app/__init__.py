@@ -69,6 +69,11 @@ def create_app(config_class=DevConfig):
 
     app.register_blueprint(coordinador_bp, url_prefix="/coordinador")
 
+    # Rutas Ponente
+    from app.api.ponente import ponente_bp
+
+    app.register_blueprint(ponente_bp, url_prefix="/ponente")
+
     # Configurar Flask-Login
     login_manager = LoginManager(app)
     login_manager.login_view = "auth.login"

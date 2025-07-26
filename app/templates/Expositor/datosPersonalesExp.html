@@ -2,21 +2,20 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Datos Personales</title>
-  <link rel="stylesheet" href="/static/css/Expositor/datosPersonalesExp.css">
+  <title>Datos Personales</title>  
+  <link rel="stylesheet" href="{{url_for('static', filename='css/Expositor/datosPersonalesExp.css')}}">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="contenedor-datos">
     <div class="formulario">
-      <input type="text" placeholder="Nombre" disabled>
-      <input type="text" placeholder="Identificación" disabled>
-      <input type="text" placeholder="Género" disabled>
-      <input type="text" placeholder="Edad" disabled>
-      <input type="text" placeholder="Nacionalidad" disabled>
+      <input type="text" placeholder="{{nombre}} {{apellido}}" disabled>
+      <input type="text" placeholder="{{email}}" disabled>
+      <input type="text" placeholder="{{documento}}" disabled>
+      <input type="text" placeholder="{{pais_origen}}" disabled>      
     </div>
-    <div class="foto">
-      <div><img class="marco-foto" src="/static/images/org1.jpg"></div>
+    <div class="foto">      
+      <div><img class="marco-foto" src="{{url_for('static', filename='images/org1.jpg')}}" alt="foto_de_perfil"></div>
     </div>
   </div>
 </body>

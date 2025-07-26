@@ -37,8 +37,8 @@ if __name__ == "__main__":
         nombre="Michael Stephen",
         apellido="Quispe Lipa",
         email="michaelstephenquispelipa@gmail.com",
-        contrasena_plana="admin",
-        documento="admin",
+        contrasena_plana="estudiante",
+        documento="estudiante",
         pais_origen="Bolivia",
         id_rol=3
     )
