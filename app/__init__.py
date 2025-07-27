@@ -83,6 +83,8 @@ def create_app(config_class=DevConfig):
     login_manager = LoginManager(app)
     login_manager.login_view = "auth.login"
 
+    # Importacion de modelos
+    from app import models    
     @login_manager.user_loader
     def load_user(user_id):
         return Usuario.query.get(int(user_id))
