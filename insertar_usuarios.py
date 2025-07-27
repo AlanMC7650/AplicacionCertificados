@@ -44,12 +44,12 @@ def insertar_usuario(
 # Ejemplo de uso
 if __name__ == "__main__":
     insertar_usuario(
-        nombre="Pablo Nicolas",
-        apellido="Gutierrez Flores",
-        email="nicogutiflow2008@gmail.com",
-        contrasena_plana="12345678",
-        documento="admin",
+        nombre="Michael Stephen",
+        apellido="Quispe Lipa",
+        email="michaelstephenquispelipa@gmail.com",
+        contrasena_plana="estudiante",
+        documento="estudiante",
         pais_origen="Bolivia",
-        id_rol=6,
+        id_rol=4,
     )
     conn.close()

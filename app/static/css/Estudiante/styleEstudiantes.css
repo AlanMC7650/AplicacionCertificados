@@ -10,7 +10,6 @@ body {
   align-items: center;
   padding: 1rem 2rem;
   border-bottom: 2px solid #0077c2;
-  flex-wrap: wrap;
 }
 
 .logo {
@@ -35,8 +34,7 @@ body {
 
 .container {
   display: flex;
-  flex-wrap: wrap;
-  height: auto;
+  height: calc(100vh - 80px);
 }
 
 .sidebar {
@@ -94,20 +92,20 @@ body {
   padding-top: 2rem;
   padding-bottom: 2rem;
   margin-left: 1rem;
-  height: auto;
+  height: auto; /* ← Corregido: Evita que la línea se extienda verticalmente */
 }
 
 .datos-content {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 2rem; /* ← Ajustado para acercar los campos al QR */
   flex-wrap: wrap;
 }
 
 .info-estudiante {
   flex: 1;
-  max-width: 450px;
+  max-width: 450px; /* ← Ligeramente ampliado si deseas que usen más espacio */
 }
 
 .input-info {
@@ -128,80 +126,13 @@ body {
 }
 
 .qr-img {
-  width: 300px;
-  height: 300px;
+  width:300px;
+  height:300px;
   object-fit: contain;
 }
-
 .iframe-oculto {
   width: 100%;
   height: 100%;
   border: none;
   min-height: 500px;
-}
-
-/* ----------------------------------------
-   RESPONSIVE: Ajustes para pantallas pequeñas
----------------------------------------- */
-@media (max-width: 992px) {
-  .container {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #0077c2;
-  }
-
-  .datos-container {
-    margin-left: 0;
-    border-left: none;
-    border-top: 2px solid #0077c2;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-
-  .datos-content {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .info-estudiante {
-    max-width: 100%;
-  }
-
-  .qr-img {
-    width: 200px;
-    height: 200px;
-  }
-}
-
-@media (max-width: 576px) {
-  .top-bar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .top-actions {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .top-actions button {
-    margin-left: 0.5rem;
-    padding: 0.5rem;
-    font-size: 0.9rem;
-  }
-
-  .titulo {
-    font-size: 1.1rem;
-  }
-
-  .qr-img {
-    width: 150px;
-    height: 150px;
-  }
 }

@@ -3,8 +3,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Curso del Expositor</title>
-  <link rel="stylesheet" href="/static/css/Expositor/CursoExp.css">
+  <title>Curso del Expositor</title>  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/Expositor/CursoExp.css') }}">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -17,16 +17,25 @@
       <table>
         <thead>
           <tr>
+            <th>Id</th>
             <th>Estudiantes</th>
-            <th>Identificador</th>
+            <th>Documento</th>
+            <th>Nota</th>
+            <th>Acciones</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- Aquí se llenarán dinámicamente los estudiantes segun la base de datos el Backend debe hacer-->
-          <tr>
-            <td>MIchael Sthependejo</td>
-            <td>123456</td>
+        <tbody>          
+          {% for estudiante in estudiantes %}
+          <tr>            
+            <td>{{estudiante.id_usuario}}</td>
+            <td>{{estudiante.nombre}} {{estudiante.apellido}}</td>
+            <td>{{estudiante.documento}}</td>
+            <td>{{estudiante.nota_catedra}}</td>
+            <td>{{estudiante.nota_laboratorio}}</td>
+            <td><button class="btn-qr">Cambiar nota</button></td>
+            
           </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
