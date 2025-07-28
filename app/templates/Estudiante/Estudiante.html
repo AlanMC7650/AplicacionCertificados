@@ -15,9 +15,12 @@
     </div>
     <h1 class="titulo">GESTION ESTUDIANTE</h1>
     <div class="top-actions">
-      <button>Estudiante</button>
-      <button>Cerrar Sesión</button>
-    </div>
+      <form action="/auth/logout" method="POST">
+        <button type="button">Estudiante</button>
+        <button type="submit">Cerrar Sesión</button>
+      </form>  
+    </div>    
+    
   </div>
 
   <!-- Contenedor principal -->

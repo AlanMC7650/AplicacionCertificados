@@ -92,7 +92,7 @@ def reset_token(token):
             flash("¡Tu contraseña ha sido actualizada!", "success")
             return redirect(url_for("auth.login"))
 
-    return render_template("ForgotPassword/ForgotPasswordverificado.html", token=token)
+    return render_template("ForgotPassword/ResetPassword.html", token=token)
 
 
 @auth_bp.route("forgot-password-alert", methods=["GET", "POST"])

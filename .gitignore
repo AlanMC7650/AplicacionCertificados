@@ -63,3 +63,4 @@ docs/_build/
 *.bak
 *.orig
 *.tmp
+insertar_usuarios.py
