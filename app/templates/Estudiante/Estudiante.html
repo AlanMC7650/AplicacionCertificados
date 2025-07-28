@@ -15,8 +15,10 @@
     </div>
     <h1 class="titulo">GESTION ESTUDIANTE</h1>
     <div class="top-actions">
-      <button>Estudiante</button>
-      <button>Cerrar Sesión</button>
+      <form action="/auth/logout" method="POST">        
+        <button>Estudiante</button>
+        <button type="submit">Cerrar Sesión</button>
+      </form>
     </div>
   </div>
 
@@ -26,7 +28,6 @@
     <aside class="sidebar">
       <h2>BIENVENIDO</h2>
       <h3>{{ nombre }}<br>{{ apellidos }}</h3>
-
       <p>Funciones</p>
       <ul class="menu">
         <li><a href="#" class="activo" onclick="mostrarSeccion('datos')">Datos Personales</a></li>

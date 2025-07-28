@@ -16,10 +16,12 @@ from datetime import datetime
 import pandas as pd
 import os, shutil, zipfile
 from flask_login import login_user, logout_user, login_required, current_user
+from app.api.auth.utils import role_required
 
 
 @certificate_bp.route("/generar-certificados")
 @login_required
+@role_required(1, 4)
 def generar_certificados():
     folder = "temp_certificates"
     if os.path.exists(folder):
@@ -80,6 +82,7 @@ def generar_certificados():
 
 @certificate_bp.route("/enviar-certificado/<int:user_id>", methods=["GET", "POST"])
 @login_required
+@role_required(1, 4)
 def enviar_certificado(user_id):
     # Leer los datos del usuario
     with db.engine.connect() as conn:
@@ -147,6 +150,7 @@ def enviar_certificado(user_id):
 
 @certificate_bp.route("/enviar-certificados-todos", methods=["GET", "POST"])
 @login_required
+@role_required(1, 4)
 def enviar_certificados_todos():
     if request.method == "POST":
         asunto = request.form.get("asunto")

@@ -8,6 +8,7 @@ __pycache__/
 *.egg
 *.log
 
+insertar_usuarios.py
 # Archivos QR generados
 static/qrs/*
 !static/qrs/.gitkeep

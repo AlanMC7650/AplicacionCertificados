@@ -11,7 +11,7 @@ from . import auth_bp
 from app.models.user import db, Usuario
 
 # Impotamos las funciones útiles para forgot my password
-from .utils import send_reset_email, verify_reset_token
+from .utils import send_reset_email, verify_reset_token, role_required
 
 # Importamos librerias para trabajar con el login
 from flask_login import login_user, logout_user, login_required, current_user
@@ -42,12 +42,27 @@ def login():
 
 @auth_bp.route("/dashboard", methods=["GET"])
 @login_required
+@role_required(1, 2, 3, 4)
 def dashboard():
-    return render_template(
-        "Estudiante/Estudiante.html",
-        nombre=current_user.nombre,
-        apellidos=current_user.apellido,
-    )
+    if current_user.id_rol == 1:
+        return render_template(
+            "Coordinador/indexCoordinador.html",
+            nombre=current_user.nombre,
+            apellidos=current_user.apellido,
+        )
+    if current_user.id_rol == 2:
+        return render_template(
+            "Expositor/expositor.html",
+            nombre=current_user.nombre,
+            apellidos=current_user.apellido,
+        )
+    if current_user.id_rol == 3:
+        return render_template(
+            "Estudiante/Estudiante.html",
+            nombre=current_user.nombre,
+            apellidos=current_user.apellido,
+        )
+    return "Inicio de sesión como desarrollador tienes acceso a todos los links"
 
 
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])
