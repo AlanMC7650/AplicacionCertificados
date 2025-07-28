@@ -1,7 +1,9 @@
-from flask import url_for
+from flask import url_for, redirect, render_template
+from flask_login import current_user
 from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer
 from app import mail
+from functools import wraps
 import os
 
 
@@ -32,3 +34,18 @@ def send_reset_email(user):
     msg.body = f"Reset your password: {reset_url}"
     mail.send(msg)
     print(f"[DEBUG] Enviaríamos este link a {user.email}: {reset_url}")
+
+
+def role_required(*roles):
+    def wrapper(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if not current_user.is_authenticated:
+                return redirect(url_for("auth_bp.login"))
+            if current_user.id_rol not in roles:
+                return render_template("Answers/no-found.html")
+            return f(*args, **kwargs)
+
+        return decorated_function
+
+    return wrapper

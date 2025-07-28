@@ -2,6 +2,8 @@ from flask import Blueprint, request, jsonify, render_template
 from . import usuario_bp
 from app.controllers import u_controller as est
 from flask_login import login_user, logout_user, login_required, current_user
+from app.api.auth.utils import role_required
+
 
 @usuario_bp.route("/estudiantes", methods=["GET"])
 @login_required
@@ -103,3 +105,17 @@ def put_estudiante(id_usuario):
 def delete_estudiante(id_usuario):
     est.eliminar_estudiante(id_usuario)
     return jsonify({"mensaje": "Estudiante eliminado"})
+
+
+
+#VISTAS
+@usuario_bp.route("/vista-estudiante", methods=["GET"])
+@login_required
+def vista_estudiante():
+    from app.controllers import u_controller as est
+    user_data = est.obtener_estudiante(current_user.id_usuario)
+    
+    return render_template(
+        "Estudiante/Estudiante.html",
+        estudiante=user_data
+    )
