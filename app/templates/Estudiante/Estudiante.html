@@ -27,7 +27,10 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <h2>BIENVENIDO</h2>
-      <h3>{{ nombre }}<br>{{ apellidos }}</h3>
+      <h3>
+  {{ estudiante[1] | upper }}<br>
+  {{ estudiante[2] | upper }}
+</h3>
       <p>Funciones</p>
       <ul class="menu">
         <li><a href="#" class="activo" onclick="mostrarSeccion('datos')">Datos Personales</a></li>
@@ -41,11 +44,18 @@
       <div id="seccion-datos" class="datos-container">
         <div class="datos-content">
           <div class="info-estudiante">
-            <input class="input-info" value="Nombre" readonly />
+            <!-- <input class="input-info" value="Nombre" readonly />
             <input class="input-info" value="Identificación" readonly />
             <input class="input-info" value="Género" readonly />
             <input class="input-info" value="Edad" readonly />
-            <input class="input-info" value="Nacionalidad" readonly />
+            <input class="input-info" value="Nacionalidad" readonly /> -->
+
+            <input class="input-info" value="{{ estudiante[1] }}" readonly />
+<input class="input-info" value="{{ estudiante[5] }}" readonly />
+<input class="input-info" value="(coloca género aquí)" readonly />
+<input class="input-info" value="(edad o calcula)" readonly />
+<input class="input-info" value="{{ estudiante[6] }}" readonly />
+
           </div>
           <div class="qr-container">
             <img src="/static/images/cuere.png" class="qr-img" alt="QR Estudiante" />
