@@ -117,3 +117,16 @@ def vista_estudiante():
         "Estudiante/Estudiante.html",
         estudiante=user_data
     )
+
+
+    
+@usuario_bp.route("/dashboard-estudiante", methods=["GET"])
+@login_required
+def dash_estudiante():
+    from app.controllers import u_controller as est
+    user_data = est.obtener_estudiante(current_user.id_usuario)
+    
+    return render_template(
+        "Estudiante/Estudiante.html",
+        estudiante=user_data
+    )

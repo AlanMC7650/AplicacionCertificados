@@ -43,11 +43,14 @@ def login():
 @auth_bp.route("/dashboard", methods=["GET"])
 @login_required
 def dashboard():
+    from app.controllers import u_controller as est
+    user_data = est.obtener_estudiante(current_user.id_usuario)
     return render_template(
-        "Estudiante/Estudiante.html",
-        nombre=current_user.nombre,
-        apellidos=current_user.apellido,
+        "dashboard.html",
+        estudiante=user_data
     )
+
+
 
 
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])
