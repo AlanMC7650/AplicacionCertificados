@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Gestión Estudiante</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styleinicio.css') }}">
 </head>
 <body>
   <div class="top-bar">
@@ -13,9 +13,9 @@
     </div>
     <div class="title">GESTIÓN ESTUDIANTE</div>
     <div class="buttons">
-      <form action="/auth/logout" method="POST" style="display: inline;">
-        <button>Estudiante</button>
-        <button type="submit" >Cerrar Sesión</button>
+      <form action="/auth/logout" method="POST">
+        <button type="button">Estudiante</button>
+        <button type="submit">Cerrar Sesión</button>
       </form>
     </div>
     <div class="logo-right">

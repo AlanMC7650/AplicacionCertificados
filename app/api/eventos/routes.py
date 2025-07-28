@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, render_template
 from . import evento_bp
 from app.controllers import e_controller as evt
 from flask_login import login_user, logout_user, login_required, current_user
+from app.api.auth.utils import role_required
 
 
 

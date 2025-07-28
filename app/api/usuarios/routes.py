@@ -3,6 +3,8 @@ from . import usuario_bp
 from app.controllers import u_controller as usu
 from app.controllers import u_controller as est
 from flask_login import login_user, logout_user, login_required, current_user
+from app.api.auth.utils import role_required
+
 
 
 
@@ -126,19 +128,40 @@ def put_estudiante(id_usuario):
     return jsonify({"mensaje": "Estudiante actualizado"})
 """
 
+@usuario_bp.route("/estudiantes/<int:id_usuario>", methods=["PUT"])
+@login_required
+def put_estudiante(id_usuario):
+    data = request.json
+    est.actualizar_estudiante(
+        id_usuario,
+        data["nombre"],
+        data["apellido"],
+        data["email"],
+        data["contrasena"],
+        data["documento"],
+        data["pais_origen"],
+        data["id_rol"],
+    )
+    return jsonify({"mensaje": "Estudiante actualizado"})
 
-# @usuario_bp.route("/estudiantes/<int:id_usuario>", methods=["PUT"])
-# @login_required
-# def put_estudiante(id_usuario):
-#     data = request.json
-#     est.actualizar_estudiante(
-#         id_usuario,
-#         data["nombre"],
-#         data["apellido"],
-#         data["email"],
-#         data["contrasena"],
-#         data["documento"],
-#         data["pais_origen"],
-#         data["id_rol"],
-#     )
-#     return jsonify({"mensaje": "Estudiante actualizado"})
+
+@usuario_bp.route("/estudiantes/<int:id_usuario>", methods=["DELETE"])
+@login_required
+def delete_estudiante(id_usuario):
+    est.eliminar_estudiante(id_usuario)
+    return jsonify({"mensaje": "Estudiante eliminado"})
+
+
+
+#VISTAS
+@usuario_bp.route("/vista-estudiante", methods=["GET"])
+@login_required
+def vista_estudiante():
+    from app.controllers import u_controller as est
+    user_data = est.obtener_estudiante(current_user.id_usuario)
+    
+    return render_template(
+        "Estudiante/Estudiante.html",
+        estudiante=user_data
+    )
+
