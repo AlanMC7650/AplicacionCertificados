@@ -50,6 +50,6 @@ if __name__ == "__main__":
         contrasena_plana="alan5",
         documento="admin",
         pais_origen="Bolivia",
-        id_rol=1
+        id_rol=1,
     )
     conn.close()
