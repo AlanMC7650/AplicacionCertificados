@@ -73,14 +73,15 @@ def forgot_password():
             user = Usuario.query.filter_by(email=email).first()
             if user:
                 send_reset_email(user)
-
+            else: print('No se encontró un usuario')
+        else: print('No se encontró el email.')    
         flash(
             "Si el correo existe, se enviará un enlace para restablecer la contraseña.",
             "info",
         )
         return redirect(url_for("auth.forgot_password_alert"))
 
-    return render_template("ForgotPassword.html")
+    return render_template("ForgotPassword/ForgotPassword.html")
 
 
 @auth_bp.route("/reset-password/<token>", methods=["GET", "POST"])
@@ -106,12 +107,12 @@ def reset_token(token):
             flash("¡Tu contraseña ha sido actualizada!", "success")
             return redirect(url_for("auth.login"))
 
-    return render_template("ForgotPasswordverificado.html")
+    return render_template("ForgotPassword/ResetPassword.html", token=token)
 
 
 @auth_bp.route("forgot-password-alert", methods=["GET", "POST"])
 def forgot_password_alert():
-    return render_template("ForgotPasswordAlert.html")
+    return render_template("ForgotPassword/ForgotPasswordAlert.html")
 
 
 @auth_bp.route("/logout", methods=["GET", "POST"])
