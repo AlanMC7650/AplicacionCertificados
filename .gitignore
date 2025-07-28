@@ -64,4 +64,5 @@ docs/_build/
 *.bak
 *.orig
 *.tmp
-insertar_usuarios.py
+# Para ignorar 'insertar_usuarios.py', no basta con ponerlo acá. Hay que ejecutar el siguiente comando en sus terminales:
+# git update-index --assume-unchanged insertar_usuarios.py 
