@@ -4,21 +4,28 @@ from app.controllers import e_controller as evt
 from flask_login import login_user, logout_user, login_required, current_user
 
 
-@evento_bp.route("/", methods=["GET"])
+
+@evento_bp.route("/eventos", methods=["GET"])
 @login_required
-def get_eventos():
-    try:
-        datos = evt.obtener_eventos()
-        eventos = []
-        for row in datos:
-            eventos.append({"id_evento": row[0], "nombre_base": row[1]})
-        return jsonify(eventos)
-    except Exception as e:
-        print("Error al obtener eventos:", e)
-        return (
-            jsonify({"error": str(e)}),
-            500,
-        )  # cambié el [] que seria una coleccion vacia
+def eventos():
+    return render_template("Coordinador/partials/eventos.html", eventos=evt.obtener_eventos())
+
+
+# @evento_bp.route("/", methods=["GET"])
+# @login_required
+# def get_eventos():
+#     try:
+#         datos = evt.obtener_eventos()
+#         eventos = []
+#         for row in datos:
+#             eventos.append({"id_evento": row[0], "nombre_base": row[1]})
+#         return jsonify(eventos)
+#     except Exception as e:
+#         print("Error al obtener eventos:", e)
+#         return (
+#             jsonify({"error": str(e)}),
+#             500,
+#         )  # cambié el [] que seria una coleccion vacia
 
 
 @evento_bp.route("/<int:id_evento>", methods=["GET"])

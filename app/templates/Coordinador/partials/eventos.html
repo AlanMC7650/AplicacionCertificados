@@ -15,13 +15,14 @@
     <tbody>
         {% for evento in eventos %}        
         <tr>
-            <td>{{ evento.id}}</td>
-            <td>{{ evento.nombre }}</td>
-            <td>{{ evento.version }}</td>
+            <td>{{ evento.id_evento}}</td>
+            <td>{{ evento.nombre_base}}</td>
+            <!-- <td>{{ evento.version }}</td>
             <td>{{ evento.inicio }}</td>
             <td>{{ evento.fin }}</td>
             <td>{{ evento.lugar }}</td>
-            <td>
+             -->
+             <td>
                 <button onclick="">Editar</button>
                 <button onclick="">Eliminar</button>            
             </td>

@@ -43,18 +43,11 @@
         <div class="sidebar">
           <h1>BIENVENIDO COORDINADOR</h1>
           <h2>Funciones</h2>
-          <button class="menu-btn" onclick="showSection('estudiantes')">
-            Estudiantes
-          </button>
-          <button class="menu-btn" onclick="showSection('expositores')">
-            Expositores
-          </button>
-          <button class="menu-btn" onclick="showSection('cursos')">
-            Cursos
-          </button>
-          <button class="menu-btn" onclick="showSection('eventos')">
-            Eventos
-          </button>
+
+          <button class="menu-btn" onclick="showSection('usuarios/coor/estudiantes')">Estudiantes</button>
+          <button class="menu-btn" onclick="showSection('usuarios/coor/expositores')">Ponentes</button>
+          <button class="menu-btn" onclick="showSection('eventos/coor/eventos')">Eventos</button>
+          <button class="menu-btn" onclick="showSection('cursos/coor/cursos')">Cursos</button>
         </div>
 
         <!-- Contenido -->
@@ -66,12 +59,14 @@
 
     <script>
       function showSection(section) {
-        fetch(`/coordinador/${section}`)
+        fetch(`/${section}`)
           .then((response) => response.text())
           .then((html) => {
             document.getElementById("contenido").innerHTML = html;
           });
       }
+
     </script>
+
   </body>
 </html>

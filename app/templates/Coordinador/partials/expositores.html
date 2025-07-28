@@ -5,23 +5,27 @@
         <tr>
             <th>ID</th>
             <th>Nombres</th>
-            <th>Apellido Paterno</th>
-            <th>Certificado</th>
-            <th>CI / DNI</th>
-            <th>Curso</th>
+            <th>Apellidos</th>
+            <th>Email</th>
+            <th>Documento</th>
+            <th>País Origen</th>
+            <th>Rol</th>
             <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
         {% for expositor in expositores %}
-        <!-- 'id': 1, 'nombre': 'Juan', 'apellido': 'Pérez', 'certificado': 'Sí', 'ci': '12345678', 'nota': 90 -->
         <tr>
-            <td>{{ expositor.id}}</td>
+            <td>{{ expositor.id_usuario }}</td>
             <td>{{ expositor.nombre }}</td>
             <td>{{ expositor.apellido }}</td>
-            <td>{{ expositor.certificado }}</td>
-            <td>{{ expositor.ci }}</td>
-            <td>{{ expositor.curso }}</td>
+            <td>{{ expositor.email }}</td>
+            <td>{{ expositor.documento }}</td>
+            <td>{{ expositor.pais_origen }}</td>
+            <td>{{ expositor.id_rol }}</td>
+            <!-- <td>{{ expositor.cotrasena }}</td> -->
+            <!-- <td>{{ expositor.certificado }}</td> -->
+            <!-- <td>{{ expositor.curso }}</td> -->
             <td>
                 <button onclick="">Editar</button>
                 <button onclick="">Eliminar</button>

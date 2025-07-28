@@ -6,7 +6,7 @@ from . import rxls_bp
 from app import db
 from app.models.user import Usuario
 from flask_login import login_required
-from .controller import crear_estudiantes_bulk
+from app.controllers.u_controller import crear_estudiantes_bulk
 
 ALLOWED_EXTENSIONS = {"xlsx", "xls", "csv"}
 

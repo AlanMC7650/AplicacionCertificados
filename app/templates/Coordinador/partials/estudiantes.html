@@ -5,26 +5,57 @@
         <tr>
             <th>ID</th>
             <th>Nombres</th>
-            <th>Apellido Paterno</th>
-            <th>Certificado</th>
-            <th>CI / DNI</th>
-            <th>Nota</th>
+            <th>Apellidos</th>
+            <th>Email</th>
+            <th>Documento</th>
+            <th>País Origen</th>
+            <th>Rol</th>
             <th>Acciones</th>
+            <!-- <th>Nota</th> -->
+            <!-- <th>Contrasena</th> -->
         </tr>
     </thead>
     <tbody>
         {% for estudiante in estudiantes %}
-        <!-- 'id': 1, 'nombre': 'Juan', 'apellido': 'Pérez', 'certificado': 'Sí', 'ci': '12345678', 'nota': 90 -->
         <tr>
-            <td>{{ estudiante.id }}</td>
+            <!-- <td>{{ estudiante }}</td> -->
+            <td>{{ estudiante.id_usuario }}</td>
             <td>{{ estudiante.nombre }}</td>
             <td>{{ estudiante.apellido }}</td>
-            <td>{{ estudiante.certificado }}</td>
-            <td>{{ estudiante.ci }}</td>
-            <td>{{ estudiante.nota }}</td>
+            <td>{{ estudiante.email }}</td>
+            <td>{{ estudiante.documento }}</td>
+            <td>{{ estudiante.pais_origen }}</td>
+            <td>{{ estudiante.id_rol }}</td>
+            <!-- <td>{{ estudiante.cotrasena }}</td> -->
+            <!-- <td>{{ estudiante.certificado }}</td> -->
+            <!-- <td>{{ estudiante.nota }}</td> -->
             <td>
-                <button onclick="" class="btn btn-primary">Editar</button>
-                <button onclick="" class="btn btn-danger">Eliminar</button>
+                <button onclick="editarEstudiante({{ estudiante.id_usuario}})" class="btn btn-primary">Editar</button>
+                <button onclick="eliminarEstudiante({{ estudiante.id_usuario }})" class="btn btn-danger">Eliminar</button>
+                <script>
+                    function editarEstudiante(id) {
+                        fetch(`/coor/estudiantes/${id}`, { method: "PUT", })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (estudiante.success) {
+                                showSection('estudiantes');
+                            } else {
+                                alert("Error al editar");
+                            }
+                        });
+                    }
+                    function eliminarEstudiante(id) {
+                        fetch(`/coor/estudiantes/${id}`, { method: "DELETE", })
+                        .then(res => res.json())
+                        .then(data => {
+                          if (estudiante.success) {
+                            showSection('estudiantes');
+                          } else {
+                            alert("Error al eliminar");
+                          }
+                        });
+                    }
+                </script>
                 <button onclick="" class="btn btn-success">Enviar Certificado</button>
             </td>
         </tr>

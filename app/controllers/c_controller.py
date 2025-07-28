@@ -4,7 +4,7 @@ from app.db_c import get_connection
 
 def obtener_cursos():
     conn = get_connection()  # conecta a la base de datos
-    cursor = conn.cursor()  # crea un cursor (como el "puente" para hacer consultas)
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)  # crea un cursor (como el "puente" para hacer consultas)
     cursor.execute("SELECT * FROM cursos")  # consulta SQL directa
     rows = cursor.fetchall()  # obtiene todos los resultados en una lista
     conn.close()  # cierra la conexión
