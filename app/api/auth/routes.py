@@ -43,7 +43,11 @@ def login():
 @auth_bp.route("/dashboard", methods=["GET"])
 @login_required
 def dashboard():
-    return render_template("dashboard.html", nombre=current_user.nombre)
+    return render_template(
+        "Estudiante/Estudiante.html",
+        nombre=current_user.nombre,
+        apellidos=current_user.apellido,
+    )
 
 
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])

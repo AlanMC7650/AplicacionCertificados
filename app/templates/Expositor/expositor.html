@@ -3,31 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestión Expositor</title>
-  <link rel="stylesheet" href="/static/css/Expositor/styleExpositor.css">
+  <title>Gestión Expositor</title>  
+  <link rel="stylesheet" href="{{url_for('static', filename='css/Expositor/styleExpositor.css')}}">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="top-bar">
-    <div class="back-arrow">←</div>
-    <img src="/static/images/logo-unesco.png" class="logo" />
+    <div class="back-arrow">←</div>    
+    <img src="{{url_for('static', filename='images/logo-unesco.png')}}" alt="unesco_logo" class="logo">
     <h1>GESTIÓN EXPOSITOR</h1>
     <div class="top-actions">
       <button>Expositor</button>
       <button>Cerrar Sesion</button>
-    </div>
-    <img src="/static/images/umsalogo.png" class="logo-der" />
+    </div>    
+    <img src="{{url_for('static', filename='images/umsalogo.png')}}" alt="umsa_logo" class="logo-der">
   </div>
 
   <div class="main">
     <aside class="sidebar">
       <h2>BIENVENIDO</h2>
-      <h3>LIC.ALAN ARIEL<br>MALDONADO QUIROGA</h3>
+      <h3>{{nombre}}<br>{{apellido}}</h3>
       <p>Funciones</p>
       <ul>
-        <li><a href="/templates/Expositor/datosPersonalesExp.html" target="contenido-frame">Datos Personales</a></li>
-        <li><a href="/templates/Expositor/CursoExp.html" target="contenido-frame">Curso</a></li>
-        <li><a href="/templates/Expositor/calificacionExp.html" target="contenido-frame">Calificación</a></li>
+        <li><a href="{{ url_for('ponente.datos') }}" target="contenido-frame">Datos Personales</a></li>        
+        <li><a href="{{ url_for('ponente.curso') }}" target="contenido-frame">Curso</a></li>        
+        <li><a href="{{ url_for('ponente.calificacion') }}" target="contenido-frame">Calificación</a></li>
       </ul>
     </aside>
 

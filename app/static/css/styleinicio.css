@@ -3,12 +3,15 @@
   margin: 0;
   padding: 0;
 }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px; /* según altura de tu navbar */
+}
 body {
   font-family: sans-serif;
   line-height: 1.6;
   margin: 0;
-  padding-top: 100px; /* Ajusta si tu navbar es más alto o más bajo */
-  scroll-behavior: smooth;
+  padding-top: 95px; /* Ajusta si tu navbar es más alto o más bajo */
 }
 
 .header {
@@ -21,54 +24,94 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  border-bottom: 2px solid #0077c2;
-  background-color: white; /* o el color que estés usando */
+  border-bottom: 4px solid #026caf;
+  background-color: rgb(255, 255, 255); /* o el color que estés usando */
   z-index: 1000;
 }
-
+.titulo{
+  font-size: 48px;
+}
+.subtitulo{
+  font-size: 24px;
+}
+.texto{
+  font-size: 14px;
+}
 .logo {
-  height: 50px;
+  height: 65px;
 }
 .nav {
   display: flex;
   gap: 1rem;
+  background-color: white;
 }
+
 .nav a {
   text-decoration: none;
-  color: #0077c2;
-}
-.nav a.active {
+  color: #333; 
   font-weight: bold;
+  padding: 5px 5px;
+  transition: all 0.3s ease;
 }
+
+.nav a.active {
+  color: #0077c2;
+  background-color: #ffffff; 
+  border-radius: 1px;
+}
+
+.nav a:hover {
+  color: #0077c2; 
+  background-color: #eeeeee; 
+  border-radius: 1px;
+}
+
 .login-container {
+  margin-right: 15px;
   display: flex;
   align-items: center;
   gap: 1rem;
+  transition: color 0.3s ease;
 }
+
 .btn-login {
+  margin-right: 15px;
   border: 1px solid #0077c2;
   padding: 0.5rem 1rem;
   background: transparent;
   color: #0077c2;
   cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
 }
+
+.btn-login:hover {
+  background: #0077c2;
+  color: white;
+}
+
 .logo-umsa {
-  height: 60px;
+  height: 80px;
+  width: 50px;
 }
 .inicio {
-  background-image: url('/static/images/Paisajeillimani.jpg');
+  background-image: url('/static/images/Lapaz-city.webp');
   background-size: cover;
   background-position: center;
   padding: 6rem 2rem;
   color: white;
   position: relative;
   text-align: right;
+  height: 95vh;
+
 }
+
 .inicio .overlay {
   background: rgba(0,0,0,0.3);
   padding: 2rem;
 }
+
 .informacion {
+  text-align: center;
   padding: 2rem;
   background: #fff;
 }
@@ -82,19 +125,21 @@ body {
   margin-bottom: 2rem;
 }
 .tabla-horario th, .tabla-horario td {
-  border: 1px solid #0077c2;
+  border: 2px solid #0077c2;
   padding: 0.5rem;
   text-align: center;
 }
 .ubicacion {
+  color: #0077b5;
   padding: 2rem 0;
-  background: #ddd;
+  background: #ffffff;
   text-align: center;
+  height: 600px;
 }
 
 .mapa-placeholder {
   width: 98vw;
-  height: 50vh;
+  height: 71vh;
   margin: 0 auto;
   overflow: hidden;
 }
@@ -221,6 +266,22 @@ body {
 .social-icons .linkedin:hover { background-color: #0077b5; color: white; }
 .social-icons .youtube:hover { background-color: #ff0000; color: white; }
 
+.dev-bba {
+  font-size: 12px;               
+  text-align: right;            
+  color: #ffffff;                   
+  padding: 1rem;
+}
+
+.dev-bba a {
+  color: #9e9fa1;                
+  text-decoration: none;
+  transition: color 0.3s ease;   
+}
+
+.dev-bba a:hover {
+  color: #767a07;               
+}
 
 
 /* RESPONSIVE */
