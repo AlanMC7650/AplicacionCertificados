@@ -5,6 +5,7 @@ from datetime import datetime
 from . import qrs_bp
 from app.controllers import u_controller as est  # Importa el controlador de estudiantes
 from flask_login import login_user, logout_user, login_required, current_user
+from app.api.auth.utils import role_required
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../static/qrs"))
 

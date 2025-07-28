@@ -14,8 +14,10 @@
   <body>
     <header>
       <div class="top-bar">
-        <button>Coordinador</button>
-        <button>Cerrar Sesión</button>
+        <form action="/auth/logout" method="POST" >
+          <button>Coordinador</button>
+          <button type="submit">Cerrar Sesión</button>          
+        </form>
       </div>
       <nav class="navbar">
         <img
@@ -42,6 +44,7 @@
         <!-- Sidebar -->
         <div class="sidebar">
           <h1>BIENVENIDO COORDINADOR</h1>
+          <h3>{{ nombre }}<br>{{ apellidos }}</h3>
           <h2>Funciones</h2>
           <button class="menu-btn" onclick="showSection('estudiantes')">
             Estudiantes

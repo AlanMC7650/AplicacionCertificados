@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gestión Estudiante</title>
-  <link rel="stylesheet" href="/static/css/Estudiante/styleEstudiantes.css">
+  <link rel="stylesheet" href="/app/static/css/Estudiante/styleEstudiantes.css">     
+  <!-- /static/css/Estudiante/styleEstudiantes.css -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -15,9 +16,12 @@
     </div>
     <h1 class="titulo">GESTION ESTUDIANTE</h1>
     <div class="top-actions">
-      <button>Estudiante</button>
-      <button>Cerrar Sesión</button>
-    </div>
+      <form action="/auth/logout" method="POST">
+        <button type="button">Estudiante</button>
+        <button type="submit">Cerrar Sesión</button>
+      </form>  
+    </div>    
+    
   </div>
 
   <!-- Contenedor principal -->
@@ -29,8 +33,6 @@
   {{ estudiante[1] | upper }}<br>
   {{ estudiante[2] | upper }}
 </h3>
-
-
       <p>Funciones</p>
       <ul class="menu">
         <li><a href="#" class="activo" onclick="mostrarSeccion('datos')">Datos Personales</a></li>
