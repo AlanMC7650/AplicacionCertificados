@@ -44,25 +44,14 @@ def login():
 @login_required
 @role_required(1, 2, 3, 4)
 def dashboard():
-    if current_user.id_rol == 1:
-        return render_template(
-            "Coordinador/indexCoordinador.html",
-            nombre=current_user.nombre,
-            apellidos=current_user.apellido,
-        )
-    if current_user.id_rol == 2:
-        return render_template(
-            "Expositor/expositor.html",
-            nombre=current_user.nombre,
-            apellidos=current_user.apellido,
-        )
-    if current_user.id_rol == 3:
-        return render_template(
-            "Estudiante/Estudiante.html",
-            nombre=current_user.nombre,
-            apellidos=current_user.apellido,
-        )
-    return "Inicio de sesión como desarrollador tienes acceso a todos los links"
+    from app.controllers import u_controller as est
+    user_data = est.obtener_estudiante(current_user.id_usuario)
+    return render_template(
+        "dashboard.html",
+        estudiante=user_data
+    )
+
+
 
 
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])
