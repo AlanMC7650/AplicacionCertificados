@@ -6,7 +6,7 @@ from app.api.auth.utils import role_required
 
 
 
-@evento_bp.route("/eventos", methods=["GET"])
+@evento_bp.route("/coor/eventos", methods=["GET"])
 @login_required
 def eventos():
     return render_template("Coordinador/partials/eventos.html", eventos=evt.obtener_eventos())

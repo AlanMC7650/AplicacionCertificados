@@ -30,41 +30,193 @@
             <!-- <td>{{ estudiante.certificado }}</td> -->
             <!-- <td>{{ estudiante.nota }}</td> -->
             <td>
-                <button onclick="editarEstudiante({{ estudiante.id_usuario}})" class="btn btn-primary">Editar</button>
-                <button onclick="eliminarEstudiante({{ estudiante.id_usuario }})" class="btn btn-danger">Eliminar</button>
-                <script>
-                    function editarEstudiante(id) {
-                        fetch(`/coor/estudiantes/${id}`, { method: "PUT", })
-                        .then(res => res.json())
-                        .then(data => {
-                            if (estudiante.success) {
-                                showSection('estudiantes');
-                            } else {
-                                alert("Error al editar");
-                            }
-                        });
-                    }
-                    function eliminarEstudiante(id) {
-                        fetch(`/coor/estudiantes/${id}`, { method: "DELETE", })
-                        .then(res => res.json())
-                        .then(data => {
-                          if (estudiante.success) {
-                            showSection('estudiantes');
-                          } else {
-                            alert("Error al eliminar");
-                          }
-                        });
-                    }
-                </script>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editEstudianteModal"
+                        data-id="{{ estudiante.id_usuario }}"
+                        data-nombre="{{ estudiante.nombre }}"
+                        data-apellido="{{ estudiante.apellido }}"
+                        data-email="{{ estudiante.email }}"
+                        data-documento="{{ estudiante.documento }}"
+                        data-pais="{{ estudiante.pais_origen }}"
+                        data-rol="{{ estudiante.id_rol }}">
+                    Editar
+                </button>
+
+                <button data-id="{{ estudiante.id_usuario }}" class="btn btn-danger" data-bs-toogle="modal" data-bs-target="#confirmDeleteModal" >Eliminar</button>
                 <button onclick="" class="btn btn-success">Enviar Certificado</button>
             </td>
         </tr>
         {% endfor %}
+
+        <!-- Modal de confirmación -->
+        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteLabel">Confirmar eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este estudiante?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="editEstudianteModal" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <form id="editEstudianteForm" class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editLabel">Editar Estudiante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" id="edit-id">
+                <div class="mb-3"><label>Nombre</label><input type="text" id="edit-nombre" class="form-control"></div>
+                <div class="mb-3"><label>Apellido</label><input type="text" id="edit-apellido" class="form-control"></div>
+                <div class="mb-3"><label>Email</label><input type="email" id="edit-email" class="form-control"></div>
+                <div class="mb-3"><label>Documento</label><input type="text" id="edit-documento" class="form-control"></div>
+                <div class="mb-3"><label>País</label><input type="text" id="edit-pais" class="form-control"></div>
+                <div class="mb-3"><label>Rol</label><input type="number" id="edit-rol" class="form-control"></div>
+                <div class="mb-3"><label>Contraseña</label><input type="password" id="edit-contrasena" class="form-control"></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+              </div>
+            </form>
+          </div>
+        </div>
+<script>
+const editModal = document.getElementById('editEstudianteModal');
+editModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    document.getElementById('edit-id').value = button.getAttribute('data-id');
+    document.getElementById('edit-nombre').value = button.getAttribute('data-nombre');
+    document.getElementById('edit-apellido').value = button.getAttribute('data-apellido');
+    document.getElementById('edit-email').value = button.getAttribute('data-email');
+    document.getElementById('edit-documento').value = button.getAttribute('data-documento');
+    document.getElementById('edit-pais').value = button.getAttribute('data-pais');
+    document.getElementById('edit-rol').value = button.getAttribute('data-rol');
+});
+
+document.getElementById('editEstudianteForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const id = document.getElementById('edit-id').value;
+    fetch(`/coor/estudiantes/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            nombre: document.getElementById('edit-nombre').value,
+            apellido: document.getElementById('edit-apellido').value,
+            email: document.getElementById('edit-email').value,
+            contrasena: document.getElementById('edit-contrasena').value,
+            documento: document.getElementById('edit-documento').value,
+            pais_origen: document.getElementById('edit-pais').value,
+            id_rol: parseInt(document.getElementById('edit-rol').value)
+        })
+    }).then(res => res.json())
+      .then(data => {
+        if (data.success !== false) {
+            location.reload();  // o showSection('estudiantes');
+        } else {
+            alert("Error al editar");
+        }
+    });
+});
+</script>
+
+
     </tbody>
 </table>
 
 <br>
 
 <button onclick="" class="menu-btn-h">Agregar Estudiante</button>
+<button onclick="" class="menu-btn-h">Agregar Estudiantes Excel</button>
 <button onclick="" class="menu-btn-h">Descargar Certificados</button>
 <button onclick="" class="menu-btn-h">Enviar Certificados</button>
+
+<script>
+    let idEstudianteEliminar = null;
+
+    const deleteModal = document.getElementById('confirmDeleteModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        idEstudianteEliminar = button.getAttribute('data-id');
+    });
+
+    document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+        if (idEstudianteEliminar) {
+            fetch(`/coor/estudiantes/${idEstudianteEliminar}`, { method: "DELETE" })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success !== false) {
+                    location.reload();  // o showSection('estudiantes');
+                } else {
+                    alert("Error al eliminar");
+                }
+            });
+        }
+    });
+
+
+    function crearEstudiante(id) {
+        fetch(`/coor/estudiantes/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                // Acá deberías incluir los datos editados
+                nombre: "NuevoNombre",
+                apellido: "NuevoApellido"
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showSection('estudiantes');
+            } else {
+                alert("Error al editar");
+            }
+        });
+    }
+
+    function editarEstudiante(id) {
+        fetch(`/coor/estudiantes/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                // Acá deberías incluir los datos editados
+                nombre: "NuevoNombre",
+                apellido: "NuevoApellido"
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showSection('estudiantes');
+            } else {
+                alert("Error al editar");
+            }
+        });
+    }
+
+    function eliminarEstudiante(id) {
+        fetch(`/coor/estudiantes/${id}`, { method: "DELETE" })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showSection('estudiantes');
+            } else {
+                alert("Error al eliminar");
+            }
+        });
+    }
+</script>

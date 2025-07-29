@@ -5,15 +5,14 @@ from app.controllers import u_controller as est
 from flask_login import login_user, logout_user, login_required, current_user
 from app.api.auth.utils import role_required
 
-
-
-
 # --- PARA COORDINADOR ---
 ## Estudiantes
 @usuario_bp.route("/coor/estudiantes", methods=["POST"])
 @login_required
-def post_estudiante():
+def crear_estudiante():
     data = request.json
+    if not data or not all(k in data for k in ["nombre", "apellido", "email", "contrasena", "documento", "pais_origen", "id_rol"]):
+        return jsonify({"error": "Datos incompletos"}), 400
     usu.crear_estudiante(
         data["nombre"],
         data["apellido"],
@@ -23,9 +22,9 @@ def post_estudiante():
         data["pais_origen"],
         data["id_rol"],
     )
-    return jsonify({"mensaje": "Estudiante creado"}), 201
+    return jsonify({"mensaje": "Estudiante creado", "success": True}), 201
 
-@usuario_bp.route("coor/estudiantes", methods=["GET"])
+@usuario_bp.route("/coor/estudiantes", methods=["GET"])
 @login_required
 def obtener_estudiantes():
     return render_template("Coordinador/partials/estudiantes.html", estudiantes=usu.obtener_usuarios(rol=3))
@@ -34,6 +33,8 @@ def obtener_estudiantes():
 @login_required
 def editar_estudiante(id_usuario):
     data = request.json
+    if not data or not all(k in data for k in ["nombre", "apellido", "email", "contrasena", "documento", "pais_origen", "id_rol"]):
+        return jsonify({"error": "Datos incompletos"}), 400
     est.actualizar_estudiante(
         id_usuario,
         data["nombre"],
@@ -79,24 +80,6 @@ def put_estudiante(id_usuario):
     )
     return jsonify({"mensaje": "Estudiante actualizado"})
 
-@usuario_bp.route("/estudiantes/<int:id_usuario>", methods=["GET"])
-@login_required
-def get_estudiante(id_usuario):
-    row = est.obtener_estudiante(id_usuario)
-    if row:
-        estudiante = {
-            "id_usuario": row[0],
-            "nombre": row[1],
-            "apellido": row[2],
-            "email": row[3],
-            "contrasena": row[4],
-            "documento": row[5],
-            "pais_origen": row[6],
-            "id_rol": row[7],
-        }
-        return jsonify(estudiante)
-    return jsonify({"mensaje": "Estudiante no encontrado"}), 404
-
 
 """@usuario_bp.route('/estudiantes', methods=['POST'])
 def post_estudiante():
@@ -127,23 +110,6 @@ def put_estudiante(id_usuario):
     est.actualizar_estudiante(id_usuario, data['nombre'], data['apellido'], data['email'], data['contrasena'], data['documento'], data['pais_origen'])
     return jsonify({"mensaje": "Estudiante actualizado"})
 """
-
-@usuario_bp.route("/estudiantes/<int:id_usuario>", methods=["PUT"])
-@login_required
-def put_estudiante(id_usuario):
-    data = request.json
-    est.actualizar_estudiante(
-        id_usuario,
-        data["nombre"],
-        data["apellido"],
-        data["email"],
-        data["contrasena"],
-        data["documento"],
-        data["pais_origen"],
-        data["id_rol"],
-    )
-    return jsonify({"mensaje": "Estudiante actualizado"})
-
 
 @usuario_bp.route("/estudiantes/<int:id_usuario>", methods=["DELETE"])
 @login_required

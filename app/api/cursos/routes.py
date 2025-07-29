@@ -6,7 +6,7 @@ from app.api.auth.utils import role_required
 
 
 
-@curso_bp.route("/cursos", methods=["GET"])
+@curso_bp.route("/coor/cursos", methods=["GET"])
 @login_required
 def cursos():
     return render_template("Coordinador/partials/cursos.html", cursos=crs.obtener_cursos())

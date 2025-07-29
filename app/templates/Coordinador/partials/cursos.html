@@ -15,12 +15,12 @@
     <tbody>
         {% for curso in cursos %}        
         <tr>
-            <td>{{ curso.id}}</td>
+            <td>{{ curso.id_curso}}</td>
             <td>{{ curso.nombre }}</td>
             <td>{{ curso.descripcion }}</td>
             <td>{{ curso.modalidad }}</td>
-            <td>{{ curso.version }}</td>
-            <td>{{ curso.ponente }}</td>
+            <td>{{ curso.id_version }}</td>
+            <td>{{ curso.id_ponente }}</td>
             <td>
                 <button onclick="">Editar</button>
                 <button onclick="">Eliminar</button>            
