@@ -7,6 +7,7 @@ from app import db
 from app.models.user import Usuario
 from flask_login import login_required
 from .controller import crear_estudiantes_bulk
+from app.api.auth.utils import role_required
 
 ALLOWED_EXTENSIONS = {"xlsx", "xls", "csv"}
 
@@ -17,6 +18,7 @@ def allowed_file(filename):
 
 @rxls_bp.route("/", methods=["GET", "POST"])
 @login_required
+@role_required(1, 4)
 def index():
     tabla_html = None
 

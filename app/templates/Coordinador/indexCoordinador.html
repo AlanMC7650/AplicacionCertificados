@@ -12,6 +12,7 @@
   <body>
     <header>
       <div class="top-bar">
+<<<<<<< HEAD
         <div class="logo-back">
           <img class="logo" src="../../static/images/TWAS_Logo.webp" />
         </div>
@@ -26,6 +27,31 @@
             </div>
           </div>
         </div>
+=======
+        <form action="/auth/logout" method="POST" >
+          <button>Coordinador</button>
+          <button type="submit">Cerrar Sesión</button>          
+        </form>
+      </div>
+      <nav class="navbar">
+        <img
+          src="{{ url_for('static', filename='images/logo-UNESCO.png') }}"
+          alt="UNESCO Logo"
+          class="logo"
+        />
+        <ul>
+          <li><a href="#">Inicio</a></li>
+          <li><a href="#">Contactos</a></li>
+          <li><a href="#">Sobre Nosotros</a></li>
+          <li><a href="#">Coordinador</a></li>
+        </ul>
+        <img
+          src="{{ url_for('static', filename='images/umsalogo.png') }}"
+          alt="Logo Derecho"
+          class="logo"
+        />
+      </nav>
+>>>>>>> 9b8b3f4f7fc107433177c5b02f568ee55f611647
     </header>
 
     <main>
@@ -33,6 +59,7 @@
         <!-- Sidebar -->
         <div class="sidebar">
           <h1>BIENVENIDO COORDINADOR</h1>
+          <h3>{{ nombre }}<br>{{ apellidos }}</h3>
           <h2>Funciones</h2>
           <button class="menu-btn" onclick="showSection('estudiantes')">
             Estudiantes

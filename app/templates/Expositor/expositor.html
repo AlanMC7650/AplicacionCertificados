@@ -13,8 +13,10 @@
     <img src="{{url_for('static', filename='images/logo-unesco.png')}}" alt="unesco_logo" class="logo">
     <h1>GESTIÓN EXPOSITOR</h1>
     <div class="top-actions">
-      <button>Expositor</button>
-      <button>Cerrar Sesion</button>
+      <form action="/auth/logout" method="POST">        
+        <button>Expositor</button>
+        <button type="submit">Cerrar Sesion</button>
+      </form>
     </div>    
     <img src="{{url_for('static', filename='images/umsalogo.png')}}" alt="umsa_logo" class="logo-der">
   </div>
