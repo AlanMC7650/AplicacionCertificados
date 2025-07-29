@@ -1,129 +1,221 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@200&display=swap');
-
-* {
-    font-family: 'Montserrat Alternates', sans-serif;
-    
-}
 
 body {
-    margin: 0;
-    background: #f8f8f8;
-    color: #005ca5;
-    height: 100vh; /* Asegura que el body ocupe toda la altura */
+  margin: 0;
+  font-family: 'Montserrat Alternates', sans-serif;
+  background: #fff;
 }
 
-header {
-    background-color: #fff;
-    border-bottom: 2px solid #005ca5;
+.subtitulo {
+  font-size: 24px;
 }
-.logo {
-    height:100px;
+
+.texto {
+  font-size: 14px;
 }
+
+.titulo {
+  font-size: 30px;
+  color: #0077c2;
+  margin: 0 auto;
+  text-align: center;
+}
+
 .top-bar {
-    display: flex;
-    justify-content: flex-end;
-    padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 2px solid #0077c2;
+  flex-wrap: wrap;
 }
 
-.top-bar button {
-    margin-left: 10px;
-    border: 1px solid #005ca5;
-    background: white;
-    color: #005ca5;
-    cursor: pointer;
-    padding: 5px 10px;
+.logo {
+  height: 80px;
+  width: 150px;
 }
 
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
+.logo-umsa {
+  height: 80px;
+  width: 50px;
 }
 
-.navbar ul {
-    list-style: none;
-    display: flex;
-    gap: 100px;
-    margin: 0;
-    padding: 0;
+.top-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-.navbar a {
-    text-decoration: none;
-    color: #005ca5;
-    font-weight: bold;
+.top-actions button {
+  padding: 0.5rem 1rem;
+  background: white;
+  color: #0077c2;
+  border: 1px solid #0077c2;
+  cursor: pointer;
+  font-family: 'Montserrat Alternates', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 4px;
 }
 
-h1, h2 {
-    text-align: left;
+.top-actions button:hover {
+  background-color: #0077c2;
+  color: white;
+}
+
+.acciones-derecha {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .container {
-    padding-top: 0px;
-    margin-top: 0px;
-    display: flex;
-    height: calc(100vh - 150px); /* Ajuste para que ocupe el resto de la altura */
+  display: flex;
+  height: calc(100vh - 80px);
 }
 
 .sidebar {
-    width: 20%; /* Ocupa el 20% del ancho de la pantalla */
-    margin: 20px;
-    margin-top: 0px;
-    background-color: #f8f8f8;
-    box-sizing: border-box;
-    border-right: 1px solid #005ca5
+  width: 270px;
+  padding: 2rem;
+  border-right: 1px solid #0077c2;
 }
 
-#contenido {
-    flex-grow: 1; /* El resto del espacio será ocupado por contenido */
-    margin: 20px;
-    padding: 10px;
-    border: 0px solid #005ca5;
-    background: #f8f8f8;
-    box-sizing: border-box;
+.sidebar h2,
+.sidebar h3,
+.sidebar p {
+  color: #0077c2;
+  margin: 0 0 1rem;
 }
 
-.menu-btn {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 200;
-    display: block;
-    width: 150px;
-    border: 1px solid #005ca5;
-    border-left: 3px solid #005ca5;
-    background: #f8f8f8;
-    color: #005ca5;
-    padding: 15px 25px;
-    text-align: left;
-    cursor: pointer;
-    margin-bottom: 0px;
-    transition: all 0.3s ease;
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.menu-btn:hover, .menu-btn.active {
-    background: #005ca5;
-    color: white;
-    border-color: white;
-    border-left: 4px solid white;
+.menu li {
+  border: 1px solid #ccc;
+  border-top: none;
 }
 
-.menu-btn-h {
-    display: inline-block;
-    border: 1px solid #005ca5;
-    background: white;
-    color: #005ca5;
-    padding: 10px 15px;
-    margin: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 5px;
-    font-weight: bold;
-    text-align: center;
+.menu li:first-child {
+  border-top: 1px solid #ccc;
 }
 
-.menu-btn-h:hover {
-    background: #005ca5;
-    color: white;
+.menu a {
+  display: block;
+  padding: 1rem;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.menu a:hover,
+.menu a.activo {
+  background: #0077c2;
+  color: white;
+}
+
+.contenido {
+  flex: 1;
+  padding: 2rem;
+  overflow: auto;
+}
+
+.iframe-oculto {
+  width: 100%;
+  height: 100%;
+  border: none;
+  min-height: 500px;
+}
+
+@media (max-width: 600px) {
+  .logo {
+    height: 50px;
+    width: 100px;
+  }
+}
+
+
+/* ==================== */
+/* Estilos para cursos.html */
+/* ==================== */
+#cursos, .table-cursos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.table-cursos th,
+.table-cursos td {
+  border: 1px solid #0077c2;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.table-cursos th {
+  background-color: #0077c2;
+  color: white;
+}
+
+/* ==================== */
+/* Estilos para estudiantes.html */
+/* ==================== */
+#estudiantes, .table-estudiantes {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.table-estudiantes th,
+.table-estudiantes td {
+  border: 1px solid #0077c2;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.table-estudiantes th {
+  background-color: #0077c2;
+  color: white;
+}
+
+/* ==================== */
+/* Estilos para eventos.html */
+/* ==================== */
+#eventos, .table-eventos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.table-eventos th,
+.table-eventos td {
+  border: 1px solid #0077c2;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.table-eventos th {
+  background-color: #0077c2;
+  color: white;
+}
+
+/* ==================== */
+/* Estilos para expositores.html */
+/* ==================== */
+#expositores, .table-expositores {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.table-expositores th,
+.table-expositores td {
+  border: 1px solid #0077c2;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.table-expositores th {
+  background-color: #0077c2;
+  color: white;
 }

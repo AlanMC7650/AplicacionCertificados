@@ -9,18 +9,18 @@
 <body>
   <div class="container">
     <div class="left-panel">
-      <div class="back-arrow">←</div>
-      <h1>Cursos Postgrado<br />Carrera de Química<br /><span>3ra Versión</span></h1>
-      <p>¡Bienvenido! Por favor ingrese su cuenta.</p>
+      <div class="back-arrow"><a href="#">←</a></div>
+      <h1 class="titulo">Cursos Postgrado<br />Carrera de Química<br /><span>3ra Versión</span></h1>
+      <p class="subtitulo">¡Bienvenido! Por favor ingrese su cuenta.</p>
       <form class="login-form" action="{{ url_for('auth.login') }}" method="POST">
-        <label for="email">Dirección de Correo Electrónico</label>
+        <label for="email" class="texto">Dirección de Correo Electrónico</label>
         <input type="email" id="email" name="email" required />
-        <label for="password">Contraseña</label>
+        <label for="password" class="texto">Contraseña</label>
         <input type="password" id="contrasena" name="contrasena" required />
 
         <div class="options">
-          <label><input type="checkbox" name="recuerdame"> Recuérdame</label>
-          <a href="{{ url_for('auth.forgot_password') }}">¿Olvidé mi contraseña?</a>
+          <label class="texto"><input type="checkbox" name="recuerdame"> Recuérdame</label>
+          <a class="texto" href="{{ url_for('auth.forgot_password') }}">¿Olvidé mi contraseña?</a>
         </div>
         <button type="submit" class="login-btn">Iniciar Sesión</button>
       </form>
