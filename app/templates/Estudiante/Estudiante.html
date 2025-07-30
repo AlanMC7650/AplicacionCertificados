@@ -4,12 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gestión Estudiante</title>
-<<<<<<< HEAD
   <link rel="stylesheet" href="{{ url_for('static', filename='css/Estudiante/styleEstudiantes.css') }}"> <!--pendiente a editar si es necesario-->
-=======
-  <link rel="stylesheet" href="/app/static/css/Estudiante/styleEstudiantes.css">     
-  <!-- /static/css/Estudiante/styleEstudiantes.css -->
->>>>>>> 9b8b3f4f7fc107433177c5b02f568ee55f611647
   <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -60,10 +55,10 @@
             <input class="input-info" value="Edad" readonly />
             <input class="input-info" value="Nacionalidad" readonly /> -->
 
-            <input class="input-info" value="{{ estudiante[1] }}" readonly />
+            <input class="input-info" value="{{ estudiante[1]}} {{ estudiante[2]}}" readonly />
 <input class="input-info" value="{{ estudiante[5] }}" readonly />
-<input class="input-info" value="(coloca género aquí)" readonly />
-<input class="input-info" value="(edad o calcula)" readonly />
+<!-- <input class="input-info" value="(coloca género aquí)" readonly />
+<input class="input-info" value="(edad o calcula)" readonly /> -->
 <input class="input-info" value="{{ estudiante[6] }}" readonly />
 
           </div>
