@@ -44,6 +44,8 @@ def login():
 @login_required
 @role_required(1, 2, 3, 4)
 def dashboard():
+    from app.controllers import u_controller as est
+    user_data = est.obtener_estudiante(current_user.id_usuario)
     if current_user.id_rol == 1:
         return render_template(
             "Coordinador/indexCoordinador.html",
@@ -59,11 +61,9 @@ def dashboard():
     if current_user.id_rol == 3:
         return render_template(
             "Estudiante/Estudiante.html",
-            nombre=current_user.nombre,
-            apellidos=current_user.apellido,
+        estudiante=user_data
         )
     return "Inicio de sesión como desarrollador tienes acceso a todos los links"
-
 
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])
 def forgot_password():

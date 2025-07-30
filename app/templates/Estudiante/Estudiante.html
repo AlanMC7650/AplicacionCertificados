@@ -4,16 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gestión Estudiante</title>
-  <link rel="stylesheet" href="/static/css/Estudiante/styleEstudiantes.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/Estudiante/styleEstudiantes.css') }}"> <!--pendiente a editar si es necesario-->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Top bar -->
   <div class="top-bar">
-    <div class="logo-back">
-      <img src="/static/images/logo-unesco.png" class="logo" alt="logo-unesco"/>
-    </div>
-    <h1 class="titulo">GESTION ESTUDIANTE</h1>
+  <div class="logo-back">
+    <img class="logo" src="../../static/images/TWAS_Logo.webp" />
+  </div>
+
+  <h1 class="titulo">GESTION ESTUDIANTE</h1>
+
+  <div class="acciones-derecha">
     <div class="top-actions">
       <form action="/auth/logout" method="POST">
         <button type="button">Estudiante</button>
@@ -22,6 +25,7 @@
     </div>    
     
   </div>
+</div>
 
   <!-- Contenedor principal -->
   <div class="container">
@@ -53,11 +57,16 @@
             <input class="input-info" value="Género" readonly />
             <input class="input-info" value="Edad" readonly />
             <input class="input-info" value="Nacionalidad" readonly /> -->
+<<<<<<< HEAD
 <!--
             <input class="input-info" value="{{ estudiante[1] }}" readonly />
+=======
+
+            <input class="input-info" value="{{ estudiante[1]}} {{ estudiante[2]}}" readonly />
+>>>>>>> e93b58b3026421e4ffd275a29a62c7514ab982b6
 <input class="input-info" value="{{ estudiante[5] }}" readonly />
-<input class="input-info" value="(coloca género aquí)" readonly />
-<input class="input-info" value="(edad o calcula)" readonly />
+<!-- <input class="input-info" value="(coloca género aquí)" readonly />
+<input class="input-info" value="(edad o calcula)" readonly /> -->
 <input class="input-info" value="{{ estudiante[6] }}" readonly />
             -->
 

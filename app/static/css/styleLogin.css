@@ -10,6 +10,15 @@ body {
   display: flex;
   height: 100vh;
 }
+.titulo{
+  font-size: 48px;
+}
+.subtitulo{
+  font-size: 24px;
+}
+.texto{
+  font-size: 14px;
+}
 
 .left-panel {
   flex: 1;
@@ -32,9 +41,10 @@ body {
 }
 
 .back-arrow {
-  font-size: 24px;
+  font-size: 34px;
   color: #006ab0;
   margin-bottom: 20px;
+  
 }
 
 h1 {
@@ -75,6 +85,7 @@ p {
 }
 
 .login-btn {
+  font-size: 14px;
   padding: 10px;
   background-color: #006ab0;
   color: #fff;
