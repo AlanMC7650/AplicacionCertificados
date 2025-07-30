@@ -9,6 +9,14 @@ def obtener_usuarios(rol):
     conn.close()  # cierra la conexión
     return rows  # devuelve los datos a quien haya llamado esta función
 
+def obtener_usuarios_id(rol,id):
+    conn = get_connection()  # conecta a la base de datos
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cursor.execute("SELECT * FROM Usuarios WHERE id_rol = %s and id_usuario=%s",(rol,id))  # consulta SQL directa
+    rows = cursor.fetchall()  # obtiene todos los resultados en una lista
+    conn.close()  # cierra la conexión
+    return rows  # devuelve los datos a quien haya llamado esta función
+
 def obtener_estudiantes():
     conn = get_connection()  # conecta a la base de datos
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)

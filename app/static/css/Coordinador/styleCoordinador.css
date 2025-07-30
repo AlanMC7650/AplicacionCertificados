@@ -219,3 +219,56 @@ body {
   background-color: #0077c2;
   color: white;
 }
+
+
+/* COSO POR EDITAR AL ESTILO */
+/*<style>*/
+    /* ✅ Estilo del modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  background-color: white;
+  border: 1px solid #aaa;
+  padding: 20px;
+  z-index: 999;
+  box-shadow: 0 0 10px #0005;
+}
+.modal.activo {
+  display: block;
+}
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    width: 400px;
+    max-width: 90%;
+    border-radius: 8px;
+    position: relative;
+  }
+
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  button {
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
+  /*</style>*/

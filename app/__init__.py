@@ -93,5 +93,8 @@ def create_app(config_class=DevConfig):
     # Crear las tablas necesarias en la base de datos
     with app.app_context():
         db.create_all()
+    print("\n[RUTAS REGISTRADAS EN FLASK]:")
+    for rule in app.url_map.iter_rules():
+        print(rule)
 
     return app

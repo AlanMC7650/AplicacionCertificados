@@ -29,6 +29,13 @@ def crear_estudiante():
 def obtener_estudiantes():
     return render_template("Coordinador/partials/estudiantes.html", estudiantes=usu.obtener_usuarios(rol=3))
 
+@usuario_bp.route('/coor/estudiantes/info/<int:id_u>',methods=['GET'])
+def obtener_datos_estudiante_json(id_u):
+    estudiante = usu.obtener_usuarios_id(3,id_u)
+    if estudiante:
+        return jsonify(estudiante[0])
+    return jsonify({}), 404
+
 @usuario_bp.route("/coor/estudiantes/<int:id_usuario>", methods=["PUT"])
 @login_required
 def editar_estudiante(id_usuario):

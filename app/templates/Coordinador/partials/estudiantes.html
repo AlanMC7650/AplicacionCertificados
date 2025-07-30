@@ -30,68 +30,48 @@
             <!-- <td>{{ estudiante.certificado }}</td> -->
             <!-- <td>{{ estudiante.nota }}</td> -->
             <td>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editEstudianteModal"
-                        data-id="{{ estudiante.id_usuario }}"
-                        data-nombre="{{ estudiante.nombre }}"
-                        data-apellido="{{ estudiante.apellido }}"
-                        data-email="{{ estudiante.email }}"
-                        data-documento="{{ estudiante.documento }}"
-                        data-pais="{{ estudiante.pais_origen }}"
-                        data-rol="{{ estudiante.id_rol }}">
+                <button class="btn btn-primary edit-btn" data-id="{{ estudiante.id_usuario }}">
                     Editar
                 </button>
 
-                <button data-id="{{ estudiante.id_usuario }}" class="btn btn-danger" data-bs-toogle="modal" data-bs-target="#confirmDeleteModal" >Eliminar</button>
+                <button class="btn btn-danger" data-id="{{ estudiante.id_usuario }}">
+                    Eliminar
+                </button>
                 <button onclick="" class="btn btn-success">Enviar Certificado</button>
             </td>
         </tr>
         {% endfor %}
 
-        <!-- Modal de confirmación -->
-        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteLabel">Confirmar eliminación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-              </div>
-              <div class="modal-body">
-                ¿Estás seguro de que deseas eliminar este estudiante?
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminar</button>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="modal fade" id="editEstudianteModal" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <form id="editEstudianteForm" class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="editLabel">Editar Estudiante</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-              </div>
-              <div class="modal-body">
-                <input type="hidden" id="edit-id">
-                <div class="mb-3"><label>Nombre</label><input type="text" id="edit-nombre" class="form-control"></div>
-                <div class="mb-3"><label>Apellido</label><input type="text" id="edit-apellido" class="form-control"></div>
-                <div class="mb-3"><label>Email</label><input type="email" id="edit-email" class="form-control"></div>
-                <div class="mb-3"><label>Documento</label><input type="text" id="edit-documento" class="form-control"></div>
-                <div class="mb-3"><label>País</label><input type="text" id="edit-pais" class="form-control"></div>
-                <div class="mb-3"><label>Rol</label><input type="number" id="edit-rol" class="form-control"></div>
-                <div class="mb-3"><label>Contraseña</label><input type="password" id="edit-contrasena" class="form-control"></div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Guardar cambios</button>
-              </div>
-            </form>
-          </div>
-        </div>
+
+
     </tbody>
 </table>
+
+<!--  Modal / Tabla Emergente -->
+  <div id="modal-editar" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="cerrarModal()">&times;</span>
+      <h3>Editar Estudiante</h3>
+      <form id="form-editar">
+        <input type="hidden" id="id_usuario" name="id_usuario">
+        <label>Nombre:</label>
+        <input type="text" id="nombre" name="nombre"><br>
+        <label>Apellido:</label>
+        <input type="text" id="apellido" name="apellido"><br>
+        <label>Email:</label>
+        <input type="email" id="email" name="email"><br>
+        <label>Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena"><br>
+        <label>Documento:</label>
+        <input type="text" id="documento" name="documento"><br>
+        <label>País de Origen:</label>
+        <input type="text" id="pais_origen" name="pais_origen"><br>
+        <input type="hidden" id="id_rol" name="id_rol" value="3">
+        <button type="submit">Guardar</button>
+      </form>
+    </div>
+  </div>
 
 <br>
 
@@ -99,121 +79,76 @@
 <button onclick="" class="menu-btn-h">Agregar Estudiantes Excel</button>
 <button onclick="" class="menu-btn-h">Descargar Certificados</button>
 <button onclick="" class="menu-btn-h">Enviar Certificados</button>
-<script>
-const editModal = document.getElementById('editEstudianteModal');
-editModal.addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget;
-    document.getElementById('edit-id').value = button.getAttribute('data-id');
-    document.getElementById('edit-nombre').value = button.getAttribute('data-nombre');
-    document.getElementById('edit-apellido').value = button.getAttribute('data-apellido');
-    document.getElementById('edit-email').value = button.getAttribute('data-email');
-    document.getElementById('edit-documento').value = button.getAttribute('data-documento');
-    document.getElementById('edit-pais').value = button.getAttribute('data-pais');
-    document.getElementById('edit-rol').value = button.getAttribute('data-rol');
-});
 
-document.getElementById('editEstudianteForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const id = document.getElementById('edit-id').value;
-    fetch(`/coor/estudiantes/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            nombre: document.getElementById('edit-nombre').value,
-            apellido: document.getElementById('edit-apellido').value,
-            email: document.getElementById('edit-email').value,
-            contrasena: document.getElementById('edit-contrasena').value,
-            documento: document.getElementById('edit-documento').value,
-            pais_origen: document.getElementById('edit-pais').value,
-            id_rol: parseInt(document.getElementById('edit-rol').value)
-        })
-    }).then(res => res.json())
+<script>
+const modal = document.getElementById("modal-editar");
+console.log("Modal está visible:", window.getComputedStyle(modal).display);
+document.querySelectorAll('.edit-btn').forEach(btn => {
+  btn.addEventListener('click', function () {
+    const id = this.dataset.id;
+    console.log("Obteniendo datos del usuario ID:", id);  // Debug
+
+    fetch(`/usuarios/coor/estudiantes/info/${id}`)
+      .then(response => {
+        // console.log("[DEBUG] Respuesta FETCH:", response.status); // <- Paso 2
+        if (!response.ok) {
+          throw new Error('No se pudo obtener el usuario');
+        }
+        return response.json();
+      })
       .then(data => {
-        if (data.success !== false) {
-            location.reload();  // o showSection('estudiantes');
-        } else {
-            alert("Error al editar");
-        }
-    });
+        console.log("Datos recibidos:", data);  // Debug
+        document.getElementById('id_usuario').value = data.id_usuario;
+        document.getElementById('nombre').value = data.nombre;
+        document.getElementById('apellido').value = data.apellido;
+        document.getElementById('email').value = data.email;
+        document.getElementById('contrasena').value = data.contrasena || '';
+        document.getElementById('documento').value = data.documento;
+        document.getElementById('pais_origen').value = data.pais_origen;
+
+        // document.getElementById('modal-editar').style.display = 'flex';
+        modal.classList.add("activo");
+        console.log("¿Está visible?", modal.offsetParent !== null);
+      })
+      .catch(err => {
+        alert("Error al obtener los datos: " + err.message);
+      });
+  });
 });
-</script>
-<script>
-    let idEstudianteEliminar = null;
 
-    const deleteModal = document.getElementById('confirmDeleteModal');
-    deleteModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        idEstudianteEliminar = button.getAttribute('data-id');
-    });
+function cerrarModal() {
+  document.getElementById('modal-editar').style.display = 'none';
+}
 
-    document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
-        if (idEstudianteEliminar) {
-            fetch(`/coor/estudiantes/${idEstudianteEliminar}`, { method: "DELETE" })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success !== false) {
-                    location.reload();  // o showSection('estudiantes');
-                } else {
-                    alert("Error al eliminar");
-                }
-            });
-        }
-    });
+document.getElementById('form-editar').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const id = document.getElementById('id_usuario').value;
+  const data = {
+    nombre: document.getElementById('nombre').value,
+    apellido: document.getElementById('apellido').value,
+    email: document.getElementById('email').value,
+    contrasena: document.getElementById('contrasena').value,
+    documento: document.getElementById('documento').value,
+    pais_origen: document.getElementById('pais_origen').value,
+    id_rol: document.getElementById('id_rol').value
+  };
 
-
-    function crearEstudiante(id) {
-        fetch(`/coor/estudiantes/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                // Acá deberías incluir los datos editados
-                nombre: "NuevoNombre",
-                apellido: "NuevoApellido"
-            })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                showSection('estudiantes');
-            } else {
-                alert("Error al editar");
-            }
-        });
+  fetch(`/coor/estudiantes/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (response.ok) {
+      alert("Estudiante actualizado correctamente.");
+      cerrarModal();
+      location.reload();  // O recarga parcial si usas AJAX
+    } else {
+      return response.json().then(err => {
+        throw new Error(err.error || "Error desconocido");
+      });
     }
-
-    function editarEstudiante(id) {
-        fetch(`/coor/estudiantes/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                // Acá deberías incluir los datos editados
-                nombre: "NuevoNombre",
-                apellido: "NuevoApellido"
-            })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                showSection('estudiantes');
-            } else {
-                alert("Error al editar");
-            }
-        });
-    }
-
-    function eliminarEstudiante(id) {
-        fetch(`/coor/estudiantes/${id}`, { method: "DELETE" })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                showSection('estudiantes');
-            } else {
-                alert("Error al eliminar");
-            }
-        });
-    }
+  })
+  .catch(err => alert("Error al actualizar: " + err.message));
+});
 </script>
