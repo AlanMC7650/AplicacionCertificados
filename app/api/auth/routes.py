@@ -46,13 +46,24 @@ def login():
 def dashboard():
     from app.controllers import u_controller as est
     user_data = est.obtener_estudiante(current_user.id_usuario)
-    return render_template(
-        "dashboard.html",
+    if current_user.id_rol == 1:
+        return render_template(
+            "Coordinador/indexCoordinador.html",
+            nombre=current_user.nombre,
+            apellidos=current_user.apellido,
+        )
+    if current_user.id_rol == 2:
+        return render_template(
+            "Expositor/expositor.html",
+            nombre=current_user.nombre,
+            apellidos=current_user.apellido,
+        )
+    if current_user.id_rol == 3:
+        return render_template(
+            "Estudiante/Estudiante.html",
         estudiante=user_data
-    )
-
-
-
+        )
+    return "Inicio de sesión como desarrollador tienes acceso a todos los links"
 
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])
 def forgot_password():

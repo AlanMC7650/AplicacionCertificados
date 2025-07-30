@@ -127,6 +127,7 @@ def delete_estudiante(id_usuario):
 
 
 #VISTAS
+
 @usuario_bp.route("/vista-estudiante", methods=["GET"])
 @login_required
 def vista_estudiante():
