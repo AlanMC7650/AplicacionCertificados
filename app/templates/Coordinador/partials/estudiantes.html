@@ -51,7 +51,7 @@
 <!--  Modal / Tabla Emergente Actualizar Estudiantes -->
 <div id="modal-editar" class="modal">
   <div class="modal-content">
-    <span class="close" onclick="cerrarModal()">&times;</span>
+    <span class="close" onclick="cerrarModalEditEst()">&times;</span>
     <h3>Editar Estudiante</h3>
     <form id="form-editar">
       <input type="hidden" id="id_usuario" name="id_usuario">
@@ -76,9 +76,9 @@
 <!--  Modal / Tabla Emergente Crear Estudiantes -->
 <div id="modal-crear" class="modal">
   <div class="modal-content">
-    <span class="close" onclick="cerrarModalCrear()">&times;</span>
+    <span class="close" onclick="cerrarModalCrearEst()">&times;</span>
     <h3>Nuevo Estudiante</h3>
-    <form id="form-crear" action="/usuarios/coor/estudiantes/crear" method="POST">
+    <form id="form-crear">
       <label>Nombre:</label>
       <input type="text" id="nombre_crear" name="nombre" required><br>
       <label>Apellido:</label>

@@ -103,7 +103,7 @@
                 return response.json();
               })
               .then(data => {
-                console.log("Datos recibidos:", data);  // Debug
+                // console.log("Datos recibidos:", data);  // Debug
                 document.getElementById('id_usuario').value = data.id_usuario;
                 document.getElementById('nombre').value = data.nombre;
                 document.getElementById('apellido').value = data.apellido;
@@ -146,7 +146,7 @@
               // console.log("Respuesta cruda:", response);
               if (response.ok) {
                 alert("Estudiante actualizado correctamente.");
-                cerrarModal();
+                cerrarModalEditEst();
                 // location.reload();
                 showSection('usuarios/coor/estudiantes');
               } else {
@@ -230,13 +230,22 @@
             }
           });
         });
-      }
-      function cerrarModal() {
-          modal.classList.remove("activo");
+
+
+        const btnClose = document.querySelector(".close");
+        if (btnClose) {
+          btnClose.addEventListener("click", cerrarModalCrearEst);
+          btnClose.addEventListener("click", cerrarModalEditEst);
         }
-      function cerrarModalCrearEstudiante() {
+        
+      }
+      function cerrarModalEditEst() {
+        const modal = document.getElementById("modal-editar");
+        modal.classList.remove("activo");
+      }
+      function cerrarModalCrearEst() {
         const modal = document.getElementById("modal-crear");
-        if (modal) modal.classList.remove("activo");
+        modal.classList.remove("activo");
       }
 
         //--------------------
