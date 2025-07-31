@@ -11,7 +11,8 @@ from app.api.auth.utils import role_required
 @login_required
 def crear_estudiante():
     data = request.json
-    if not data or not all(k in data for k in ["nombre", "apellido", "email", "contrasena", "documento", "pais_origen", "id_rol"]):
+    campos = ["nombre", "apellido", "email", "contrasena", "documento", "pais_origen"]
+    if not data or not all(k in data for k in campos):
         return jsonify({"error": "Datos incompletos"}), 400
     usu.crear_estudiante(
         data["nombre"],
@@ -20,7 +21,6 @@ def crear_estudiante():
         data["contrasena"],
         data["documento"],
         data["pais_origen"],
-        data["id_rol"],
     )
     return jsonify({"mensaje": "Estudiante creado", "success": True}), 201
 
@@ -40,14 +40,16 @@ def obtener_datos_estudiante_json(id_u):
 @login_required
 def editar_estudiante(id_usuario):
     data = request.json
-    if not data or not all(k in data for k in ["nombre", "apellido", "email", "contrasena", "documento", "pais_origen", "id_rol"]):
+    campos_requeridos = ["nombre", "apellido", "email", "documento", "pais_origen", "id_rol"]
+    if not data or not all(k in data for k in campos_requeridos):
         return jsonify({"error": "Datos incompletos"}), 400
-    est.actualizar_estudiante(
+    contrasena = data.get("contrasena")
+    usu.actualizar_estudiante(
         id_usuario,
         data["nombre"],
         data["apellido"],
         data["email"],
-        data["contrasena"],
+        contrasena,
         data["documento"],
         data["pais_origen"],
         data["id_rol"],
@@ -57,8 +59,11 @@ def editar_estudiante(id_usuario):
 @usuario_bp.route("/coor/estudiantes/<int:id_usuario>", methods=["DELETE"])
 @login_required
 def borrar_estudiante(id_usuario):
-    usu.eliminar_estudiante(id_usuario)
-    return jsonify({"mensaje": "Estudiante eliminado"})
+    try:
+        usu.eliminar_estudiante(id_usuario)
+        return jsonify({"mensaje": "Estudiante eliminado"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 

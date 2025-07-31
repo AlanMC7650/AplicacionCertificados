@@ -65,9 +65,173 @@
           .then((response) => response.text())
           .then((html) => {
             document.getElementById("contenido").innerHTML = html;
+            inicializarEventos(); 
           });
       }
+      window.showSection = showSection;
 
+      function inicializarEventos() {
+        //---------- EVENTOS ESTUDIANTES
+
+        //  Modal/ventan Emergente Editar Usuario
+        const modal = document.getElementById("modal-editar");
+        if (!modal) return; 
+        // console.log("Modal está visible:", window.getComputedStyle(modal).display);
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+          btn.addEventListener('click', function () {
+            const id = this.dataset.id;
+            // console.log("Obteniendo datos del usuario ID:", id);  // Debug
+
+            fetch(`/usuarios/coor/estudiantes/info/${id}`)
+              .then(response => {
+                // console.log("[DEBUG] Respuesta FETCH:", response.status); // <- Paso 2
+                if (!response.ok) {
+                  throw new Error('No se pudo obtener el usuario');
+                }
+                return response.json();
+              })
+              .then(data => {
+                console.log("Datos recibidos:", data);  // Debug
+                document.getElementById('id_usuario').value = data.id_usuario;
+                document.getElementById('nombre').value = data.nombre;
+                document.getElementById('apellido').value = data.apellido;
+                document.getElementById('email').value = data.email;
+                document.getElementById('contrasena').value = '';
+                document.getElementById('documento').value = data.documento;
+                document.getElementById('pais_origen').value = data.pais_origen;
+
+                // document.getElementById('modal-editar').style.display = 'flex';
+                modal.classList.add("activo");
+                // console.log("¿Está visible?", modal.offsetParent !== null);
+              })
+              .catch(err => {
+                alert("Error al obtener los datos: " + err.message);
+              });
+          });
+        });
+        const formEditar = document.getElementById('form-editar');
+        if(formEditar){
+          formEditar.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const id = document.getElementById('id_usuario').value;
+            const data = {
+              nombre: document.getElementById('nombre').value,
+              apellido: document.getElementById('apellido').value,
+              email: document.getElementById('email').value,
+              contrasena: document.getElementById('contrasena').value,
+              documento: document.getElementById('documento').value,
+              pais_origen: document.getElementById('pais_origen').value,
+              id_rol: document.getElementById('id_rol').value
+            };
+            // console.log("Obteniendo datos del usuario ID:", id,data);
+            // console.log("usuario json:", JSON.stringify(data));
+            fetch(`/usuarios/coor/estudiantes/${id}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data)
+            })
+            .then(response => {
+              // console.log("Respuesta cruda:", response);
+              if (response.ok) {
+                alert("Estudiante actualizado correctamente.");
+                cerrarModal();
+                // location.reload();
+                showSection('usuarios/coor/estudiantes');
+              } else {
+                return response.json().then(err => {
+                  throw new Error(err.error || "Error desconocido");
+                });
+              }
+            })
+            .catch(err => alert("Error al actualizar: " + err.message));
+          });
+        }
+
+        //  Modal/Ventana Emergente para Crear Usuario
+        const btnNuevo = document.querySelectorAll('.create-btn');
+        btnNuevo.forEach(btn => {
+          btn.addEventListener("click", function () {
+            const modal = document.getElementById("modal-crear");
+            if (modal) modal.classList.add("activo");
+          });
+        });
+
+
+        const modalCrear = document.getElementById("modal-crear");
+        const formCrear = document.getElementById("form-crear");
+
+        if (formCrear) {
+          formCrear.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const datos = {
+              nombre: document.getElementById("nombre_crear").value,
+              apellido: document.getElementById("apellido_crear").value,
+              email: document.getElementById("email_crear").value,
+              contrasena: document.getElementById("contrasena_crear").value,
+              documento: document.getElementById("documento_crear").value,
+              pais_origen: document.getElementById("pais_origen_crear").value,
+            };
+
+            try {
+              const res = await fetch("/usuarios/coor/estudiantes", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(datos),
+              });
+
+              const resultado = await res.json();
+
+              if (res.ok) {
+                alert("Estudiante creado correctamente.");
+                modalCrear.classList.remove("activo");
+                showSection("usuarios/coor/estudiantes"); // Recargar solo la vista actual
+              } else {
+                alert("Error: " + resultado.error);
+              }
+            } catch (err) {
+              console.error("Error:", err);
+              alert("Error al crear el estudiante.");
+            }
+          });
+        }
+
+         // eliminar estudiante
+        document.querySelectorAll('.del-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.dataset.id;
+            if (confirm("¿Seguro que quieres eliminar este estudiante?")) {
+              fetch(`/usuarios/coor/estudiantes/${id}`, {
+                method: 'DELETE'
+              })
+              .then(response => {
+                if (response.ok) {
+                  alert("Estudiante eliminado correctamente.");
+                  showSection('usuarios/coor/estudiantes');  // Recarga la lista
+                } else {
+                  return response.json().then(err => {
+                    throw new Error(err.error || "Error desconocido");
+                  });
+                }
+              })
+              .catch(err => alert("Error al eliminar: " + err.message));
+            }
+          });
+        });
+      }
+      function cerrarModal() {
+          modal.classList.remove("activo");
+        }
+      function cerrarModalCrearEstudiante() {
+        const modal = document.getElementById("modal-crear");
+        if (modal) modal.classList.remove("activo");
+      }
+
+        //--------------------
+      document.addEventListener("DOMContentLoaded", () => {
+
+      inicializarEventos();
+    });
     </script>
     <!-- Bootstrap JS -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->

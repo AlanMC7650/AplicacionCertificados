@@ -221,9 +221,8 @@ body {
 }
 
 
-/* COSO POR EDITAR AL ESTILO */
-/*<style>*/
-    /* ✅ Estilo del modal */
+
+/* Estilo del modal o ventanas emergentes : no tocar display */
 .modal {
   display: none;
   position: fixed;
@@ -239,36 +238,35 @@ body {
 .modal.activo {
   display: block;
 }
-  .modal-content {
-    background-color: white;
-    padding: 20px;
-    width: 400px;
-    max-width: 90%;
-    border-radius: 8px;
-    position: relative;
-  }
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  width: 400px;
+  max-width: 90%;
+  border-radius: 8px;
+  position: relative;
+}
 
-  .close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 20px;
-    cursor: pointer;
-  }
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  cursor: pointer;
+}
 
-  table {
-    border-collapse: collapse;
-    width: 100%;
-  }
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
 
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
 
-  button {
-    padding: 5px 10px;
-    cursor: pointer;
-  }
+button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
 
-  /*</style>*/

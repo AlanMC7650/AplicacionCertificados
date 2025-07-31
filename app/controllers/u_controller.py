@@ -1,5 +1,6 @@
 import psycopg2
 from app.db_c import get_connection
+from werkzeug.security import generate_password_hash
 
 def obtener_usuarios(rol):
     conn = get_connection()  # conecta a la base de datos
@@ -25,7 +26,6 @@ def obtener_estudiantes():
     conn.close()  # cierra la conexión
     return rows  # devuelve los datos a quien haya llamado esta función
 
-
 def obtener_estudiante(id_usuario):
     conn = get_connection()
     cursor = conn.cursor()
@@ -34,22 +34,40 @@ def obtener_estudiante(id_usuario):
     conn.close()
     return row
 
+def actualizar_estudiante(
+    id_usuario, nombre, apellido, email, contrasena, documento, pais_origen, id_rol
+):
+    query = """
+        UPDATE Usuarios
+        SET nombre = %s, apellido = %s, email = %s,
+            documento = %s, pais_origen = %s, id_rol = %s
+        WHERE id_usuario = %s
+    """
+    values = [nombre, apellido, email, documento, pais_origen, id_rol, id_usuario]
 
-"""def crear_estudiante(nombre, apellido, email, contrasena, documento, pais_origen):
+    if contrasena and contrasena.strip() != "":
+        query = """
+            UPDATE Usuarios
+            SET nombre = %s, apellido = %s, email = %s,
+                contrasena = %s, documento = %s, pais_origen = %s, id_rol = %s
+            WHERE id_usuario = %s
+        """
+        hashed = generate_password_hash(contrasena)
+        values = [nombre, apellido, email, hashed, documento, pais_origen, id_rol, id_usuario]
     conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO Usuarios (nombre, apellido, email, contrasena, documento, pais_origen) VALUES (%s, %s, %s,%s, %s, %s)", (nombre, apellido, email, contrasena, documento, pais_origen))
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cursor.execute(query, values)
     conn.commit()
-    conn.close()"""
-
+    conn.close()
 
 def crear_estudiante(nombre, apellido, email, contrasena, documento, pais_origen):
     conn = get_connection()
-    cursor = conn.cursor()
-    id_rol = 1  # Por defecto: estudiante
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    id_rol = 3  # Por defecto: estudiante
+    hashed = generate_password_hash(contrasena)
     cursor.execute(
         "INSERT INTO Usuarios (nombre, apellido, email, contrasena, documento, pais_origen, id_rol) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-        (nombre, apellido, email, contrasena, documento, pais_origen, id_rol),
+        (nombre, apellido, email, hashed, documento, pais_origen, id_rol),
     )
     conn.commit()
     conn.close()
@@ -95,33 +113,10 @@ def actualizar_estudiante(id_usuario, nombre, apellido, email, contrasena, docum
     conn.commit()
     conn.close()"""
 
-
-def actualizar_estudiante(
-    id_usuario, nombre, apellido, email, contrasena, documento, pais_origen, id_rol
-):
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute(
-        "UPDATE Usuarios SET nombre = %s, apellido = %s, email = %s, contrasena = %s, documento = %s, pais_origen = %s, id_rol = %s WHERE id_usuario = %s",
-        (
-            nombre,
-            apellido,
-            email,
-            contrasena,
-            documento,
-            pais_origen,
-            id_rol,
-            id_usuario,
-        ),
-    )
-    conn.commit()
-    conn.close()
-
-
 def eliminar_estudiante(id_usuario):
     try:
         conn = get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         cursor.execute("DELETE FROM Usuarios WHERE id_usuario = %s", (id_usuario,))
         conn.commit()
         conn.close()

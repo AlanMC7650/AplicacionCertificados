@@ -34,7 +34,7 @@
                     Editar
                 </button>
 
-                <button class="btn btn-danger" data-id="{{ estudiante.id_usuario }}">
+                <button class="btn btn-danger del-btn" data-id="{{ estudiante.id_usuario }}">
                     Eliminar
                 </button>
                 <button onclick="" class="btn btn-success">Enviar Certificado</button>
@@ -48,107 +48,63 @@
     </tbody>
 </table>
 
-<!--  Modal / Tabla Emergente -->
-  <div id="modal-editar" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="cerrarModal()">&times;</span>
-      <h3>Editar Estudiante</h3>
-      <form id="form-editar">
-        <input type="hidden" id="id_usuario" name="id_usuario">
-        <label>Nombre:</label>
-        <input type="text" id="nombre" name="nombre"><br>
-        <label>Apellido:</label>
-        <input type="text" id="apellido" name="apellido"><br>
-        <label>Email:</label>
-        <input type="email" id="email" name="email"><br>
-        <label>Contraseña:</label>
-        <input type="password" id="contrasena" name="contrasena"><br>
-        <label>Documento:</label>
-        <input type="text" id="documento" name="documento"><br>
-        <label>País de Origen:</label>
-        <input type="text" id="pais_origen" name="pais_origen"><br>
-        <input type="hidden" id="id_rol" name="id_rol" value="3">
-        <button type="submit">Guardar</button>
-      </form>
-    </div>
+<!--  Modal / Tabla Emergente Actualizar Estudiantes -->
+<div id="modal-editar" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="cerrarModal()">&times;</span>
+    <h3>Editar Estudiante</h3>
+    <form id="form-editar">
+      <input type="hidden" id="id_usuario" name="id_usuario">
+      <label>Nombre:</label>
+      <input type="text" id="nombre" name="nombre"><br>
+      <label>Apellido:</label>
+      <input type="text" id="apellido" name="apellido"><br>
+      <label>Email:</label>
+      <input type="email" id="email" name="email"><br>
+      <label>Contraseña:</label>
+      <input type="password" id="contrasena" name="contrasena" placeholder="Nueva contraseña (opcional)"><br>
+      <label>Documento:</label>
+      <input type="text" id="documento" name="documento"><br>
+      <label>País de Origen:</label>
+      <input type="text" id="pais_origen" name="pais_origen"><br>
+      <input type="hidden" id="id_rol" name="id_rol" value="3">
+      <button type="submit">Guardar</button>
+    </form>
   </div>
+</div>
+
+<!--  Modal / Tabla Emergente Crear Estudiantes -->
+<div id="modal-crear" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="cerrarModalCrear()">&times;</span>
+    <h3>Nuevo Estudiante</h3>
+    <form id="form-crear" action="/usuarios/coor/estudiantes/crear" method="POST">
+      <label>Nombre:</label>
+      <input type="text" id="nombre_crear" name="nombre" required><br>
+      <label>Apellido:</label>
+      <input type="text" id="apellido_crear" name="apellido" required><br>
+      <label>Email:</label>
+      <input type="email" id="email_crear" name="email" required><br>
+      <label>Contraseña:</label>
+      <input type="password" id="contrasena_crear" name="contrasena" required><br>
+      <label>Documento:</label>
+      <input type="text" id="documento_crear" name="documento" required><br>
+      <label>País de Origen:</label>
+      <input type="text" id="pais_origen_crear" name="pais_origen" required><br>
+      <input type="hidden" name="id_rol" value="3">
+      <button type="submit">Crear</button>
+    </form>
+  </div>
+</div>
+
 
 <br>
 
-<button onclick="" class="menu-btn-h">Agregar Estudiante</button>
+<button onclick="" class="menu-btn-h create-btn">Agregar Estudiante</button>
 <button onclick="" class="menu-btn-h">Agregar Estudiantes Excel</button>
 <button onclick="" class="menu-btn-h">Descargar Certificados</button>
 <button onclick="" class="menu-btn-h">Enviar Certificados</button>
 
 <script>
-const modal = document.getElementById("modal-editar");
-console.log("Modal está visible:", window.getComputedStyle(modal).display);
-document.querySelectorAll('.edit-btn').forEach(btn => {
-  btn.addEventListener('click', function () {
-    const id = this.dataset.id;
-    console.log("Obteniendo datos del usuario ID:", id);  // Debug
 
-    fetch(`/usuarios/coor/estudiantes/info/${id}`)
-      .then(response => {
-        // console.log("[DEBUG] Respuesta FETCH:", response.status); // <- Paso 2
-        if (!response.ok) {
-          throw new Error('No se pudo obtener el usuario');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log("Datos recibidos:", data);  // Debug
-        document.getElementById('id_usuario').value = data.id_usuario;
-        document.getElementById('nombre').value = data.nombre;
-        document.getElementById('apellido').value = data.apellido;
-        document.getElementById('email').value = data.email;
-        document.getElementById('contrasena').value = data.contrasena || '';
-        document.getElementById('documento').value = data.documento;
-        document.getElementById('pais_origen').value = data.pais_origen;
-
-        // document.getElementById('modal-editar').style.display = 'flex';
-        modal.classList.add("activo");
-        console.log("¿Está visible?", modal.offsetParent !== null);
-      })
-      .catch(err => {
-        alert("Error al obtener los datos: " + err.message);
-      });
-  });
-});
-
-function cerrarModal() {
-  document.getElementById('modal-editar').style.display = 'none';
-}
-
-document.getElementById('form-editar').addEventListener('submit', function (e) {
-  e.preventDefault();
-  const id = document.getElementById('id_usuario').value;
-  const data = {
-    nombre: document.getElementById('nombre').value,
-    apellido: document.getElementById('apellido').value,
-    email: document.getElementById('email').value,
-    contrasena: document.getElementById('contrasena').value,
-    documento: document.getElementById('documento').value,
-    pais_origen: document.getElementById('pais_origen').value,
-    id_rol: document.getElementById('id_rol').value
-  };
-
-  fetch(`/coor/estudiantes/${id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  })
-  .then(response => {
-    if (response.ok) {
-      alert("Estudiante actualizado correctamente.");
-      cerrarModal();
-      location.reload();  // O recarga parcial si usas AJAX
-    } else {
-      return response.json().then(err => {
-        throw new Error(err.error || "Error desconocido");
-      });
-    }
-  })
-  .catch(err => alert("Error al actualizar: " + err.message));
-});
 </script>
