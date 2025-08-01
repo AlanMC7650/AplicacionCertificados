@@ -65,6 +65,26 @@ def delete_inscripcion(id_inscripcion):
     return jsonify({"mensaje": "Inscripcion eliminada"})
 
 
-"""
 
-"""
+
+
+@ins_bp.route("/usuario/<int:id_usuario>", methods=["GET"])
+def get_inscripciones_por_usuario(id_usuario):
+    try:
+        datos = ins.obtener_inscripciones_por_usuario(id_usuario)
+        resultado = []
+        for row in datos:
+            resultado.append({
+                "id_inscripcion": row[0],
+                "id_curso": row[1],
+                "nombre_curso": row[2],
+                "descripcion": row[3],
+                "modalidad": row[4],
+                "version": row[5],
+                "anio": row[6]
+            })
+        return jsonify(resultado)
+    except Exception as e:
+        print("Error al obtener inscripciones por usuario:", e)
+        return jsonify({"error": str(e)}), 500
+

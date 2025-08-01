@@ -7,6 +7,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+
+<!-- Lista de cursos inscritos del estudiante -->
+
+<h2>Mis Cursos Inscritos</h2>
+<ul class="lista-cursos">
+  {% for curso in cursos %}
+    <li>
+      <strong>{{ curso[1] }}</strong><br>
+      Descripción: {{ curso[2] }}<br>
+      Modalidad: {{ curso[3] }}
+    </li>
+  {% else %}
+    <li>No estás inscrito en ningún curso.</li>
+  {% endfor %}
+</ul>
+
+
   <div class="curso-contenido">
     <label for="curso">Curso: </label>
   

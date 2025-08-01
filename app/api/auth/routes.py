@@ -65,6 +65,32 @@ def dashboard():
         )
     return "Inicio de sesión como desarrollador tienes acceso a todos los links"
 
+
+
+#vista creada para obtener cursos inscritos del estudiante 31/04/2025 10:05 pm
+
+@auth_bp.route("/estudiante/cursos")
+@login_required
+@role_required(3)
+def cursos_estudiante():
+    from app.controllers import i_controller as ins
+    from app.controllers import c_controller as cursos
+    
+    id_usuario = current_user.id_usuario
+    inscripciones = ins.obtener_inscripciones_por_usuario(id_usuario)
+
+    # Extrae los cursos desde las inscripciones
+    lista_cursos = []
+    for insc in inscripciones:
+        id_curso = insc[2]
+        curso = cursos.obtener_curso(id_curso)
+        lista_cursos.append(curso)
+
+    return render_template("Estudiante/Curso.html", cursos=lista_cursos)
+
+
+
+
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])
 def forgot_password():
     if request.method == "POST":
