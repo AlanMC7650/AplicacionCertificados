@@ -58,10 +58,14 @@
           <h3>{{ nombre }}<br>{{ apellidos }}</h3>
           <h2>Funciones</h2>
 
-          <button class="menu-btn" onclick="showSection('usuarios/coor/estudiantes')">Estudiantes</button>
-          <button class="menu-btn" onclick="showSection('usuarios/coor/expositores')">Ponentes</button>
-          <button class="menu-btn" onclick="showSection('eventos/coor/eventos')">Eventos</button>
-          <button class="menu-btn" onclick="showSection('cursos/coor/cursos')">Cursos</button>
+          <button 
+          class="menu-btn" onclick="showSection('usuarios/coor/estudiantes')">Estudiantes</button>
+          <button 
+          class="menu-btn" onclick="showSection('usuarios/coor/expositores')">Ponentes</button>
+          <button 
+          class="menu-btn" onclick="showSection('eventos/coor/eventos')">Eventos</button>
+          <button 
+          class="menu-btn" onclick="showSection('cursos/coor/cursos')">Cursos</button>
         </div>
 
         <!-- Contenido -->
@@ -71,7 +75,7 @@
       </div>
     </main>
 
-    <script>
+<!--<script>
       function showSection(section) {
         fetch(`/${section}`)
           .then((response) => response.text())
@@ -234,25 +238,188 @@
 
         const btnClose = document.querySelector(".close");
         if (btnClose) {
-          btnClose.addEventListener("click", cerrarModalCrearEst);
-          btnClose.addEventListener("click", cerrarModalEditEst);
+          btnClose.addEventListener("click", cerrarModalCrear);
+          btnClose.addEventListener("click", cerrarModalEdit);
         }
         
       }
-      function cerrarModalEditEst() {
+
+
+
+      function cerrarModalEdit() {
         const modal = document.getElementById("modal-editar");
         modal.classList.remove("activo");
       }
-      function cerrarModalCrearEst() {
+      function cerrarModalCrear() {
         const modal = document.getElementById("modal-crear");
         modal.classList.remove("activo");
       }
 
         //--------------------
       document.addEventListener("DOMContentLoaded", () => {
-
-      inicializarEventos();
+        inicializarEventos();
     });
+    </script> -->
+
+    <script>
+      function showSection(section) {
+        fetch(`/${section}`)
+          .then((response) => response.text())
+          .then((html) => {
+            document.getElementById("contenido").innerHTML = html;
+            // Detectamos si estamos en estudiantes o expositores según la URL
+            const tipoUsuario = section.includes('estudiantes') ? 'estudiantes' : 'expositores';
+            inicializarEventos(tipoUsuario);
+          });
+      }
+      window.showSection = showSection;
+      function inicializarEventos(tipo) {
+        const endpointBase = `/usuarios/coor/${tipo}`;
+        const idRol = tipo === 'estudiantes' ? 3 : 2;
+
+        // Botones editar
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+          btn.addEventListener('click', function () {
+            const id = this.dataset.id;
+            fetch(`${endpointBase}/info/${id}`)
+              .then(response => {
+                if (!response.ok) throw new Error('No se pudo obtener el usuario');
+                return response.json();
+              })
+              .then(data => {
+                document.getElementById('id_usuario').value = data.id_usuario;
+                document.getElementById('nombre').value = data.nombre;
+                document.getElementById('apellido').value = data.apellido;
+                document.getElementById('email').value = data.email;
+                document.getElementById('contrasena').value = '';
+                document.getElementById('documento').value = data.documento;
+                document.getElementById('pais_origen').value = data.pais_origen;
+                document.getElementById('id_rol').value = idRol;
+
+                document.getElementById('modal-editar').classList.add("activo");
+              })
+              .catch(err => alert("Error al obtener los datos: " + err.message));
+          });
+        });
+
+        // Envío editar
+        const formEditar = document.getElementById('form-editar');
+        if (formEditar) {
+          formEditar.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const id = document.getElementById('id_usuario').value;
+            const data = {
+              nombre: document.getElementById('nombre').value,
+              apellido: document.getElementById('apellido').value,
+              email: document.getElementById('email').value,
+              contrasena: document.getElementById('contrasena').value,
+              documento: document.getElementById('documento').value,
+              pais_origen: document.getElementById('pais_origen').value,
+              id_rol: idRol
+            };
+
+            fetch(`${endpointBase}/${id}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data)
+            })
+            .then(response => {
+              if (response.ok) {
+                alert(`${tipo === 'estudiantes' ? 'Estudiante' : 'Expositor'} actualizado correctamente.`);
+                cerrarModalEdit();
+                showSection(`usuarios/coor/${tipo}`);
+              } else {
+                return response.json().then(err => {
+                  throw new Error(err.error || "Error desconocido");
+                });
+              }
+            })
+            .catch(err => alert("Error al actualizar: " + err.message));
+          });
+        }
+
+        // Crear usuario
+        document.querySelectorAll('.create-btn').forEach(btn => {
+          btn.addEventListener("click", function () {
+            const modal = document.getElementById("modal-crear");
+            if (modal) modal.classList.add("activo");
+          });
+        });
+
+        const formCrear = document.getElementById("form-crear");
+        if (formCrear) {
+          formCrear.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const datos = {
+              nombre: document.getElementById("nombre_crear").value,
+              apellido: document.getElementById("apellido_crear").value,
+              email: document.getElementById("email_crear").value,
+              contrasena: document.getElementById("contrasena_crear").value,
+              documento: document.getElementById("documento_crear").value,
+              pais_origen: document.getElementById("pais_origen_crear").value,
+              id_rol: idRol
+            };
+
+            try {
+              const res = await fetch(`${endpointBase}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(datos)
+              });
+
+              const resultado = await res.json();
+
+              if (res.ok) {
+                alert(`${tipo === 'estudiantes' ? 'Estudiante' : 'Expositor'} creado correctamente.`);
+                cerrarModalCrear();
+                showSection(`usuarios/coor/${tipo}`);
+              } else {
+                alert("Error: " + resultado.error);
+              }
+            } catch (err) {
+              alert("Error al crear el usuario.");
+            }
+          });
+        }
+
+        // Eliminar
+        document.querySelectorAll('.del-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.dataset.id;
+            if (confirm(`¿Seguro que quieres eliminar este ${tipo}?`)) {
+              fetch(`${endpointBase}/${id}`, { method: 'DELETE' })
+                .then(response => {
+                  if (response.ok) {
+                    alert(`${tipo} eliminado correctamente.`);
+                    showSection(`usuarios/coor/${tipo}`);
+                  } else {
+                    return response.json().then(err => {
+                      throw new Error(err.error || "Error desconocido");
+                    });
+                  }
+                })
+                .catch(err => alert("Error al eliminar: " + err.message));
+            }
+          });
+        });
+
+        // Botón de cerrar modal
+        const btnClose = document.querySelector(".close");
+        if (btnClose) {
+          btnClose.addEventListener("click", cerrarModalCrear);
+          btnClose.addEventListener("click", cerrarModalEdit);
+        }
+      }
+      function cerrarModalEdit() {
+        const modal = document.getElementById("modal-editar");
+        if (modal) modal.classList.remove("activo");
+      }
+      function cerrarModalCrear() {
+        const modal = document.getElementById("modal-crear");
+        if (modal) modal.classList.remove("activo");
+      }
+      document.addEventListener("DOMContentLoaded", () => { inicializarEventos(); });
+
     </script>
     <!-- Bootstrap JS -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->

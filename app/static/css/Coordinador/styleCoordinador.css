@@ -222,7 +222,7 @@ body {
 
 
 
-/* Estilo del modal o ventanas emergentes : no tocar display */
+/* Estilo del modal o ventanas emergentes : NO ELIMINAR DISPLAY, lo demás se puede modificar */
 .modal {
   display: none;
   position: fixed;
@@ -254,19 +254,3 @@ body {
   font-size: 20px;
   cursor: pointer;
 }
-
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-button {
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
