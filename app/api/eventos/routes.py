@@ -4,12 +4,84 @@ from app.controllers import e_controller as evt
 from flask_login import login_user, logout_user, login_required, current_user
 from app.api.auth.utils import role_required
 
-
-
+# ----- PARA COORDINADOR -----
 @evento_bp.route("/coor/eventos", methods=["GET"])
 @login_required
-def eventos():
-    return render_template("Coordinador/partials/eventos.html", eventos=evt.obtener_eventos())
+def obtener_eventos_completo():
+    return render_template("Coordinador/partials/eventos.html", eventos=evt.obtener_eventos_full())
+
+@evento_bp.route('/coor/eventos/info/<int:id_evento>',methods=['GET'])
+def obtener_datos_evento_json(id_evento):
+    evento = evt.obtener_evento(id_evento)
+    if evento:
+        return jsonify(evento[0])
+    return jsonify({}), 404
+
+@evento_bp.route('/coor/version/info/<int:id_version>',methods=['GET'])
+def obtener_datos_version_json(id_version):
+    version = evt.obtener_eventoVs(id_version)
+    if version:
+        return jsonify(version[0])
+    return jsonify({}), 404
+
+
+
+@evento_bp.route("/coor/eventos/<int:id_evento>", methods=["PUT"])
+@login_required
+def editar_evento(id_evento):
+    data = request.json
+    campos_requeridos = ["nombre"]
+    if not data or not all(k in data for k in campos_requeridos):
+        return jsonify({"error": "Datos incompletos"}), 400
+    evt.actualizar_evento(id_evento,data["nombre"])
+
+@evento_bp.route("/coor/version/<int:id_version>", methods=["PUT"])
+@login_required
+def editar_version_evento(id_version):
+    data = request.json
+    campos_requeridos = ["nombre_version","anio","lugar","fecha_inicio","fecha_fin","lugar"]
+    if not data or not all(k in data for k in campos_requeridos):
+        return jsonify({"error": "Datos incompletos"})
+    evt.actualizar_eventoVs(
+        data["id_evento"],
+        data["nombre_version"], 
+        data["anio"], 
+        data["fecha_inicio"], 
+        data["fecha_fin"],
+        data["lugar"],
+        id_version, 
+    )
+
+@evento_bp.route("/coor/eventos", methods=["POST"])
+@login_required
+def crear_evento():
+    data = request.json
+    campos = ["nombre"]
+    if not data or not all(k in data for k in campos):
+        return jsonify({"error": "Datos incompletos"}), 400
+    evt.crear_evento(
+        data["nombre"],
+    )
+    return jsonify({"mensaje": "Evento creado", "success": True}), 201
+
+@evento_bp.route("/coor/version", methods=["POST"])
+@login_required
+def crear_version_evento():
+    data = request.json
+    campos = ["id_evento","nombre_version","anio","fecha_inicio","fecha_fin","lugar"]
+    if not data or not all(k in data for k in campos):
+        return jsonify({"error": "Datos incompletos"}), 400
+    evt.crear_eventoVs(
+        data["id_evento"],
+        data["nombre_version"],
+        data["anio"],
+        data["fecha_inicio"],
+        data["fecha_fin"],
+        data["lugar"],
+    )
+    return jsonify({"mensaje": "Version de evento creado"}), 201
+
+
 
 
 # @evento_bp.route("/", methods=["GET"])

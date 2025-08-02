@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash
 def obtener_usuarios(rol):
     conn = get_connection()  # conecta a la base de datos
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    cursor.execute("SELECT * FROM Usuarios WHERE id_rol = %s",(rol,))  # consulta SQL directa
+    cursor.execute("SELECT * FROM Usuarios WHERE id_rol = %s ORDER BY id_usuario ASC;",(rol,))  # consulta SQL directa
     rows = cursor.fetchall()  # obtiene todos los resultados en una lista
     conn.close()  # cierra la conexión
     return rows  # devuelve los datos a quien haya llamado esta función
@@ -22,7 +22,7 @@ def obtener_usuarios_id(rol,id):
 def obtener_estudiantes():
     conn = get_connection()  # conecta a la base de datos
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    cursor.execute("SELECT * FROM Usuarios WHERE id_rol = 3")  # consulta SQL directa
+    cursor.execute("SELECT * FROM Usuarios WHERE id_rol = 3 ORDER BY id_usuario ASC;")  # consulta SQL directa
     rows = cursor.fetchall()  # obtiene todos los resultados en una lista
     conn.close()  # cierra la conexión
     return rows  # devuelve los datos a quien haya llamado esta función
@@ -30,7 +30,7 @@ def obtener_estudiantes():
 def obtener_estudiante(id_usuario):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM Usuarios WHERE id_usuario = %s", (id_usuario,))
+    cursor.execute("SELECT * FROM Usuarios WHERE id_usuario = %s ORDER BY id_usuario ASC;", (id_usuario,))
     row = cursor.fetchone()
     conn.close()
     return row

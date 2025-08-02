@@ -270,6 +270,7 @@
             // Detectamos si estamos en estudiantes o expositores según la URL
             const tipoUsuario = section.includes('estudiantes') ? 'estudiantes' : 'expositores';
             inicializarEventos(tipoUsuario);
+            inicializarEventosEventos();
           });
       }
       window.showSection = showSection;
@@ -410,6 +411,124 @@
           btnClose.addEventListener("click", cerrarModalEdit);
         }
       }
+
+      function inicializarEventosEventos() {
+        // Boton Editar evento
+        document.querySelectorAll('.edit-evento-btn').forEach(btn => {
+          btn.addEventListener('click', function () {
+            const id = this.dataset.id;
+            const idEvento = this.getAttribute("data-id-evento");
+            const idVersion = this.getAttribute("data-id-version");
+            fetch(`/eventos/coor/eventos/info/${id}`)
+              .then(response => {
+                if (!response.ok) throw new Error('No se pudo obtener el evento');
+                return response.json();
+              })
+              .then(data => {
+                document.getElementById('id_evento').value = data.id_evento;
+                document.getElementById('nombre_base').value = data.nombre_base;
+
+                document.getElementById('id_version').value = data.id_version;
+                document.getElementById('nombre_version').value = data.nombre_version;
+                document.getElementById('anio').value = data.anio;
+                document.getElementById('fecha_inicio').value = data.fecha_inicio;
+                document.getElementById('fecha_fin').value = data.fecha_fin;
+                document.getElementById('lugar').value = data.lugar;
+
+                document.getElementById('modal-editar').classList.add("activo");
+              })
+              .catch(err => alert("Error al obtener los datos: " + err.message));
+          });
+        });
+
+        // Boton Editar Version
+        document.querySelectorAll('.edit-version-btn').forEach(btn => {
+          btn.addEventListener('click', function () {
+            const id = this.dataset.id;
+            fetch(`/eventos/coor/version/info/${id}`)
+              .then(response => {
+                if (!response.ok) throw new Error('No se pudo obtener la version de evento');
+                return response.json();
+              })
+              .then(data => {
+                document.getElementById('id_version').value = data.id_version;
+                document.getElementById('nombre_version').value = data.nombre_version;
+                document.getElementById('anio').value = data.anio;
+                document.getElementById('fecha_inicio').value = data.fecha_inicio;
+                document.getElementById('fecha_fin').value = data.fecha_fin;
+                document.getElementById('lugar').value = data.lugar;
+
+                document.getElementById('modal-editar').classList.add("activo");
+              })
+              .catch(err => alert("Error al obtener los datos: " + err.message));
+          });
+        });
+
+        // Editar Evento
+        const formEvento = document.getElementById("form-editar-evento");
+        if (formEvento) {
+          formEvento.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const id = document.getElementById("id_evento").value;
+            const data = { nombre_base: document.getElementById("nombre_base").value };
+            fetch(`/eventos/coor/version/${id}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data)
+            })
+              .then(res => {
+                if (res.ok) {
+                  alert("Evento actualizado correctamente");
+                  cerrarModalEvento();
+                  showSection("eventos");
+                }
+              });
+
+
+
+          });
+        }
+
+        // Editar versión
+        const formVersion = document.getElementById("form-editar-version");
+        if (formVersion) {
+          formVersion.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const id = document.getElementById("id_evento").value;
+            const data = {
+              nombre_version: document.getElementById("nombre_version").value,
+              anio: document.getElementById("anio").value,
+              fecha_inicio: document.getElementById("fecha_inicio").value,
+              fecha_fin: document.getElementById("fecha_fin").value,
+              lugar: document.getElementById("lugar").value,
+            };
+            fetch(`/eventos/coor/version/${id}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data)
+            })
+            .then(res => {
+              if (res.ok) {
+                alert("Versión actualizada correctamente");
+                cerrarModalEdit();
+                showSection(`eventos/coor/`);
+              } else {
+                return response.json().then(err => {
+                  throw new Error(err.error || "Error desconocido");
+                });
+              }
+            });
+          });
+        }
+      }
+
+
+      // Cerrar modales
+      const btnClose = document.querySelector(".close");
+      if (btnClose) {
+        btnClose.addEventListener("click", cerrarModalCrear);
+        btnClose.addEventListener("click", cerrarModalEdit);
+      }
       function cerrarModalEdit() {
         const modal = document.getElementById("modal-editar");
         if (modal) modal.classList.remove("activo");
@@ -418,7 +537,11 @@
         const modal = document.getElementById("modal-crear");
         if (modal) modal.classList.remove("activo");
       }
-      document.addEventListener("DOMContentLoaded", () => { inicializarEventos(); });
+      document.addEventListener("DOMContentLoaded", () => { 
+        inicializarEventos(); 
+        inicializarEventosEventos();
+      
+      });
 
     </script>
     <!-- Bootstrap JS -->

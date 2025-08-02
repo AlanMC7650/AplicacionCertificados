@@ -2,6 +2,17 @@ import psycopg2
 from app.db_c import get_connection
 
 
+def obtener_cursos_full():
+    conn = get_connection()  # conecta a la base de datos
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)  # crea un cursor (como el "puente" para hacer consultas)
+    cursor.execute("""SELECT c.*,v.*,u.nombre as NombreU, u.apellido as ApellidoU 
+        FROM cursos c JOIN usuarios u ON c.id_ponente = u.id_usuario
+        JOIN version_evento v ON c.id_version = v.id_version
+        """)  # consulta SQL directa
+    rows = cursor.fetchall()  # obtiene todos los resultados en una lista
+    conn.close()  # cierra la conexión
+    return rows  # devuelve los datos a quien haya llamado esta función
+
 def obtener_cursos():
     conn = get_connection()  # conecta a la base de datos
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)  # crea un cursor (como el "puente" para hacer consultas)

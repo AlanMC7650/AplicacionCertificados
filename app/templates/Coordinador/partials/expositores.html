@@ -3,7 +3,7 @@
 <table border="1" cellpadding="10" cellspacing="0">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>N°</th>
             <th>Nombres</th>
             <th>Apellidos</th>
             <th>Email</th>
@@ -16,7 +16,8 @@
     <tbody>
         {% for expositor in expositores %}
         <tr>
-            <td>{{ expositor.id_usuario }}</td>
+            <!-- <td>{{ expositor.id_usuario }}</td> -->
+            <td>{{ loop.index }}</td>
             <td>{{ expositor.nombre }}</td>
             <td>{{ expositor.apellido }}</td>
             <td>{{ expositor.email }}</td>

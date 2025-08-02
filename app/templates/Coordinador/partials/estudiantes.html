@@ -3,7 +3,7 @@
 <table border="1" cellpadding="10" cellspacing="0" class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>N°</th>
             <th>Nombres</th>
             <th>Apellidos</th>
             <th>Email</th>
@@ -19,7 +19,8 @@
         {% for estudiante in estudiantes %}
         <tr>
             <!-- <td>{{ estudiante }}</td> -->
-            <td>{{ estudiante.id_usuario }}</td>
+            <!-- <td>{{ estudiante.id_usuario }}</td> -->
+            <td>{{ loop.index }}</td>
             <td>{{ estudiante.nombre }}</td>
             <td>{{ estudiante.apellido }}</td>
             <td>{{ estudiante.email }}</td>
