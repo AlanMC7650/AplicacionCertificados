@@ -3,10 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <title>Curso</title>
-  <link rel="stylesheet" href="/AplicacionCertificados/app/static/css/Estudiante/styleCurso.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="/AplicacionCertificados/app/static/css/Estudiante/styleCurso.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap" rel="stylesheet"> -->
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/Estudiante/styleCurso.css') }}">
+<script src="{{ url_for('static', filename='js/controlAsistencia.js') }}"></script>
+
 </head>
 <body>
+
+<!-- Lista de cursos inscritos del estudiante -->
+
+<h2>Mis Cursos Inscritos</h2>
+<ul class="lista-cursos">
+  {% for curso in cursos %}
+  <li>
+    <strong>{{ curso.nombre }}</strong><br>
+    Descripción: {{ curso.descripcion }}<br>
+    Modalidad: {{ curso.modalidad }}
+  </li>
+{% else %}
+  <li>No estás inscrito en ningún curso.</li>
+{% endfor %}
+
+</ul>
+
+
   <div class="curso-contenido">
     <label for="curso">Curso: </label>
   
