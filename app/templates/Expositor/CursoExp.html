@@ -12,13 +12,16 @@
     <div class="encabezado-curso">
       <input type="text" placeholder="{{nombre_curso}}" disabled>
       <button class="btn-qr">Escanear QR</button>
+      
+      <p>{{descripcion}}</p>
     </div>
     <div class="tabla-container">
       <table>
         <thead>
           <tr>
             <th>Nro</th>
-            <th>Estudiante</th>
+            <th>Apellidos</th>
+            <th>Nombres</th>
             <th>Origen</th>
             <th>Correo</th>            
           </tr>
@@ -27,7 +30,8 @@
           {% for estudiante in estudiantes %}          
           <tr>            
             <td>{{estudiante.numero}}</td>
-            <td>{{estudiante.apellido}} {{estudiante.nombre}}</td>
+            <td>{{estudiante.apellido}}</td>
+            <td>{{estudiante.nombre}}</td>
             <td>{{estudiante.pais_origen}}</td>
             <td>{{estudiante.email}}</td>                                    
           </tr>

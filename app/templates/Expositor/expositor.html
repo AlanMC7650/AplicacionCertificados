@@ -8,14 +8,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="top-bar">
-   <!-- <div class="back-arrow">←</div>   --> 
+  <div class="top-bar">   
     <img src="{{ url_for('static', filename='images/TWAS_Logo.webp') }}" alt="unesco_logo" class="logo">
 
     <h1>GESTIÓN EXPOSITOR</h1>
     <div class="top-actions">
-      <form action="/auth/logout" method="POST">        
-        <button>Expositor</button>
+      <form action="/auth/logout" method="POST">                
         <button type="submit">Cerrar Sesion</button>
       </form>
     </div>    
@@ -35,7 +33,7 @@
     </aside>
 
     <main class="contenido">
-      <iframe name="contenido-frame" id="contenido-frame"></iframe>
+      <iframe name="contenido-frame" id="contenido-frame" src="{{ url_for('ponente.datos') }}"></iframe>
     </main>
   </div>
 </body>

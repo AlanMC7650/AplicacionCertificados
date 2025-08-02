@@ -13,7 +13,8 @@
         <thead>
           <tr>
             <th>Nro</th>
-            <th>Estudiante</th>
+            <th>Apellidos</th>
+            <th>Nombres</th>
             <th>Asistencias</th>
             <th>Nota Promedio</th>
             <th>Estado</th>
@@ -23,7 +24,8 @@
           {% for estudiante in estudiantes %}
             <tr data-id-inscripcion="{{ estudiante.id_inscripcion }}">            
               <td>{{estudiante.nro}}</td>
-              <td>{{estudiante.apellido}} {{estudiante.nombre}}</td>
+              <td>{{estudiante.apellido}}</td>
+              <td>{{estudiante.nombre}}</td>
               <td>{{estudiante.total_asistencias}}</td>
               <td>
                 <input 

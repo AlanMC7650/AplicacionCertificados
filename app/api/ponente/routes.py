@@ -34,8 +34,8 @@ def curso():
     if not id_curso:
         return "No se encontró un curso para este usuario", 404    
     rows = obtener_estudiantes_inscritos(id_curso)
-    nombre_curso = obtener_nombre_curso(current_user.id_usuario)      
-    return render_template("Expositor/CursoExp.html", estudiantes=rows, nombre_curso=nombre_curso)
+    nombre_curso, descripcion = obtener_nombre_curso(current_user.id_usuario)      
+    return render_template("Expositor/CursoExp.html", estudiantes=rows, nombre_curso=nombre_curso, descripcion=descripcion)
 
 
 @ponente_bp.route("/calificacion")
