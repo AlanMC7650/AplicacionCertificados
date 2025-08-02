@@ -21,10 +21,12 @@ body {
   padding: 10px 30px;
   border-bottom: 2px solid #0070c0;
   position: relative;
+  flex-wrap: wrap;
 }
 
 .top-bar .logo {
-  width: 70px;
+  height: 80px;
+  width: 150px;
 }
 
 .top-bar .logo-der {
@@ -36,15 +38,50 @@ body {
 .top-bar h1 {
   color: #0070c0;
   font-weight: 500;
+  margin: 0 auto;
+  font-family: 'Montserrat Alternates', sans-serif;
 }
 
 .top-actions button {
   margin: 0 5px;
-  padding: 5px 20px;
+  padding: 6px 20px;
   border: 1px solid #0070c0;
   background: white;
   color: #0070c0;
   cursor: pointer;
+  font-family: 'Montserrat Alternates', sans-serif;
+  font-weight: 600;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ANIMACIÓN HOVER */
+.top-actions button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #0070c0;
+  z-index: 0;
+  transition: left 0.3s ease;
+}
+
+.top-actions button:hover::after {
+  left: 0;
+}
+
+.top-actions button:hover {
+  color: white;
+  z-index: 1;
+}
+
+.top-actions button span {
+  position: relative;
+  z-index: 2;
 }
 
 .main {
@@ -99,4 +136,108 @@ iframe#contenido-frame {
   font-size: 24px;
   color: #006ab0;
   margin-bottom: 20px;
+}
+/*******************************************/
+/* ========== Responsivo========== */
+/*******************************************/
+@media (max-width: 768px) {
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .top-bar .logo {
+    height: 56px;
+    width: auto;
+  }
+
+  .top-bar .logo-der {
+    position: static;   /* deja de ser absoluta para no superponerse */
+    width: 40px;
+  }
+
+  .top-bar h1,
+  .titulo {
+    font-size: 28px;
+    margin: 0;
+  }
+
+  .top-actions {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+  }
+
+  .top-actions button {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+
+  .main {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 2px solid #0070c0;
+    padding: 16px;
+    text-align: left;
+  }
+
+  .sidebar ul {
+    margin-top: 10px;
+  }
+
+  .sidebar li a {
+    padding: 10px 12px;
+  }
+
+  .contenido {
+    padding: 16px;
+  }
+
+  iframe#contenido-frame {
+    height: 60vh; /* alto cómodo en móvil */
+  }
+
+  .back-arrow {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-bar .logo {
+    height: 44px;
+  }
+
+  .top-bar h1,
+  .titulo {
+    font-size: 22px;
+  }
+
+  .top-actions button {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  .sidebar {
+    padding: 12px;
+  }
+
+  .sidebar h2,
+  .sidebar h3,
+  .sidebar p {
+    font-size: 16px;
+  }
+
+  .sidebar li a {
+    font-size: 14px;
+  }
 }

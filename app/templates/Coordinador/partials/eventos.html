@@ -1,35 +1,39 @@
 <h3>Gestión de Eventos</h3>
 
 <table border="1" cellpadding="10" cellspacing="0">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-<!--        <th>version</th>
-            <th>Inicio</th>
-            <th>Fin</th>
-            <th>Lugar</th>            
-            <th>Acciones</th> -->
-        </tr>
-    </thead>
-    <tbody>
-        {% for evento in eventos %}        
-        <tr>
-            <td>{{ evento.id_evento}}</td>
-            <td>{{ evento.nombre_base}}</td>
-            <!-- <td>{{ evento.version }}</td>
-            <td>{{ evento.inicio }}</td>
-            <td>{{ evento.fin }}</td>
-            <td>{{ evento.lugar }}</td>
-             -->
-             <td>
-                <button onclick="">Editar</button>
-                <button onclick="">Eliminar</button>            
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <!--
+      <th>Versión</th>
+      <th>Inicio</th>
+      <th>Fin</th>
+      <th>Lugar</th>
+      -->
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for evento in eventos %}        
+    <tr>
+      <td data-label="ID">{{ evento.id_evento }}</td>
+      <td data-label="Nombre">{{ evento.nombre_base }}</td>
+      <!--
+      <td data-label="Versión">{{ evento.version }}</td>
+      <td data-label="Inicio">{{ evento.inicio }}</td>
+      <td data-label="Fin">{{ evento.fin }}</td>
+      <td data-label="Lugar">{{ evento.lugar }}</td>
+      -->
+      <td data-label="Acciones">
+        <button onclick="">Editar</button>
+        <button onclick="">Eliminar</button>            
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
+
 
 <br>
 

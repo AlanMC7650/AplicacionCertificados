@@ -63,3 +63,67 @@ th, td {
 th {
   background-color: #f2f8ff;
 }
+
+
+@media (max-width: 768px) {
+  .titulo {
+    font-size: 28px;
+  }
+
+  .subtitulo {
+    font-size: 18px;
+  }
+
+  .texto {
+    font-size: 13px;
+  }
+
+  .curso-container {
+    padding: 15px;
+  }
+
+  .encabezado-curso {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .encabezado-curso input {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .btn-qr {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .titulo {
+    font-size: 22px;
+  }
+
+  .encabezado-curso input,
+  .btn-qr {
+    font-size: 13px;
+  }
+
+  table {
+    font-size: 13px;
+  }
+
+  th, td {
+    padding: 6px;
+  }
+}
