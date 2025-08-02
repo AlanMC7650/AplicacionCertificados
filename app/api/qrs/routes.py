@@ -9,12 +9,10 @@ from app.api.auth.utils import role_required
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../static/qrs"))
 
-
 @qrs_bp.route("/<path:filename>", methods=["GET"])
 @login_required
 def serve_qr(filename):
     return send_from_directory(BASE_DIR, filename)
-
 
 @qrs_bp.route("/generate_qr/<int:id_usuario>", methods=["GET"])
 @login_required

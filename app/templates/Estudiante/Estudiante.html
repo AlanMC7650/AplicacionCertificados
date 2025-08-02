@@ -8,6 +8,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+
+<!-- DEBUG -->
+<!-- <p>{{ url_for('auth.cursos_estudiante') }}</p> -->
+
+
+
   <!-- Top bar -->
   <div class="top-bar">
   <div class="logo-back">
@@ -42,7 +48,19 @@
       <p>Funciones</p>
       <ul class="menu">
         <li><a href="#" class="activo" onclick="mostrarSeccion('datos')">Datos Personales</a></li>
-        <li><a href="#" onclick="mostrarIframe('Curso.html', this)">Curso</a></li>
+        <!-- <li><a href="#" onclick="mostrarIframe('Curso.html', this)">Curso</a></li>     de momento agrego otro similar abajo para no arruinar esta linea xd-->
+
+      <li>
+  <a href="#" onclick="mostrarIframe('{{ url_for('auth.cursos_estudiante') }}', this)">Curso</a> 
+
+  <!-- la wbda de aca arriba dice tener un error, pero no tiene ningno, el programa funciona de todas formas -->
+</li>
+
+
+
+
+
+
       </ul>
     </aside>
 
@@ -66,7 +84,11 @@
 
           </div>
           <div class="qr-container">
-            <img src="/static/images/cuere.png" class="qr-img" alt="QR Estudiante" />
+            <!-- <img src="/static/images/cuere.png" class="qr-img" alt="QR Estudiante" /> -->
+
+<img id="qr-estudiante" class="qr-img" alt="QR Estudiante" />
+
+
           </div>
         </div>
       </div>
@@ -77,5 +99,30 @@
   </div>
 
   <script src="/static/js/estudianteControl.js"></script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const estudianteId = "{{ estudiante[0] }}"; 
+    const imgQr = document.getElementById("qr-estudiante");
+
+    try {
+      const res = await fetch(`/qrs/generate_qr/${estudianteId}`);
+      const data = await res.json();
+
+      if (res.ok) {
+        imgQr.src = data.path;
+        imgQr.alt = "QR del estudiante";
+      } else {
+        imgQr.alt = "No se pudo generar el QR";
+        console.error(data.error);
+      }
+    } catch (error) {
+      imgQr.alt = "Error al cargar el QR";
+      console.error("Error:", error);
+    }
+  });
+</script>
+
+
 </body>
 </html>
