@@ -76,15 +76,22 @@ def cursos_estudiante():
     from app.controllers import i_controller as ins
     from app.controllers import c_controller as cursos
     
+
     id_usuario = current_user.id_usuario
     inscripciones = ins.obtener_inscripciones_por_usuario(id_usuario)
-
+    print("📋 Inscripciones:", inscripciones)
     # Extrae los cursos desde las inscripciones
     lista_cursos = []
+    print("🧪 Cursos encontrados:", lista_cursos)
     for insc in inscripciones:
-        id_curso = insc[2]
-        curso = cursos.obtener_curso(id_curso)
-        lista_cursos.append(curso)
+        curso_dict = {
+            "nombre": insc[2],
+            "descripcion": insc[3],
+            "modalidad": insc[4]
+        }
+        lista_cursos.append(curso_dict)
+
+
 
     return render_template("Estudiante/Curso.html", cursos=lista_cursos)
 
