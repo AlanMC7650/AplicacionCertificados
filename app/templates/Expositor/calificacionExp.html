@@ -12,32 +12,29 @@
       <table>
         <thead>
           <tr>
-            <th>Estudiantes</th>
-            <th>Identificador</th>
+            <th>Nro</th>
+            <th>Estudiante</th>
+            <th>Asistencias</th>
             <th>Nota Promedio</th>
             <th>Estado</th>
           </tr>
         </thead>
         <tbody>
-          <!-- Filas de ejemplo -->
-          <tr>
-            <td>Juan Pérez</td>
-            <td>987654</td>
-            <td><input type="number" min="0" max="100" value="85" onchange="actualizarEstado(this)"></td>
-            <td class="estado"></td>
-          </tr>
-          <tr>
-            <td>Laura Díaz</td>
-            <td>123456</td>
-            <td><input type="number" min="0" max="100" value="65" onchange="actualizarEstado(this)"></td>
-            <td class="estado"></td>
-          </tr>
-          <tr>
-            <td>Pedro Sánchez</td>
-            <td>741852</td>
-            <td><input type="number" min="0" max="100" value="20" onchange="actualizarEstado(this)"></td>
-            <td class="estado"></td>
-          </tr>
+          {% for estudiante in estudiantes %}
+            <tr data-id-inscripcion="{{ estudiante.id_inscripcion }}">            
+              <td>{{estudiante.nro}}</td>
+              <td>{{estudiante.apellido}} {{estudiante.nombre}}</td>
+              <td>{{estudiante.total_asistencias}}</td>
+              <td>
+                <input 
+                  type="number" 
+                  min="0" max="100" 
+                  value="{{ estudiante.nota_final }}" 
+                  onchange="confirmarCambio(this)">
+              </td>   
+              <td class="estado"></td>
+            </tr>                    
+          {% endfor %}
         </tbody>
       </table>
     </div>
@@ -46,9 +43,17 @@
   <script>
     function actualizarEstado(input) {
       const nota = parseFloat(input.value);
+      const tr = input.closest("tr");
+
+      const tdAsistencias = tr.querySelector("td:nth-child(3)"); // tercera columna: asistencias
+      const asistencias = parseInt(tdAsistencias.textContent);
+
       const tdEstado = input.parentElement.nextElementSibling;
 
-      if (nota >= 71) {
+      if (asistencias < 1) {
+        tdEstado.textContent = "Abandono";
+        tdEstado.className = "estado abandono";
+      } else if (nota >= 71) {
         tdEstado.textContent = "Aprobado";
         tdEstado.className = "estado aprobado";
       } else if (nota >= 51) {
@@ -65,5 +70,42 @@
       document.querySelectorAll("input[type='number']").forEach(input => actualizarEstado(input));
     };
   </script>
+  <script>
+    function confirmarCambio(input) {
+      const nuevaNota = parseFloat(input.value);
+      const tr = input.closest("tr");
+      const id_inscripcion = tr.getAttribute("data-id-inscripcion");
+
+      if (confirm(`¿Deseas cambiar la nota a ${nuevaNota}?`)) {
+        fetch("/ponente/actualizar_nota", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            id_inscripcion: id_inscripcion,
+            nota_final: nuevaNota
+          })
+        })
+        .then(response => {
+          if (!response.ok) throw new Error("Error en la actualización");
+          return response.json();
+        })
+        .then(data => {
+          alert("Nota actualizada");
+          actualizarEstado(input);
+          input.defaultValue = nuevaNota;  // Actualiza el valor base
+        })
+        .catch(error => {
+          alert("Error al actualizar la nota.");
+          input.value = input.defaultValue; // Revierte si hay error
+          console.error(error);
+        });
+      } else {
+        input.value = input.defaultValue; // Revertir si cancela
+      }
+    }
+  </script>
+
 </body>
 </html>
