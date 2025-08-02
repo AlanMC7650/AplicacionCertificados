@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Curso</title>
-  <link rel="stylesheet" href="/AplicacionCertificados/app/static/css/Estudiante/styleCurso.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/Estudiante/styleCurso.css') }}">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -48,6 +48,6 @@
     </table>
   </div>
 
-  <script src="/AplicacionCertificados/app/static/js/controlAsistencia.js"></script>
+<script src="{{ url_for('static', filename='js/controlAsistencia.js') }}"></script>
 </body>
 </html>

@@ -9,21 +9,21 @@
 </head>
 <body>
   <!-- Top bar -->
-  <div class="top-bar">
+ <div class="top-bar">
   <div class="logo-back">
-    <img class="logo" src="../../static/images/TWAS_Logo.webp" />
+    <img class="logo" src="{{ url_for('static', filename='images/TWAS_Logo.webp') }}"/>
   </div>
 
   <h1 class="titulo">GESTION ESTUDIANTE</h1>
 
   <div class="acciones-derecha">
     <div class="top-actions">
-      <form action="/auth/logout" method="POST">
-        <button type="button">Estudiante</button>
-        <button type="submit">Cerrar Sesión</button>
-      </form>  
-    </div>    
-    
+      <button onclick="location.href='/estudiante'">Estudiante</button>
+      <button onclick="location.href='/auth/logout'">Cerrar Sesión</button>
+    </div>
+    <div class="logou">
+      <img class="logo-umsa" src="{{ url_for('static', filename='images/umsalogo.webp') }}" alt="Logo UMSA"/>
+    </div>
   </div>
 </div>
 
@@ -76,6 +76,7 @@
     </main>
   </div>
 
-  <script src="/static/js/estudianteControl.js"></script>
+  <script src="{{ url_for('static', filename='js/estudianteControl.js') }}"></script>
+
 </body>
 </html>

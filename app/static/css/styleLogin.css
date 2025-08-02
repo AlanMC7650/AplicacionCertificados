@@ -40,12 +40,11 @@ body {
   width: 60%;
 }
 
-.back-arrow {
-  font-size: 34px;
-  color: #006ab0;
-  margin-bottom: 20px;
-  
+.back-arrow img {       /*esto para las flechas izqui zurdas hdp*/
+  width: 30px;
+  height: auto;
 }
+
 
 h1 {
   font-size: 28px;

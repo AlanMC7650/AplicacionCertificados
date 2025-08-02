@@ -4,9 +4,9 @@ from werkzeug.security import generate_password_hash
 
 # Datos de conexión a la base de datos PostgreSQL
 conn = psycopg2.connect(
-    dbname="unesco",
+    dbname="certificadosdb",
     user="postgres",
-    password="13694538Lp",    
+    password="123456",    
     host="localhost",
     port="5432",
 )
@@ -44,12 +44,12 @@ def insertar_usuario(
 # Ejemplo de uso
 if __name__ == "__main__":
     insertar_usuario(
-        nombre="Michael",
-        apellido="Quispe",
-        email="mquispel@fcpn.edu.bo",
-        contrasena_plana="coordinador",
-        documento="coordinador",
+        nombre="alan",
+        apellido="maldonado",
+        email="usuario2@ejemplo.com",
+        contrasena_plana="ponente",
+        documento="ponente",
         pais_origen="Bolivia",
-        id_rol=1,
+        id_rol= 3 #1 coordinador or 3 estudiante or 2 ponente 4 all 
     )
     conn.close()

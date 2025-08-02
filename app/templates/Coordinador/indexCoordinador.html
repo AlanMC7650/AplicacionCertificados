@@ -14,7 +14,7 @@
 <header>
   <div class="top-bar">
     <div class="logo-back">
-      <img class="logo" src="../../static/images/TWAS_Logo.webp" />
+      <img class="logo" src="{{ url_for('static', filename='images/TWAS_Logo.webp') }}" />
     </div>
     <h1 class="titulo">GESTION COORDINADOR</h1>
     <div class="acciones-derecha">
@@ -25,29 +25,10 @@
         </form>
       </div>
       <div class="logou">
-        <img class="logo-umsa" src="../../static/images/umsalogo.webp" />
+        <img class="logo-umsa" src="{{ url_for('static', filename='images/umsalogo.webp') }}" alt="Logo UMSA" />
       </div>
     </div>
   </div>
-
-  <nav class="navbar">
-    <img
-      src="{{ url_for('static', filename='images/logo-UNESCO.png') }}"
-      alt="UNESCO Logo"
-      class="logo"
-    />
-    <ul>
-      <li><a href="#">Inicio</a></li>
-      <li><a href="#">Contactos</a></li>
-      <li><a href="#">Sobre Nosotros</a></li>
-      <li><a href="#">Coordinador</a></li>
-    </ul>
-    <img
-      src="{{ url_for('static', filename='images/umsalogo.png') }}"
-      alt="Logo Derecho"
-      class="logo"
-    />
-  </nav>
 </header>
 
     <main>
