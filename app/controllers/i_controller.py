@@ -40,3 +40,18 @@ def eliminar_inscripcion(id_inscripcion):
     except psycopg2.Error as e:
         conn.rollback()
         return {"status": "error", "mensaje": "Error al eliminar: " + str(e)}
+
+#funcion agregada 31-07-2025 9:52 pm para el funcionamiento de la vista cursos en el frontend.
+def obtener_inscripciones_por_usuario(id_usuario):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT i.id_inscripcion, c.id_curso, c.nombre, c.descripcion, c.modalidad, ve.nombre_version, ve.anio
+        FROM inscripciones i
+        JOIN cursos c ON i.id_curso = c.id_curso
+        JOIN version_evento ve ON c.id_version = ve.id_version
+        WHERE i.id_usuario = %s
+    """, (id_usuario,))
+    rows = cursor.fetchall()
+    conn.close()
+    return rows

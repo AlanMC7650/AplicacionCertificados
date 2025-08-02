@@ -15,7 +15,9 @@ function mostrarSeccion(seccion) {
 function mostrarIframe(url, elemento) {
   document.getElementById('seccion-datos').style.display = 'none';
   const iframe = document.getElementById('seccion-iframe');
-  iframe.src = `/templates/Estudiante/${url}`;
+  // iframe.src = `/templates/Estudiante/${url}`;
+  iframe.src = url;
+
   iframe.style.display = 'block';
 
   const enlaces = document.querySelectorAll('.menu a');
