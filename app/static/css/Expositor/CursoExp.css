@@ -4,7 +4,15 @@ body {
   margin: 0;
   padding: 0;
 }
-
+.titulo{
+  font-size: 48px;
+}
+.subtitulo{
+  font-size: 24px;
+}
+.texto{
+  font-size: 14px;
+}
 .curso-container {
   padding: 20px;
 }

@@ -9,8 +9,9 @@
 </head>
 <body>
   <div class="top-bar">
-    <div class="back-arrow">←</div>    
-    <img src="{{url_for('static', filename='images/logo-unesco.png')}}" alt="unesco_logo" class="logo">
+   <!-- <div class="back-arrow">←</div>   --> 
+    <img src="{{ url_for('static', filename='images/TWAS_Logo.webp') }}" alt="unesco_logo" class="logo">
+
     <h1>GESTIÓN EXPOSITOR</h1>
     <div class="top-actions">
       <form action="/auth/logout" method="POST">        
