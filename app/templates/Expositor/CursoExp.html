@@ -11,9 +11,11 @@
   <div class="curso-container">
     <div class="encabezado-curso">
       <input type="text" placeholder="{{nombre_curso}}" disabled>
-      <button class="btn-qr">Escanear QR</button>
-      
+      <form action="/scan/scanning" method="GET">        
+        <button class="btn-qr" type="submit">Escanear QR</button>
+      </form>
       <p>{{descripcion}}</p>
+      <button class="btn-qr">Escanear QR</button>
     </div>
     <div class="tabla-container">
       <table>

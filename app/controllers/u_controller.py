@@ -1,22 +1,30 @@
 import psycopg2
 from app.db_c import get_connection
 from werkzeug.security import generate_password_hash
+
+
 # --- Usuarios General
 def obtener_usuarios(rol):
     conn = get_connection()  # conecta a la base de datos
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    cursor.execute("SELECT * FROM Usuarios WHERE id_rol = %s ORDER BY id_usuario ASC;",(rol,))  # consulta SQL directa
+    cursor.execute(
+        "SELECT * FROM Usuarios WHERE id_rol = %s", (rol,)
+    )  # consulta SQL directa
     rows = cursor.fetchall()  # obtiene todos los resultados en una lista
     conn.close()  # cierra la conexión
     return rows  # devuelve los datos a quien haya llamado esta función
 
-def obtener_usuarios_id(rol,id):
+
+def obtener_usuarios_id(rol, id):
     conn = get_connection()  # conecta a la base de datos
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    cursor.execute("SELECT * FROM Usuarios WHERE id_rol = %s and id_usuario=%s",(rol,id))  # consulta SQL directa
+    cursor.execute(
+        "SELECT * FROM Usuarios WHERE id_rol = %s and id_usuario=%s", (rol, id)
+    )  # consulta SQL directa
     rows = cursor.fetchall()  # obtiene todos los resultados en una lista
     conn.close()  # cierra la conexión
     return rows  # devuelve los datos a quien haya llamado esta función
+
 
 # --- Usuarios Estudiantes
 def obtener_estudiantes():
@@ -27,6 +35,7 @@ def obtener_estudiantes():
     conn.close()  # cierra la conexión
     return rows  # devuelve los datos a quien haya llamado esta función
 
+
 def obtener_estudiante(id_usuario):
     conn = get_connection()
     cursor = conn.cursor()
@@ -34,6 +43,7 @@ def obtener_estudiante(id_usuario):
     row = cursor.fetchone()
     conn.close()
     return row
+
 
 def actualizar_estudiante(
     id_usuario, nombre, apellido, email, contrasena, documento, pais_origen, id_rol
@@ -54,12 +64,22 @@ def actualizar_estudiante(
             WHERE id_usuario = %s
         """
         hashed = generate_password_hash(contrasena)
-        values = [nombre, apellido, email, hashed, documento, pais_origen, id_rol, id_usuario]
+        values = [
+            nombre,
+            apellido,
+            email,
+            hashed,
+            documento,
+            pais_origen,
+            id_rol,
+            id_usuario,
+        ]
     conn = get_connection()
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cursor.execute(query, values)
     conn.commit()
     conn.close()
+
 
 def crear_estudiante(nombre, apellido, email, contrasena, documento, pais_origen):
     conn = get_connection()
@@ -72,6 +92,7 @@ def crear_estudiante(nombre, apellido, email, contrasena, documento, pais_origen
     )
     conn.commit()
     conn.close()
+
 
 def crear_estudiantes_bulk(lista_estudiantes):
     conn = None
@@ -92,7 +113,7 @@ def crear_estudiantes_bulk(lista_estudiantes):
                     estudiante["contrasena"],
                     estudiante["documento"],
                     estudiante["pais_origen"],
-                    id_rol
+                    id_rol,
                 ),
             )
         conn.commit()
@@ -104,6 +125,7 @@ def crear_estudiantes_bulk(lista_estudiantes):
     finally:
         if conn:
             conn.close()
+
 
 def eliminar_estudiante(id_usuario):
     try:
@@ -200,6 +222,7 @@ def eliminar_inscripcion(id_inscripcion):
 #--------------
 # --- Usuarios Expositor
 
+
 def actualizar_ponente(
     id_usuario, nombre, apellido, email, contrasena, documento, pais_origen, id_rol
 ):
@@ -219,12 +242,22 @@ def actualizar_ponente(
             WHERE id_usuario = %s
         """
         hashed = generate_password_hash(contrasena)
-        values = [nombre, apellido, email, hashed, documento, pais_origen, id_rol, id_usuario]
+        values = [
+            nombre,
+            apellido,
+            email,
+            hashed,
+            documento,
+            pais_origen,
+            id_rol,
+            id_usuario,
+        ]
     conn = get_connection()
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cursor.execute(query, values)
     conn.commit()
     conn.close()
+
 
 def crear_ponente(nombre, apellido, email, contrasena, documento, pais_origen):
     conn = get_connection()
@@ -237,6 +270,7 @@ def crear_ponente(nombre, apellido, email, contrasena, documento, pais_origen):
     )
     conn.commit()
     conn.close()
+
 
 def crear_ponentes_bulk(lista_expositores):
     conn = None
@@ -257,7 +291,7 @@ def crear_ponentes_bulk(lista_expositores):
                     expositor["contrasena"],
                     expositor["documento"],
                     expositor["pais_origen"],
-                    id_rol
+                    id_rol,
                 ),
             )
         conn.commit()
@@ -269,6 +303,7 @@ def crear_ponentes_bulk(lista_expositores):
     finally:
         if conn:
             conn.close()
+
 
 def eliminar_ponente(id_usuario):
     try:

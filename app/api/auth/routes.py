@@ -45,6 +45,7 @@ def login():
 @role_required(1, 2, 3, 4)
 def dashboard():
     from app.controllers import u_controller as est
+
     user_data = est.obtener_estudiante(current_user.id_usuario)
     if current_user.id_rol == 1:
         return render_template(
@@ -59,15 +60,14 @@ def dashboard():
             apellidos=current_user.apellido,
         )
     if current_user.id_rol == 3:
-        return render_template(
-            "Estudiante/Estudiante.html",
-        estudiante=user_data
+        return redirect(
+            url_for("qrs.perfil_estudiante", id_usuario=current_user.id_usuario)
         )
     return "Inicio de sesión como desarrollador tienes acceso a todos los links"
 
 
+# vista creada para obtener cursos inscritos del estudiante 31/04/2025 10:05 pm
 
-#vista creada para obtener cursos inscritos del estudiante 31/04/2025 10:05 pm
 
 @auth_bp.route("/estudiante/cursos")
 @login_required
@@ -75,27 +75,16 @@ def dashboard():
 def cursos_estudiante():
     from app.controllers import i_controller as ins
     from app.controllers import c_controller as cursos
-    
 
     id_usuario = current_user.id_usuario
     inscripciones = ins.obtener_inscripciones_por_usuario(id_usuario)
-    print("📋 Inscripciones:", inscripciones)
     # Extrae los cursos desde las inscripciones
     lista_cursos = []
-    print("🧪 Cursos encontrados:", lista_cursos)
     for insc in inscripciones:
-        curso_dict = {
-            "nombre": insc[2],
-            "descripcion": insc[3],
-            "modalidad": insc[4]
-        }
+        curso_dict = {"nombre": insc[2], "descripcion": insc[3], "modalidad": insc[4]}
         lista_cursos.append(curso_dict)
 
-
-
     return render_template("Estudiante/Curso.html", cursos=lista_cursos)
-
-
 
 
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])
@@ -106,8 +95,10 @@ def forgot_password():
             user = Usuario.query.filter_by(email=email).first()
             if user:
                 send_reset_email(user)
-            else: print('No se encontró un usuario')
-        else: print('No se encontró el email.')    
+            else:
+                print("No se encontró un usuario")
+        else:
+            print("No se encontró el email.")
         flash(
             "Si el correo existe, se enviará un enlace para restablecer la contraseña.",
             "info",

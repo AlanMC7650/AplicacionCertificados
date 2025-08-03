@@ -81,11 +81,14 @@
 
           </div>
           <div class="qr-container">
-            <!-- <img src="/static/images/cuere.png" class="qr-img" alt="QR Estudiante" /> -->
-
-<img id="qr-estudiante" class="qr-img" alt="QR Estudiante" />
-
-
+            {% if qr_path %}
+              <img src="{{ qr_path }}" id="qr-estudiante" class="qr-img" alt="QR Estudiante" />
+            {% else %}
+              <p>No se ha generado un código QR para este estudiante.</p>
+              <form method="GET" action="{{ url_for('qrs.generate_qr_by_id', id_usuario=estudiante[0]) }}">
+                <button type="submit" class="btn-generar-qr">Generar QR</button>
+              </form>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -96,29 +99,6 @@
   </div>
 
   <script src="{{ url_for('static', filename='js/estudianteControl.js') }}"></script>
-
-  <script>
-  document.addEventListener("DOMContentLoaded", async () => {
-    const estudianteId = "{{ estudiante[0] }}"; 
-    const imgQr = document.getElementById("qr-estudiante");
-
-    try {
-      const res = await fetch(`/qrs/generate_qr/${estudianteId}`);
-      const data = await res.json();
-
-      if (res.ok) {
-        imgQr.src = data.path;
-        imgQr.alt = "QR del estudiante";
-      } else {
-        imgQr.alt = "No se pudo generar el QR";
-        console.error(data.error);
-      }
-    } catch (error) {
-      imgQr.alt = "Error al cargar el QR";
-      console.error("Error:", error);
-    }
-  });
-</script>
 
 </body>
 </html>
