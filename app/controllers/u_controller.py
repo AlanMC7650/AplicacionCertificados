@@ -330,11 +330,10 @@ def quitar_curso_a_ponente(id_curso):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        UPDATE cursos SET id_ponente = NULL WHERE id_curso = %s
+        UPDATE cursos SET id_ponente = 1 WHERE id_curso = %s
     """, (id_curso,))
     conn.commit()
     cursor.close()
     conn.close()
-    return jsonify({'message': 'Curso desasignado con éxito'})
 
 # ------------------------

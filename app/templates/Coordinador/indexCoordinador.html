@@ -50,7 +50,7 @@
         </div>
 
         <!-- Contenido -->
-        <section id="contenido" >
+        <section id="contenido">
           <!-- Aquí se mostrará el CRUD correspondiente -->
         </section>
       </div>
@@ -300,25 +300,67 @@
             .then(([dictados,disponibles])=>{
               // console.log(dictados);
               // console.log(disponibles);
-
-
-
-              const tbody = document.querySelector('#tabla-materias tbody');
+              const tbody = document.querySelector('#tabla-cursos-exp tbody');
                 tbody.innerHTML = '';
-                data.materias.forEach(m => {
-                  const tr = document.createElement('tr');
-                  tr.innerHTML = `
-                    <td>${m.nombre_curso}</td>
-                    <td>${m.nota_final ?? '–'}</td>
-                    <td>
-                      <button class="btn btn-danger btn-sm del-materia" data-id_insc="${m.id_inscripcion}">
-                        Quitar
-                      </button>
-                    </td>`;
-                  tbody.appendChild(tr);
+                if (dictados.length === 0) {
+                  tbody.innerHTML = `<tr><td colspan="2">No tiene cursos asignados.</td></tr>`;
+                } else {
+                  dictados.forEach(c => {
+                    const fila = document.createElement('tr');
+                    fila.innerHTML = `
+                      <td>${c.nombre} - ${c.descripcion}</td>
+                      <td><button class="btn btn-sm btn-danger del-exp-curso" data-id_curso="${c.id_curso}">Quitar</button></td>
+                    `;
+                    tbody.appendChild(fila);
+                  });
+                }
+
+                // Poblar el select de cursos disponibles
+                const select = document.getElementById('select-curso-exp');
+                select.innerHTML = '<option value="">Selecciona un curso...</option>';
+                disponibles.forEach(c => {
+                  const opt = document.createElement('option');
+                  opt.value = c.id_curso;
+                  opt.textContent = c.nombre;
+                  select.appendChild(opt);
                 });
 
-              document.getElementById('modal-info-curso').classList.add('activo');
+                // Quitar curso
+                document.querySelectorAll('.del-exp-curso').forEach(delBtn => {
+                  delBtn.onclick = () => {
+                    const idCurso = delBtn.dataset.id_curso;
+                    fetch(`/usuarios/coor/expositores/dictados/${idCurso}`, {
+                      method: 'DELETE'
+                    })
+                    .then(r => {
+                      if (!r.ok) throw new Error('Error al quitar curso');
+                      return r.json();
+                    })
+                    .then(() => btn.click()) // recargar datos
+                    .catch(err => console.error(err));
+                  };
+                });
+                // Agregar nuevo curso
+                const form = document.getElementById('form-agregar-materia-exp');
+                form.onsubmit = e => {
+                  e.preventDefault();
+                  const idCursoNuevo = select.value;
+                  if (!idCursoNuevo) return;
+                  fetch(`/usuarios/coor/expositores/${id}/dictados`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id_curso: idCursoNuevo })
+                  })
+                  .then(r => {
+                    if (!r.ok) throw new Error('Error al asignar curso');
+                    return r.json();
+                  })
+                  .then(() => btn.click()) // recargar datos
+                  .catch(err => console.error(err));
+                };  
+                // Mostrar nombre y modal
+                document.getElementById('nombre').textContent = nombre;
+                document.getElementById('modal-info-curso').classList.add('activo');
             })
             .catch(err => alert("Error al obtener datos del servidor " + err.message));
           }); 

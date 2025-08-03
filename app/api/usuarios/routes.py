@@ -201,13 +201,13 @@ def cursos_disponibles():
 def asignar_dictado(id_u):
     data = request.get_json()
     id_curso = data.get('id_curso')
-    return usu.asignar_curso_a_ponente(id_u, id_curso)
+    usu.asignar_curso_a_ponente(id_u, id_curso)
+    return jsonify({"mensaje": "Curso correctamente asignado"}), 201
 
 @usuario_bp.route('/coor/expositores/dictados/<int:id_curso>', methods=['DELETE'])
 def eliminar_dictado(id_curso):
-    return usu.quitar_curso_a_ponente(id_curso)
-
-
+    usu.quitar_curso_a_ponente(id_curso)
+    return jsonify({"mensaje": "Curso correctamente deasignado"}), 201
 #----------------
 
 
