@@ -1,52 +1,44 @@
 <h3>Gestión de Estudiantes</h3>
 
 <table border="1" cellpadding="10" cellspacing="0" class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombres</th>
-            <th>Apellidos</th>
-            <th>Email</th>
-            <th>Documento</th>
-            <th>País Origen</th>
-            <th>Rol</th>
-            <th>Acciones</th>
-            <!-- <th>Nota</th> -->
-            <!-- <th>Contrasena</th> -->
-        </tr>
-    </thead>
-    <tbody>
-        {% for estudiante in estudiantes %}
-        <tr>
-            <!-- <td>{{ estudiante }}</td> -->
-            <td>{{ estudiante.id_usuario }}</td>
-            <td>{{ estudiante.nombre }}</td>
-            <td>{{ estudiante.apellido }}</td>
-            <td>{{ estudiante.email }}</td>
-            <td>{{ estudiante.documento }}</td>
-            <td>{{ estudiante.pais_origen }}</td>
-            <td>{{ estudiante.id_rol }}</td>
-            <!-- <td>{{ estudiante.cotrasena }}</td> -->
-            <!-- <td>{{ estudiante.certificado }}</td> -->
-            <!-- <td>{{ estudiante.nota }}</td> -->
-            <td>
-                <button class="btn btn-primary edit-btn" data-id="{{ estudiante.id_usuario }}">
-                    Editar
-                </button>
-
-                <button class="btn btn-danger del-btn" data-id="{{ estudiante.id_usuario }}">
-                    Eliminar
-                </button>
-                <button onclick="" class="btn btn-success">Enviar Certificado</button>
-            </td>
-        </tr>
-        {% endfor %}
-
-
-
-
-    </tbody>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombres</th>
+      <th>Apellidos</th>
+      <th>Email</th>
+      <th>Documento</th>
+      <th>País Origen</th>
+      <th>Rol</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for estudiante in estudiantes %}
+    <tr>
+      <td data-label="ID">{{ estudiante.id_usuario }}</td>
+      <td data-label="Nombres">{{ estudiante.nombre }}</td>
+      <td data-label="Apellidos">{{ estudiante.apellido }}</td>
+      <td data-label="Email">{{ estudiante.email }}</td>
+      <td data-label="Documento">{{ estudiante.documento }}</td>
+      <td data-label="País Origen">{{ estudiante.pais_origen }}</td>
+      <td data-label="Rol">{{ estudiante.id_rol }}</td>
+      <td data-label="Acciones">
+        <button class="btn btn-primary edit-btn" data-id="{{ estudiante.id_usuario }}">
+          Editar
+        </button>
+        <button class="btn btn-danger del-btn" data-id="{{ estudiante.id_usuario }}">
+          Eliminar
+        </button>
+        <button onclick="" class="btn btn-success">
+          Enviar Certificado
+        </button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
+
 
 <!--  Modal / Tabla Emergente Actualizar Estudiantes -->
 <div id="modal-editar" class="modal">

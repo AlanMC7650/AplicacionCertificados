@@ -1,44 +1,42 @@
 <h3>Gestión de Expositores</h3>
 
 <table border="1" cellpadding="10" cellspacing="0">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombres</th>
-            <th>Apellidos</th>
-            <th>Email</th>
-            <th>Documento</th>
-            <th>País Origen</th>
-            <th>Rol</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for expositor in expositores %}
-        <tr>
-            <td>{{ expositor.id_usuario }}</td>
-            <td>{{ expositor.nombre }}</td>
-            <td>{{ expositor.apellido }}</td>
-            <td>{{ expositor.email }}</td>
-            <td>{{ expositor.documento }}</td>
-            <td>{{ expositor.pais_origen }}</td>
-            <td>{{ expositor.id_rol }}</td>
-            <!-- <td>{{ expositor.cotrasena }}</td> -->
-            <!-- <td>{{ expositor.certificado }}</td> -->
-            <!-- <td>{{ expositor.curso }}</td> -->
-            <td>
-                <button class="btn btn-primary edit-btn" data-id="{{ expositor.id_usuario }}">
-                    Editar
-                </button>
-                <button class="btn btn-danger del-btn" data-id="{{ expositor.id_usuario }}">
-                    Eliminar
-                </button>
-                <button onclick="">Enviar Certificado</button>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombres</th>
+      <th>Apellidos</th>
+      <th>Email</th>
+      <th>Documento</th>
+      <th>País Origen</th>
+      <th>Rol</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for expositor in expositores %}
+    <tr>
+      <td data-label="ID">{{ expositor.id_usuario }}</td>
+      <td data-label="Nombres">{{ expositor.nombre }}</td>
+      <td data-label="Apellidos">{{ expositor.apellido }}</td>
+      <td data-label="Email">{{ expositor.email }}</td>
+      <td data-label="Documento">{{ expositor.documento }}</td>
+      <td data-label="País Origen">{{ expositor.pais_origen }}</td>
+      <td data-label="Rol">{{ expositor.id_rol }}</td>
+      <td data-label="Acciones">
+        <button class="btn btn-primary edit-btn" data-id="{{ expositor.id_usuario }}">
+          Editar
+        </button>
+        <button class="btn btn-danger del-btn" data-id="{{ expositor.id_usuario }}">
+          Eliminar
+        </button>
+        <button onclick="">Enviar Certificado</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
+
 
 
 <!--  Modal / Tabla Emergente Actualizar Ponentes -->

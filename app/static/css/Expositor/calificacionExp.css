@@ -62,3 +62,57 @@ input[type="number"] {
   color: #a71d2a;
   font-weight: bold;
 }
+
+
+@media (max-width: 768px) {
+  .titulo {
+    font-size: 28px;
+  }
+
+  .subtitulo {
+    font-size: 18px;
+  }
+
+  .texto {
+    font-size: 13px;
+  }
+
+  .calificacion-container {
+    padding: 15px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    max-width: 80px;
+    font-size: 13px;
+    padding: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .titulo {
+    font-size: 22px;
+  }
+
+  table {
+    font-size: 13px;
+  }
+
+  th, td {
+    padding: 6px;
+  }
+
+  input[type="number"] {
+    font-size: 12px;
+    max-width: 60px;
+    padding: 5px;
+  }
+}

@@ -10,19 +10,19 @@
 <body>
   <div class="top-bar">   
     <img src="{{ url_for('static', filename='images/TWAS_Logo.webp') }}" alt="unesco_logo" class="logo">
-
-    <h1>GESTIÓN EXPOSITOR</h1>
-    <div class="top-actions">
-      <form action="/auth/logout" method="POST">                
-        <button type="submit">Cerrar Sesion</button>
-      </form>
-    </div>    
-    <img src="{{url_for('static', filename='images/umsalogo.png')}}" alt="umsa_logo" class="logo-der">
+     <b><h1>GESTIÓN EXPOSITOR</h1></b>
+   <div class="top-actions">
+  <form action="/auth/logout" method="POST">                
+    <button type="submit">Cerrar Sesión</button>
+  </form>
+  <img src="{{ url_for('static', filename='images/umsalogo.webp') }}" alt="umsa_logo" class="logo-der">
+</div>   
+   
   </div>
 
   <div class="main">
     <aside class="sidebar">
-      <h2>BIENVENIDO</h2>
+      <h2 class="subtitulo">BIENVENIDO</h2>
       <h3>{{nombre}}<br>{{apellido}}</h3>
       <p>Funciones</p>
       <ul>

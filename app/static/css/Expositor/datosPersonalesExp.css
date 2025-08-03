@@ -57,3 +57,65 @@ body {
   border: 1px dashed #666;
   padding: 10px;
 }
+
+
+@media (max-width: 768px) {
+  .titulo {
+    font-size: 28px;
+  }
+
+  .subtitulo {
+    font-size: 18px;
+  }
+
+  .texto {
+    font-size: 13px;
+  }
+
+  .contenedor-datos {
+    flex-direction: column;
+    padding: 15px;
+  }
+
+  .formulario {
+    margin-right: 0;
+    gap: 12px;
+  }
+
+  .formulario input {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .foto {
+    margin-top: 20px;
+    justify-content: center;
+  }
+
+  .marco-foto {
+    width: 200px;
+    height: 200px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .titulo {
+    font-size: 22px;
+  }
+
+  .subtitulo {
+    font-size: 16px;
+  }
+
+  .marco-foto {
+    width: 150px;
+    height: 150px;
+    font-size: 12px;
+  }
+
+  .formulario input {
+    font-size: 13px;
+    padding: 6px;
+  }
+}

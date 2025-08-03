@@ -1,34 +1,35 @@
 <h3>Gestión de Cursos</h3>
 
 <table border="1" cellpadding="10" cellspacing="0">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombres</th>
-            <th>Descripcion</th>            
-            <th>Modalidad</th>
-            <th>Version</th>
-            <th>Ponente</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for curso in cursos %}        
-        <tr>
-            <td>{{ curso.id_curso}}</td>
-            <td>{{ curso.nombre }}</td>
-            <td>{{ curso.descripcion }}</td>
-            <td>{{ curso.modalidad }}</td>
-            <td>{{ curso.id_version }}</td>
-            <td>{{ curso.id_ponente }}</td>
-            <td>
-                <button onclick="">Editar</button>
-                <button onclick="">Eliminar</button>            
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombres</th>
+      <th>Descripcion</th>            
+      <th>Modalidad</th>
+      <th>Version</th>
+      <th>Ponente</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for curso in cursos %}        
+    <tr>
+      <td data-label="ID">{{ curso.id_curso }}</td>
+      <td data-label="Nombres">{{ curso.nombre }}</td>
+      <td data-label="Descripcion">{{ curso.descripcion }}</td>
+      <td data-label="Modalidad">{{ curso.modalidad }}</td>
+      <td data-label="Version">{{ curso.id_version }}</td>
+      <td data-label="Ponente">{{ curso.id_ponente }}</td>
+      <td data-label="Acciones">
+        <button onclick="">Editar</button>
+        <button onclick="">Eliminar</button>            
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
+
 
 <br>
 
