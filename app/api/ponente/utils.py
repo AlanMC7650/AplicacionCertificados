@@ -91,7 +91,7 @@ def obtener_nombre_curso(id_usuario):
     try:
         cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         query = """
-            SELECT c.nombre
+            SELECT c.nombre, c.descripcion
             FROM cursos c
             JOIN version_evento v ON c.id_version = v.id_version
             WHERE c.id_ponente = %s AND v.anio = EXTRACT(YEAR FROM CURRENT_DATE)
@@ -100,7 +100,7 @@ def obtener_nombre_curso(id_usuario):
         cursor.execute(query, (id_usuario,))
         result = cursor.fetchone()
         if result:
-            return result["nombre"]
+            return result["nombre"], result["descripcion"]
         else:
             return None
     finally:

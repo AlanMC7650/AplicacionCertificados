@@ -17,17 +17,17 @@
         {% for expositor in expositores %}
         <tr>
             <!-- <td>{{ expositor.id_usuario }}</td> -->
-            <td>{{ loop.index }}</td>
-            <td>{{ expositor.apellido }}</td>
-            <td>{{ expositor.nombre }}</td>
-            <td>{{ expositor.email }}</td>
-            <td>{{ expositor.documento }}</td>
-            <td>{{ expositor.pais_origen }}</td>
-            <td>{{ expositor.id_rol }}</td>
+            <td data-label="N °">{{ loop.index }}</td>
+            <td data-label="Apellidos">{{ expositor.apellido }}</td>
+            <td data-label="Nombres">{{ expositor.nombre }}</td>
+            <td data-label="Email">{{ expositor.email }}</td>
+            <td data-label="Documento">{{ expositor.documento }}</td>
+            <td data-label="País Origen">{{ expositor.pais_origen }}</td>
+            <td data-label="Rol">{{ expositor.id_rol }}</td>
             <!-- <td>{{ expositor.cotrasena }}</td> -->
             <!-- <td>{{ expositor.certificado }}</td> -->
             <!-- <td>{{ expositor.curso }}</td> -->
-            <td>
+            <td data-label="Acciones">
                 <button class="btn btn-primary edit-btn" data-id="{{ expositor.id_usuario }}">
                     Editar
                 </button>
@@ -44,7 +44,9 @@
         </tr>
         {% endfor %}
     </tbody>
+
 </table>
+
 
 
 <!--  Modal / Tabla Emergente Actualizar Ponentes -->

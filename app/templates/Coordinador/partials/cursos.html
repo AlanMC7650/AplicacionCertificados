@@ -1,55 +1,58 @@
 <h3>Gestión de Cursos</h3>
 
 <table border="1" cellpadding="10" cellspacing="0">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombres</th>
-            <th>Descripcion</th>            
-            <th>Modalidad</th>
-            <th>Version</th>
-            <th>Ponente</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for curso in cursos %}        
-        <tr>
-            <!-- <td>{{ curso.id_curso}}</td> -->
-            <td>{{ loop.index }}</td>
-            <!-- <td>{{ curso }}</td> -->
-            <td>{{ curso.nombre }}</td>
-            <td>{{ curso.descripcion }}</td>
-            <td>{{ curso.modalidad }}</td>
-            <td>{{ curso.nombre_version }}</td>
-            <!-- <td>{{ curso.id_ponente }}</td>  -->
-            <td>{{ curso.nombreu + " " + curso.apellidou}}</td>
-            <td>
-                <button class="btn btn-primary edit-curso-btn" 
-                data-id="{{curso.id_curso}}" 
-                data-id-version="{{curso.id_version}}" 
-                data-id-ponente="{{curso.id_ponente}}">
-                    Editar Curso Base
-                </button>
 
-                <button class="btn btn-primary more-curso-btn" 
-                data-id="{{curso.id_curso}}" 
-                data-id-version="{{curso.id_version}}" 
-                data-id-ponente="{{curso.id_ponente}}">
-                    Mas Información
-                </button>
+  <thead>
+    <tr>
+      <th>N °</th>
+      <th>Nombres</th>
+      <th>Descripcion</th>            
+      <th>Modalidad</th>
+      <th>Version</th>
+      <th>Ponente</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for curso in cursos %}        
+    <tr>
 
-                <button class="btn btn-primary del-curso-btn" 
-                data-id="{{curso.id_curso}}" 
-                data-id-version="{{curso.id_version}}" 
-                data-id-ponente="{{curso.id_ponente}}">
-                    Eliminar
-                </button>          
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
+      <!-- <td data-label="N °">{{ curso.id_curso }}</td> -->
+      <td data-label="N °">{{ loop.index }}</td>
+      <td data-label="Nombres">{{ curso.nombre }}</td>
+      <td data-label="Descripcion">{{ curso.descripcion }}</td>
+      <td data-label="Modalidad">{{ curso.modalidad }}</td>
+      <!-- <td data-label="Version">{{ curso.id_version }}</td> -->
+      <td data-label="Version">{{ curso.nombre_version }}</td>
+      <!-- <td data-label="Ponente">{{ curso.id_ponente }}</td> -->
+      <td data-label="Ponente">{{ curso.nombreu + " " + curso.apellidou}}</td>
+      <td data-label="Acciones">
+        <button class="btn btn-primary edit-curso-btn" 
+        data-id="{{curso.id_curso}}" 
+        data-id-version="{{curso.id_version}}" 
+        data-id-ponente="{{curso.id_ponente}}">
+            Editar Curso Base
+        </button>
+
+        <button class="btn btn-primary more-curso-btn" 
+        data-id="{{curso.id_curso}}" 
+        data-id-version="{{curso.id_version}}" 
+        data-id-ponente="{{curso.id_ponente}}">
+            Mas Información
+        </button>
+
+        <button class="btn btn-primary del-curso-btn" 
+        data-id="{{curso.id_curso}}" 
+        data-id-version="{{curso.id_version}}" 
+        data-id-ponente="{{curso.id_ponente}}">
+            Eliminar
+        </button>                    
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
+
 
 <!--  Modal / Tabla Emergente Actualizar Curso -->
 <div id="modal-editar" class="modal">
@@ -104,6 +107,7 @@
     </form>
   </div>
 </div>
+
 
 <br>
 
