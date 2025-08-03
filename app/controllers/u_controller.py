@@ -116,7 +116,88 @@ def eliminar_estudiante(id_usuario):
         conn.rollback()
         return {"status": "error", "mensaje": "Error al eliminar: " + str(e)}
 
+# ----------
+# def obtener_materias_estudiante(id_usuario):
+#     conn = get_connection()
+#     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+#     # Trae id_inscripcion, id_curso, nombre de curso y nota_final (si existe)
+#     cursor.execute("""
+#         SELECT i.id_inscripcion,
+#                c.id_curso,
+#                c.nombre AS nombre_curso,
+#                n.nota_final
+#         FROM inscripciones i
+#         JOIN cursos c USING(id_curso)
+#         LEFT JOIN notas n USING(id_inscripcion)
+#         WHERE i.id_usuario = %s;
+#     """, (id_usuario,))
+#     rows = cursor.fetchall()
+#     conn.close()
+#     return rows
 
+
+def obtener_materias_estudiante(id_usuario,cursor):
+    cursor.execute("""
+        SELECT i.id_inscripcion,
+               c.id_curso,
+               c.nombre AS nombre_curso,
+               n.nota_final
+        FROM inscripciones i
+        JOIN cursos c USING(id_curso)
+        LEFT JOIN notas n USING(id_inscripcion)
+        WHERE i.id_usuario = %s;
+    """, (id_usuario,))
+    return cursor.fetchall()
+
+ 
+
+
+# def obtener_cursos_disponibles(id_usuario):
+#     conn = get_connection()
+#     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+#     cursor.execute("""
+#         SELECT id_curso, nombre
+#         FROM cursos
+#         WHERE id_curso NOT IN (
+#             SELECT id_curso FROM inscripciones WHERE id_usuario = %s
+#         )
+#         ORDER BY nombre;
+#     """, (id_usuario,))
+#     rows = cursor.fetchall()
+#     conn.close()
+#     return rows
+
+
+def obtener_cursos_disponibles(id_usuario,cursor):
+    cursor.execute("""
+        SELECT id_curso, nombre
+        FROM cursos
+        WHERE id_curso NOT IN (
+            SELECT id_curso FROM inscripciones WHERE id_usuario = %s
+        )
+        ORDER BY nombre;
+    """, (id_usuario,))
+    return cursor.fetchall()
+    
+def crear_inscripcion(id_usuario, id_curso):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO inscripciones (id_usuario, id_curso, fecha_inscripcion) VALUES (%s, %s, CURRENT_DATE)",
+        (id_usuario, id_curso)
+    )
+    conn.commit()
+    conn.close()
+
+def eliminar_inscripcion(id_inscripcion):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM inscripciones WHERE id_inscripcion = %s", (id_inscripcion,))
+    conn.commit()
+    conn.close()
+
+
+#--------------
 # --- Usuarios Expositor
 
 def actualizar_ponente(

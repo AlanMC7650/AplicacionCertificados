@@ -4,12 +4,52 @@ from app.controllers import c_controller as crs
 from flask_login import login_user, logout_user, login_required, current_user
 from app.api.auth.utils import role_required
 
-
-
 @curso_bp.route("/coor/cursos", methods=["GET"])
 @login_required
 def cursos():
     return render_template("Coordinador/partials/cursos.html", cursos=crs.obtener_cursos_full())
+
+@curso_bp.route("/coor/cursos/info/<int:id_curso>", methods=["GET"])
+@login_required
+def cursos_id(id_curso):
+    curso = crs.obtener_curso_id(id_curso)
+    if curso:
+        return jsonify(curso[0])
+    return jsonify({}), 404
+
+@curso_bp.route("/coor/cursos/<int:id_curso>", methods=["PUT"])
+@login_required
+def actualizar_curso_base(id_curso):
+    data = request.json
+    campos_requeridos = ["nombre", "descripcion", "modalidad"]
+    if not data or not all(k in data for k in campos_requeridos):
+        return jsonify({"error": "Datos incompletos"}), 400
+    crs.actualizar_curso_base(
+        id_curso,
+        data["nombre"],
+        data["descripcion"],
+        data["modalidad"],
+    )
+    return jsonify({"mensaje": "Curso actualizado"})
+
+@curso_bp.route("/coor/cursos", methods=["POST"])
+@login_required
+def crear_curso():
+    data = request.json
+    crs.crear_curso(
+        data["nombre"],
+        data["descripcion"],
+        data["modalidad"],
+        data["id_version"],
+        data["id_ponente"],
+    )
+    return jsonify({"mensaje": "Curso creado"}), 201
+
+@curso_bp.route("/coor/cursos/<int:id_curso>", methods=["DELETE"])
+@login_required
+def eliminar_curso(id_curso):
+    crs.eliminar_curso(id_curso)
+    return jsonify({"mensaje": "Curso eliminado"})
 
 
 # @curso_bp.route("/", methods=["GET"])

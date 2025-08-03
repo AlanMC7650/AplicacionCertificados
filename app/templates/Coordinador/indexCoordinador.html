@@ -43,8 +43,8 @@
           class="menu-btn" onclick="showSection('usuarios/coor/estudiantes')">Estudiantes</button>
           <button 
           class="menu-btn" onclick="showSection('usuarios/coor/expositores')">Ponentes</button>
-          <button 
-          class="menu-btn" onclick="showSection('eventos/coor/eventos')">Eventos</button>
+<!--           <button 
+          class="menu-btn" onclick="showSection('eventos/coor/eventos')">Eventos</button> -->
           <button 
           class="menu-btn" onclick="showSection('cursos/coor/cursos')">Cursos</button>
         </div>
@@ -56,192 +56,6 @@
       </div>
     </main>
 
-<!--<script>
-      function showSection(section) {
-        fetch(`/${section}`)
-          .then((response) => response.text())
-          .then((html) => {
-            document.getElementById("contenido").innerHTML = html;
-            inicializarEventos(); 
-          });
-      }
-      window.showSection = showSection;
-
-      function inicializarEventos() {
-        //---------- EVENTOS ESTUDIANTES
-
-        //  Modal/ventan Emergente Editar Usuario
-        const modal = document.getElementById("modal-editar");
-        if (!modal) return; 
-        // console.log("Modal está visible:", window.getComputedStyle(modal).display);
-        document.querySelectorAll('.edit-btn').forEach(btn => {
-          btn.addEventListener('click', function () {
-            const id = this.dataset.id;
-            // console.log("Obteniendo datos del usuario ID:", id);  // Debug
-
-            fetch(`/usuarios/coor/estudiantes/info/${id}`)
-              .then(response => {
-                // console.log("[DEBUG] Respuesta FETCH:", response.status); // <- Paso 2
-                if (!response.ok) {
-                  throw new Error('No se pudo obtener el usuario');
-                }
-                return response.json();
-              })
-              .then(data => {
-                // console.log("Datos recibidos:", data);  // Debug
-                document.getElementById('id_usuario').value = data.id_usuario;
-                document.getElementById('nombre').value = data.nombre;
-                document.getElementById('apellido').value = data.apellido;
-                document.getElementById('email').value = data.email;
-                document.getElementById('contrasena').value = '';
-                document.getElementById('documento').value = data.documento;
-                document.getElementById('pais_origen').value = data.pais_origen;
-
-                // document.getElementById('modal-editar').style.display = 'flex';
-                modal.classList.add("activo");
-                // console.log("¿Está visible?", modal.offsetParent !== null);
-              })
-              .catch(err => {
-                alert("Error al obtener los datos: " + err.message);
-              });
-          });
-        });
-        const formEditar = document.getElementById('form-editar');
-        if(formEditar){
-          formEditar.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const id = document.getElementById('id_usuario').value;
-            const data = {
-              nombre: document.getElementById('nombre').value,
-              apellido: document.getElementById('apellido').value,
-              email: document.getElementById('email').value,
-              contrasena: document.getElementById('contrasena').value,
-              documento: document.getElementById('documento').value,
-              pais_origen: document.getElementById('pais_origen').value,
-              id_rol: document.getElementById('id_rol').value
-            };
-            // console.log("Obteniendo datos del usuario ID:", id,data);
-            // console.log("usuario json:", JSON.stringify(data));
-            fetch(`/usuarios/coor/estudiantes/${id}`, {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(data)
-            })
-            .then(response => {
-              // console.log("Respuesta cruda:", response);
-              if (response.ok) {
-                alert("Estudiante actualizado correctamente.");
-                cerrarModalEditEst();
-                // location.reload();
-                showSection('usuarios/coor/estudiantes');
-              } else {
-                return response.json().then(err => {
-                  throw new Error(err.error || "Error desconocido");
-                });
-              }
-            })
-            .catch(err => alert("Error al actualizar: " + err.message));
-          });
-        }
-
-        //  Modal/Ventana Emergente para Crear Usuario
-        const btnNuevo = document.querySelectorAll('.create-btn');
-        btnNuevo.forEach(btn => {
-          btn.addEventListener("click", function () {
-            const modal = document.getElementById("modal-crear");
-            if (modal) modal.classList.add("activo");
-          });
-        });
-
-
-        const modalCrear = document.getElementById("modal-crear");
-        const formCrear = document.getElementById("form-crear");
-
-        if (formCrear) {
-          formCrear.addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const datos = {
-              nombre: document.getElementById("nombre_crear").value,
-              apellido: document.getElementById("apellido_crear").value,
-              email: document.getElementById("email_crear").value,
-              contrasena: document.getElementById("contrasena_crear").value,
-              documento: document.getElementById("documento_crear").value,
-              pais_origen: document.getElementById("pais_origen_crear").value,
-            };
-
-            try {
-              const res = await fetch("/usuarios/coor/estudiantes", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(datos),
-              });
-
-              const resultado = await res.json();
-
-              if (res.ok) {
-                alert("Estudiante creado correctamente.");
-                modalCrear.classList.remove("activo");
-                showSection("usuarios/coor/estudiantes"); // Recargar solo la vista actual
-              } else {
-                alert("Error: " + resultado.error);
-              }
-            } catch (err) {
-              console.error("Error:", err);
-              alert("Error al crear el estudiante.");
-            }
-          });
-        }
-
-         // eliminar estudiante
-        document.querySelectorAll('.del-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const id = btn.dataset.id;
-            if (confirm("¿Seguro que quieres eliminar este estudiante?")) {
-              fetch(`/usuarios/coor/estudiantes/${id}`, {
-                method: 'DELETE'
-              })
-              .then(response => {
-                if (response.ok) {
-                  alert("Estudiante eliminado correctamente.");
-                  showSection('usuarios/coor/estudiantes');  // Recarga la lista
-                } else {
-                  return response.json().then(err => {
-                    throw new Error(err.error || "Error desconocido");
-                  });
-                }
-              })
-              .catch(err => alert("Error al eliminar: " + err.message));
-            }
-          });
-        });
-
-
-        const btnClose = document.querySelector(".close");
-        if (btnClose) {
-          btnClose.addEventListener("click", cerrarModalCrear);
-          btnClose.addEventListener("click", cerrarModalEdit);
-        }
-        
-      }
-
-
-
-      function cerrarModalEdit() {
-        const modal = document.getElementById("modal-editar");
-        modal.classList.remove("activo");
-      }
-      function cerrarModalCrear() {
-        const modal = document.getElementById("modal-crear");
-        modal.classList.remove("activo");
-      }
-
-        //--------------------
-      document.addEventListener("DOMContentLoaded", () => {
-        inicializarEventos();
-    });
-    </script> -->
-
     <script>
       function showSection(section) {
         fetch(`/${section}`)
@@ -251,7 +65,7 @@
             // Detectamos si estamos en estudiantes o expositores según la URL
             const tipoUsuario = section.includes('estudiantes') ? 'estudiantes' : 'expositores';
             inicializarEventos(tipoUsuario);
-            inicializarEventosEventos();
+            inicializarEventosCursos();
           });
       }
       window.showSection = showSection;
@@ -391,30 +205,114 @@
           btnClose.addEventListener("click", cerrarModalCrear);
           btnClose.addEventListener("click", cerrarModalEdit);
         }
+
+
+// Mostrar detalle cuando se hace click en “Más Información”
+        // Boton Mas Informacion Usuarios Estudiante
+        document.querySelectorAll('.more-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.dataset.id;
+            fetch(`/usuarios/coor/estudiantes/info_detalle/${id}`)
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error(`Error HTTP ${response.status}`);
+                }
+                return response.json();
+              })
+              .then(data => {
+                // Poblar tabla de materias
+                const tbody = document.querySelector('#tabla-materias tbody');
+                tbody.innerHTML = '';
+                data.materias.forEach(m => {
+                  const tr = document.createElement('tr');
+                  tr.innerHTML = `
+                    <td>${m.nombre_curso}</td>
+                    <td>${m.nota_final ?? '–'}</td>
+                    <td>
+                      <button class="btn btn-danger btn-sm del-materia" data-id_insc="${m.id_inscripcion}">
+                        Quitar
+                      </button>
+                    </td>`;
+                  tbody.appendChild(tr);
+                });
+
+                // Poblar select de cursos disponibles
+                const select = document.getElementById('select-curso');
+                select.innerHTML = '';
+                data.disponibles.forEach(c => {
+                  const opt = document.createElement('option');
+                  opt.value = c.id_curso;
+                  opt.textContent = c.nombre;
+                  select.appendChild(opt);
+                });
+
+                // Asignar handlers dinámicos
+                document.querySelectorAll('.del-materia').forEach(btnDel => {
+                  btnDel.onclick = () => {
+                    const insc = btnDel.dataset.id_insc;
+                    fetch(`/usuarios/coor/estudiantes/inscripciones/${insc}`, { method: 'DELETE' })
+                      .then(() => {
+                        btn.click(); // recarga el modal
+                      });
+                  };
+                });
+
+                // Submit form agregar materia
+                const form = document.getElementById('form-agregar-materia');
+                form.onsubmit = e => {
+                  e.preventDefault();
+                  const nuevoCurso = select.value;
+                  fetch(`/usuarios/coor/estudiantes/${id}/inscripciones`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id_curso: nuevoCurso })
+                  })
+                  .then(() => {
+                    btn.click(); // recarga el modal
+                  });
+                };
+
+                // Mostrar modal
+                document.getElementById('modal-info').classList.add('activo');
+                console.log(data);
+              })
+              .catch(error => {
+                console.error("Error al obtener datos del servidor:", error);
+                // Opcional: mostrar un mensaje al usuario
+              });
+          });
+        });
+
+
+
+
+
       }
 
-      function inicializarEventosEventos() {
-        // Boton Editar evento
-        document.querySelectorAll('.edit-evento-btn').forEach(btn => {
+      function inicializarEventosCursos(){
+
+        // boton editar Curso
+        document.querySelectorAll('.edit-curso-btn').forEach(btn => {
           btn.addEventListener('click', function () {
             const id = this.dataset.id;
-            const idEvento = this.getAttribute("data-id-evento");
-            const idVersion = this.getAttribute("data-id-version");
-            fetch(`/eventos/coor/eventos/info/${id}`)
+            const id_version = this.dataset.id_version;
+            const id_ponente = this.dataset.id_ponente;
+            fetch(`/cursos/coor/cursos/info/${id}`)
               .then(response => {
-                if (!response.ok) throw new Error('No se pudo obtener el evento');
+                if (!response.ok) throw new Error('No se pudo obtener el curso');
                 return response.json();
               })
               .then(data => {
-                document.getElementById('id_evento').value = data.id_evento;
-                document.getElementById('nombre_base').value = data.nombre_base;
-
+                document.getElementById('id_curso').value = data.id_curso;
+                document.getElementById('nombre').value = data.nombre;
+                document.getElementById('descripcion').value = data.descripcion;
+                document.getElementById('modalidad').value = data.modalidad;
+                document.getElementById('version').value = data.nombre_version;
+                document.getElementById('ponente').value = data.nombreu +" "+data.apellidou;
+                document.getElementById('nombre_ponente').value = data.nombreu;
+                document.getElementById('apellido_ponente').value = data.apellidou;
                 document.getElementById('id_version').value = data.id_version;
-                document.getElementById('nombre_version').value = data.nombre_version;
-                document.getElementById('anio').value = data.anio;
-                document.getElementById('fecha_inicio').value = data.fecha_inicio;
-                document.getElementById('fecha_fin').value = data.fecha_fin;
-                document.getElementById('lugar').value = data.lugar;
+                document.getElementById('id_ponente').value = data.id_ponente;
 
                 document.getElementById('modal-editar').classList.add("activo");
               })
@@ -422,88 +320,101 @@
           });
         });
 
-        // Boton Editar Version
-        document.querySelectorAll('.edit-version-btn').forEach(btn => {
-          btn.addEventListener('click', function () {
-            const id = this.dataset.id;
-            fetch(`/eventos/coor/version/info/${id}`)
-              .then(response => {
-                if (!response.ok) throw new Error('No se pudo obtener la version de evento');
-                return response.json();
-              })
-              .then(data => {
-                document.getElementById('id_version').value = data.id_version;
-                document.getElementById('nombre_version').value = data.nombre_version;
-                document.getElementById('anio').value = data.anio;
-                document.getElementById('fecha_inicio').value = data.fecha_inicio;
-                document.getElementById('fecha_fin').value = data.fecha_fin;
-                document.getElementById('lugar').value = data.lugar;
-
-                document.getElementById('modal-editar').classList.add("activo");
-              })
-              .catch(err => alert("Error al obtener los datos: " + err.message));
-          });
-        });
-
-        // Editar Evento
-        const formEvento = document.getElementById("form-editar-evento");
-        if (formEvento) {
-          formEvento.addEventListener("submit", function (e) {
+        // Envío editar Curso
+        const formEditar = document.getElementById('form-editar-curso');
+        if (formEditar) {
+          formEditar.addEventListener('submit', function (e) {
             e.preventDefault();
-            const id = document.getElementById("id_evento").value;
-            const data = { nombre_base: document.getElementById("nombre_base").value };
-            fetch(`/eventos/coor/version/${id}`, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(data)
-            })
-              .then(res => {
-                if (res.ok) {
-                  alert("Evento actualizado correctamente");
-                  cerrarModalEvento();
-                  showSection("eventos");
-                }
-              });
-
-
-
-          });
-        }
-
-        // Editar versión
-        const formVersion = document.getElementById("form-editar-version");
-        if (formVersion) {
-          formVersion.addEventListener("submit", function (e) {
-            e.preventDefault();
-            const id = document.getElementById("id_evento").value;
+            const id_curso = document.getElementById('id_curso').value;
             const data = {
-              nombre_version: document.getElementById("nombre_version").value,
-              anio: document.getElementById("anio").value,
-              fecha_inicio: document.getElementById("fecha_inicio").value,
-              fecha_fin: document.getElementById("fecha_fin").value,
-              lugar: document.getElementById("lugar").value,
+              id_curso,
+              nombre: document.getElementById('nombre').value,
+              descripcion: document.getElementById('descripcion').value,
+              modalidad: document.getElementById('modalidad').value,
             };
-            fetch(`/eventos/coor/version/${id}`, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
+
+            fetch(`/cursos/coor/cursos/${id_curso}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(data)
             })
-            .then(res => {
-              if (res.ok) {
-                alert("Versión actualizada correctamente");
+            .then(response => {
+              if (response.ok) {
+                alert(`Curso actualizado correctamente`);
                 cerrarModalEdit();
-                showSection(`eventos/coor/`);
+                showSection(`cursos/coor/cursos`);
               } else {
                 return response.json().then(err => {
                   throw new Error(err.error || "Error desconocido");
                 });
               }
-            });
+            })
+            .catch(err => alert("Error al actualizar: " + err.message));
           });
         }
+
+        // Boton Crear evento
+        document.querySelectorAll('.create-curso-btn').forEach(btn => {
+          btn.addEventListener("click", function () {
+            const modal = document.getElementById("modal-crear");
+            if (modal) modal.classList.add("activo");
+          });
+        });
+
+        const formCrear = document.getElementById("form-crear-curso");
+        if (formCrear) {
+          formCrear.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const datos = {
+              nombre: document.getElementById("nombre_crear").value,
+              descripcion: document.getElementById("descripcion_crear").value,
+              modalidad: document.getElementById("modalidad_crear").value,
+              id_version: 1,
+              id_ponente:1,
+            };
+
+            try {
+              const res = await fetch(`/cursos/coor/cursos`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(datos)
+              });
+
+              const resultado = await res.json();
+
+              if (res.ok) {
+                alert(`Curso creado correctamente.`);
+                cerrarModalCrear();
+                showSection(`cursos/coor/cursos`);
+              } else {
+                alert("Error: " + resultado.error);
+              }
+            } catch (err) {
+              alert("Error al crear el Curso.");
+            }
+          });
+        }
+        // Boton/Eliminar Curso
+        document.querySelectorAll('.del-curso-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.dataset.id;
+            if (confirm(`¿Seguro que quieres eliminar este Curso?`)) {
+              fetch(`/cursos/coor/cursos/${id}`, { method: 'DELETE' })
+                .then(response => {
+                  if (response.ok) {
+                    alert(`Curso eliminado correctamente.`);
+                    showSection(`cursos/coor/cursos`);
+                  } else {
+                    return response.json().then(err => {
+                      throw new Error(err.error || "Error desconocido");
+                    });
+                  }
+                })
+                .catch(err => alert("Error al eliminar: " + err.message));
+            }
+          });
+        });
       }
-
-
       // Cerrar modales
       const btnClose = document.querySelector(".close");
       if (btnClose) {
@@ -518,15 +429,16 @@
         const modal = document.getElementById("modal-crear");
         if (modal) modal.classList.remove("activo");
       }
+      function cerrarModalInfo() {
+        const modal = document.getElementById("modal-info");
+        if (modal) modal.classList.remove("activo");
+      }
+
       document.addEventListener("DOMContentLoaded", () => { 
-        inicializarEventos(); 
-        inicializarEventosEventos();
-      
+        inicializarEventos();
+        inicializarEventosCursos();     
       });
 
     </script>
-    <!-- Bootstrap JS -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
-
   </body>
 </html>

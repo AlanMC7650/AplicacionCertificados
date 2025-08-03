@@ -5,6 +5,9 @@ from app.controllers import u_controller as est
 from flask_login import login_user, logout_user, login_required, current_user
 from app.api.auth.utils import role_required
 
+
+from app.db_c import get_connection
+import psycopg2
 # ----- PARA COORDINADOR -----
 ## ---Estudiantes
 @usuario_bp.route("/coor/estudiantes", methods=["POST"])
@@ -65,8 +68,61 @@ def borrar_estudiante(id_usuario):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+#----------------------
+
+# Obtener materias + notas (JSON)
+# @usuario_bp.route('/coor/estudiantes/info_detalle/<int:id_u>', methods=['GET'])
+# @login_required
+# def detalle_estudiante(id_u):
+#     materias = usu.obtener_materias_estudiante(id_u)
+#     disponibles = usu.obtener_cursos_disponibles(id_u)
+#     return jsonify({
+#         "materias": materias,
+#         "disponibles": disponibles
+#     })
 
 
+# Obtener materias + notas (JSON)
+@usuario_bp.route('/coor/estudiantes/info_detalle/<int:id_u>', methods=['GET'])
+@login_required
+def detalle_estudiante(id_u):
+    conn = get_connection()
+    try:
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+
+        # Ambas funciones reciben el mismo cursor
+        materias = usu.obtener_materias_estudiante(id_u, cursor)
+        disponibles = usu.obtener_cursos_disponibles(id_u, cursor)
+
+        return jsonify({
+            "materias": materias,
+            "disponibles": disponibles
+        })
+    except Exception as e:
+        print("Error en detalle_estudiante:", e)
+        return jsonify({"error": str(e)}), 500
+
+
+
+# Añadir materia
+@usuario_bp.route('/coor/estudiantes/<int:id_u>/inscripciones', methods=['POST'])
+@login_required
+def agregar_materia(id_u):
+    data = request.json
+    id_curso = data.get("id_curso")
+    if not id_curso:
+        return jsonify({"error": "Curso no especificado"}), 400
+    usu.crear_inscripcion(id_u, id_curso)
+    return jsonify({"mensaje": "Inscripción creada"}), 201
+
+# Quitar materia
+@usuario_bp.route('/coor/estudiantes/inscripciones/<int:id_insc>', methods=['DELETE'])
+@login_required
+def quitar_materia(id_insc):
+    usu.eliminar_inscripcion(id_insc)
+    return jsonify({"mensaje": "Inscripción eliminada"}), 200
+
+#----------------------
 ## ---Ponentes
 @usuario_bp.route("coor/expositores", methods=["GET"])
 @login_required

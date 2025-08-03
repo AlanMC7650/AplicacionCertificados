@@ -4,8 +4,8 @@
     <thead>
         <tr>
             <th>N°</th>
-            <th>Nombres</th>
             <th>Apellidos</th>
+            <th>Nombres</th>
             <th>Email</th>
             <th>Documento</th>
             <th>País Origen</th>
@@ -21,8 +21,8 @@
             <!-- <td>{{ estudiante }}</td> -->
             <!-- <td>{{ estudiante.id_usuario }}</td> -->
             <td>{{ loop.index }}</td>
-            <td>{{ estudiante.nombre }}</td>
             <td>{{ estudiante.apellido }}</td>
+            <td>{{ estudiante.nombre }}</td>
             <td>{{ estudiante.email }}</td>
             <td>{{ estudiante.documento }}</td>
             <td>{{ estudiante.pais_origen }}</td>
@@ -34,18 +34,16 @@
                 <button class="btn btn-primary edit-btn" data-id="{{ estudiante.id_usuario }}">
                     Editar
                 </button>
-
+                <button class="btn btn-primary more-btn" data-id="{{ estudiante.id_usuario }}">
+                    Mas Información
+                </button>
                 <button class="btn btn-danger del-btn" data-id="{{ estudiante.id_usuario }}">
                     Eliminar
                 </button>
-                <button onclick="" class="btn btn-success">Enviar Certificado</button>
+                <button onclick="" class="btn btn-success cert-btn">Enviar Certificado</button>
             </td>
         </tr>
         {% endfor %}
-
-
-
-
     </tbody>
 </table>
 
@@ -99,9 +97,37 @@
 </div>
 
 
+<!-- Modal Información Estudiante -->
+<div id="modal-info" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="cerrarModalInfo()">&times;</span>
+    <h3>Detalle del Estudiante</h3>
+
+    <!-- Tabla de materias inscritas -->
+    <table id="tabla-materias" class="table">
+      <thead>
+        <tr>
+          <th>Curso</th>
+          <th>Nota</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <!-- Form para añadir materia -->
+    <form id="form-agregar-materia">
+      <label for="select-curso">Agregar curso:</label>
+      <select id="select-curso"></select>
+      <button type="submit">Agregar</button>
+    </form>
+  </div>
+</div>
+
+
 <br>
 
 <button onclick="" class="menu-btn-h create-btn">Agregar Estudiante</button>
-<button onclick="" class="menu-btn-h">Agregar Estudiantes Excel</button>
+<button href="/rxls" class="menu-btn-h rxls-btn">Agregar Estudiantes Excel</button>
 <button onclick="" class="menu-btn-h">Descargar Certificados</button>
 <button onclick="" class="menu-btn-h">Enviar Certificados</button>

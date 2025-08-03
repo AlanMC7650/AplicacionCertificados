@@ -4,8 +4,8 @@
     <thead>
         <tr>
             <th>N°</th>
-            <th>Nombres</th>
             <th>Apellidos</th>
+            <th>Nombres</th>
             <th>Email</th>
             <th>Documento</th>
             <th>País Origen</th>
@@ -18,8 +18,8 @@
         <tr>
             <!-- <td>{{ expositor.id_usuario }}</td> -->
             <td>{{ loop.index }}</td>
-            <td>{{ expositor.nombre }}</td>
             <td>{{ expositor.apellido }}</td>
+            <td>{{ expositor.nombre }}</td>
             <td>{{ expositor.email }}</td>
             <td>{{ expositor.documento }}</td>
             <td>{{ expositor.pais_origen }}</td>
@@ -30,6 +30,9 @@
             <td>
                 <button class="btn btn-primary edit-btn" data-id="{{ expositor.id_usuario }}">
                     Editar
+                </button>
+                <button class="btn btn-primary more-btn" data-id="{{ expositor.id_usuario }}">
+                    Mas Información
                 </button>
                 <button class="btn btn-danger del-btn" data-id="{{ expositor.id_usuario }}">
                     Eliminar
