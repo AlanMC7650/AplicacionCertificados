@@ -130,6 +130,34 @@ def delete_curso(id_curso):
     crs.eliminar_curso(id_curso)
     return jsonify({"mensaje": "Curso eliminado"})
 
+#---------------------
+
+@curso_bp.route('/coor/cursos/<int:id_curso>/ponente', methods=['GET'])
+@login_required
+def obtener_ponente_curso(id_curso):
+    ponente = crs.obtener_ponente_de_curso(id_curso)
+    return jsonify(ponente)
+
+@curso_bp.route('/coor/cursos/ponentes-disponibles', methods=['GET'])
+@login_required
+def obtener_ponentes_disponibles():
+    disponibles = crs.obtener_ponentes_disponibles()
+    return jsonify(disponibles)
+
+@curso_bp.route('/coor/cursos/<int:id_curso>/asignar_ponente', methods=['POST'])
+@login_required
+def asignar_ponente(id_curso):
+    id_ponente = request.json.get('id_ponente')
+    crs.asignar_ponente(id_curso, id_ponente)
+    return jsonify({"mensaje": "Ponente asignado"})
+
+@curso_bp.route('/coor/cursos/<int:id_curso>/desasignar_ponente', methods=['DELETE'])
+@login_required
+def desasignar_ponente(id_curso):
+    crs.asignar_ponente(id_curso, 1)  # 1 = sin ponente
+    return jsonify({"mensaje": "Ponente desasignado"})
+
+#---------------------
 
 """
 TIENE UN PROBLEMA CON EL DELETE POR UNA RESTRICCION EN LA BD, ARREGLAR ESO, TAMBIEN EN EL CRUD DE USUARIOS

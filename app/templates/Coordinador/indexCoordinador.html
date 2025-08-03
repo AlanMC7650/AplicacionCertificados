@@ -283,7 +283,7 @@
           });
         });
 
-
+        // Mas informacion boton Expositor
         document.querySelectorAll('.more-exp-btn').forEach(btn => {
           btn.addEventListener('click', () => {
             const id = btn.dataset.id;
@@ -585,6 +585,97 @@
             }
           });
         });
+        let idCurso = null;
+        document.querySelectorAll('.more-curso-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const idCurso = btn.dataset.id;
+
+            Promise.all([
+              fetch(`/cursos/coor/cursos/${idCurso}/ponente`).then(r => {
+                if (!r.ok) throw new Error(`Error HTTP ${r.status}`);
+                return r.json(); // { id_usuario, nombre, apellido, ... }
+              }),
+              fetch(`/cursos/coor/cursos/ponentes-disponibles`).then(r => {
+                if (!r.ok) throw new Error(`Error HTTP ${r.status}`);
+                return r.json(); // Array de usuarios ponentes
+              })
+            ])
+            .then(([ponente, disponibles]) => {
+              console.log(ponente[0]);
+              console.log(disponibles);
+              ponente=ponente[0];
+              // Renderizar tabla de ponente actual
+              const tbody = document.querySelector('#tabla-curso tbody');
+              tbody.innerHTML = '';
+
+              if (!ponente || ponente.id_usuario === 1) {
+                tbody.innerHTML = `<tr><td colspan="2">Sin ponente asignado</td></tr>`;
+              } else {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                  <td>${ponente.nombre}</td>
+                  <td><button class="btn btn-sm btn-danger quitar-ponente" data-id="${idCurso}">Quitar</button></td>
+                `;
+                tbody.appendChild(fila);
+              }
+
+              // Poblar el <select> con ponentes disponibles
+              const select = document.getElementById('select-exp');
+              select.innerHTML = `<option value="">Selecciona un ponente...</option>`;
+              disponibles.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = `${p.nombre}`;
+                select.appendChild(opt);
+              });
+
+              // Evento: quitar ponente
+              document.querySelectorAll('.quitar-ponente').forEach(qBtn => {
+                qBtn.onclick = () => {
+                  const idCurso = qBtn.dataset.id;
+                  fetch(`/cursos/coor/cursos/${idCurso}/desasignar_ponente`, {
+                    method: 'DELETE'
+                  })
+                  .then(r => {
+                    if (!r.ok) throw new Error('Error al quitar ponente');
+                    return r.json();
+                  })
+                  .then(() => btn.click()) // recargar
+                  .catch(err => alert(err.message));
+                };
+              });
+
+              // Evento: asignar ponente
+              const form = document.getElementById('form-agregar-exp');
+              form.onsubmit = e => {
+                e.preventDefault();
+                const idPonente = select.value;
+                console.log(idPonente);
+                if (!idPonente) return;
+
+                fetch(`/cursos/coor/cursos/${idCurso}/asignar_ponente`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ id_ponente: idPonente })
+                })
+                .then(r => {
+                  if (!r.ok) throw new Error('Error al asignar ponente');
+                  return r.json();
+                })
+                .then(() => btn.click()) // recargar
+                .catch(err => alert(err.message));
+              };
+
+              // Mostrar el modal
+              document.getElementById('modal-info-curso').classList.add('activo');
+            })
+            .catch(err => alert("Error al obtener datos del servidor: " + err.message));
+          });
+        });
+
+
+
+
       }
       // Cerrar modales
       const btnClose = document.querySelector(".close");

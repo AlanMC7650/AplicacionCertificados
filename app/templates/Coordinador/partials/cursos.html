@@ -108,6 +108,32 @@
   </div>
 </div>
 
+<!--  Modal / Tabla Emergente Mas Informacion Cursos -->
+<div id="modal-info-curso" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="cerrarModalCursos()">&times;</span>
+    <h3>Informacón Curso +</h3>
+    <!-- Tabla de expositor asignado -->
+    <table id="tabla-curso" class="table">
+      <thead>
+        <tr>
+          <th>Ponente</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <!-- Form para añadir docente -->
+    <form id="form-agregar-exp">
+      <label for="select-exp">Agregar Ponente:</label>
+      <select id="select-exp">
+          <option value="">Selecciona un ponente...</option>
+      </select>
+      <button type="submit">Agregar</button>
+    </form>
+  </div>
+</div>
 
 <br>
 

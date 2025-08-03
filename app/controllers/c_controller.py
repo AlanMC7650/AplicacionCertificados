@@ -112,3 +112,36 @@ def obtener_cursos_disponibles(id_usuario):
     rows = cursor.fetchall()
     conn.close()
     return rows
+
+#-------------------
+def obtener_ponente_de_curso(id_curso):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT u.id_usuario,  u.apellido||' '||u.nombre
+        FROM cursos c
+        JOIN usuarios u ON c.id_ponente = u.id_usuario
+        WHERE c.id_curso = %s
+    """,(id_curso,))
+    ponentes = cur.fetchall()
+    return [{"id": p[0], "nombre": p[1]} for p in ponentes]
+
+def obtener_ponentes_disponibles():
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT id_usuario, apellido || ' ' || nombre FROM usuarios
+        WHERE id_rol = 2 AND id_usuario != 1
+    """)
+    ponentes = cur.fetchall()
+    return [{"id": p[0], "nombre": p[1]} for p in ponentes]
+
+def asignar_ponente(id_curso, id_ponente):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        UPDATE cursos SET id_ponente = %s WHERE id_curso = %s
+    """, (id_ponente, id_curso))
+    conn.commit()
+
+#-------------------
