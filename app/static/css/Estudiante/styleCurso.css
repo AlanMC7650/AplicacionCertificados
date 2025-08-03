@@ -1,6 +1,7 @@
 body {
   font-family: 'Montserrat Alternates', sans-serif;
-  padding: 20px;
+  padding: 10px;
+  overflow-y: hidden;
 }
 
 .curso-contenido {

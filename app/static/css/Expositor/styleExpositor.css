@@ -13,75 +13,64 @@ body {
 .texto{
   font-size: 14px;
 }
-
 .top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   padding: 10px 30px;
   border-bottom: 2px solid #0070c0;
   position: relative;
-  flex-wrap: wrap;
+  gap: 1rem; /* Espacio entre elementos al hacer wrap */
 }
 
 .top-bar .logo {
   height: 80px;
   width: 150px;
-}
-
-.top-bar .logo-der {
-  width: 50px;
-  position: absolute;
-  right: 30px;
+  flex-shrink: 0;
 }
 
 .top-bar h1 {
   color: #0070c0;
   font-weight: 500;
-  margin: 0 auto;
   font-family: 'Montserrat Alternates', sans-serif;
+  margin: 0 auto;
+  text-align: center;
+  flex-grow: 1;
+  min-width: 200px;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.2rem;
+  flex-shrink: 0;
 }
 
 .top-actions button {
-  margin: 0 5px;
-  padding: 6px 20px;
-  border: 1px solid #0070c0;
+  padding: 0.5rem 1.3rem;
   background: white;
-  color: #0070c0;
+  color: #0077c2;
+  border: 1px solid #0077c2;
   cursor: pointer;
   font-family: 'Montserrat Alternates', sans-serif;
-  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
   border-radius: 4px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-/* ANIMACIÓN HOVER */
-.top-actions button::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background-color: #0070c0;
-  z-index: 0;
-  transition: left 0.3s ease;
-}
-
-.top-actions button:hover::after {
-  left: 0;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .top-actions button:hover {
+  background-color: #0077c2;
   color: white;
-  z-index: 1;
 }
 
-.top-actions button span {
-  position: relative;
-  z-index: 2;
+.logo-der {
+  height: 70px;
+  width: auto;
+  max-width: 60px;
+  flex-shrink: 0;
 }
 
 .main {
