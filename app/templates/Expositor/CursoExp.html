@@ -10,32 +10,32 @@
 <body>
   <div class="curso-container">
     <div class="encabezado-curso">
-      <input type="text" placeholder="Nombre del Curso" disabled>
+      <input type="text" placeholder="{{nombre_curso}}" disabled>
       <form action="/scan/scanning" method="GET">        
         <button class="btn-qr" type="submit">Escanear QR</button>
       </form>
+      <p>{{descripcion}}</p>
+      <button class="btn-qr">Escanear QR</button>
     </div>
     <div class="tabla-container">
       <table>
         <thead>
           <tr>
-            <th>Id</th>
-            <th>Estudiantes</th>
-            <th>Documento</th>
-            <th>Nota</th>
-            <th>Acciones</th>
+            <th>Nro</th>
+            <th>Apellidos</th>
+            <th>Nombres</th>
+            <th>Origen</th>
+            <th>Correo</th>            
           </tr>
         </thead>
         <tbody>          
-          {% for estudiante in estudiantes %}
+          {% for estudiante in estudiantes %}          
           <tr>            
-            <td>{{estudiante.id_usuario}}</td>
-            <td>{{estudiante.nombre}} {{estudiante.apellido}}</td>
-            <td>{{estudiante.documento}}</td>
-            <td>{{estudiante.nota_catedra}}</td>
-            <td>{{estudiante.nota_laboratorio}}</td>
-            <td><button class="btn-qr">Cambiar nota</button></td>
-            
+            <td>{{estudiante.numero}}</td>
+            <td>{{estudiante.apellido}}</td>
+            <td>{{estudiante.nombre}}</td>
+            <td>{{estudiante.pais_origen}}</td>
+            <td>{{estudiante.email}}</td>                                    
           </tr>
           {% endfor %}
         </tbody>
