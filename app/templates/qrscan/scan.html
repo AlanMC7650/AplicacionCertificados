@@ -58,8 +58,8 @@
         { facingMode: "environment" }, // Usa la cámara trasera
         { fps: 10, qrbox: 250 },
         (decodedText, decodedResult) => {
-          document.getElementById("resultado").innerText = `Resultado: ${decodedText}`;
           html5QrCode.stop().then(() => html5QrCode.clear());
+          window.location.href = decodedText; // redirigir al link automáticamente
         },
         (errorMessage) => {
           // Ignorar errores comunes de escaneo
@@ -68,6 +68,7 @@
         console.error("No se pudo iniciar el escaneo", err);
       });
     }
+
   </script>
 </body>
 </html>

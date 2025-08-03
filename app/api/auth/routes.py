@@ -78,10 +78,8 @@ def cursos_estudiante():
 
     id_usuario = current_user.id_usuario
     inscripciones = ins.obtener_inscripciones_por_usuario(id_usuario)
-    print("📋 Inscripciones:", inscripciones)
     # Extrae los cursos desde las inscripciones
     lista_cursos = []
-    print("🧪 Cursos encontrados:", lista_cursos)
     for insc in inscripciones:
         curso_dict = {"nombre": insc[2], "descripcion": insc[3], "modalidad": insc[4]}
         lista_cursos.append(curso_dict)
