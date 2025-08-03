@@ -27,7 +27,7 @@ def create_app(config_class=DevConfig):
     ## Generador de qr
     from app.api.qrs import qrs_bp
 
-    app.register_blueprint(qrs_bp, url_prefix="/qr")
+    app.register_blueprint(qrs_bp, url_prefix="/qrs")
 
     # Página principal index
     from app.api.home import home_bp
@@ -49,7 +49,7 @@ def create_app(config_class=DevConfig):
 
     app.register_blueprint(curso_bp, url_prefix="/cursos")
 
-   #CRUD Inscripcion
+    # CRUD Inscripcion
     from app.api.inscripciones import ins_bp
 
     app.register_blueprint(ins_bp, url_prefix="/ins")
@@ -84,8 +84,8 @@ def create_app(config_class=DevConfig):
     login_manager.login_view = "auth.login"
 
     # Importacion de modelos
-    from app import models 
-       
+    from app import models
+
     @login_manager.user_loader
     def load_user(user_id):
         return Usuario.query.get(int(user_id))

@@ -1,6 +1,14 @@
 import os
 import segno
-from flask import Blueprint, request, jsonify, send_from_directory
+from flask import (
+    Blueprint,
+    request,
+    jsonify,
+    send_from_directory,
+    render_template,
+    redirect,
+    url_for,
+)
 from datetime import datetime
 from . import qrs_bp
 from app.controllers import u_controller as est  # Importa el controlador de estudiantes
@@ -54,15 +62,34 @@ def generate_qr_by_id(id_usuario):
         output_file = os.path.join(BASE_DIR, filename)
         qr.save(output_file, scale=30)
 
-        return (
-            jsonify(
-                {
-                    "message": "QR generado con éxito",
-                    "filename": filename,
-                    "path": f"/qrs/{filename}",
-                }
-            ),
-            200,
-        )
+        return redirect(url_for("qrs.perfil_estudiante", id_usuario=id_usuario))
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@qrs_bp.route("/perfil_estudiante/<int:id_usuario>", methods=["GET"])
+@login_required
+def perfil_estudiante(id_usuario):
+    try:
+        row = est.obtener_estudiante(id_usuario)
+        if not row:
+            return "Estudiante no encontrado", 404
+
+        # Buscar QR existente
+        qr_filename = None
+        for fname in os.listdir(BASE_DIR):
+            if fname.startswith(f"qr_{id_usuario}_") and fname.endswith(".png"):
+                qr_filename = fname
+                break
+
+        # Si no hay QR, podrías generarlo automáticamente o simplemente no mostrarlo
+        qr_path = f"/qrs/{qr_filename}" if qr_filename else None
+
+        return render_template(
+            "Estudiante/Estudiante.html",  # Reemplaza con la ruta real de tu template
+            estudiante=row,
+            qr_path=qr_path,
+        )
+
+    except Exception as e:
+        return str(e), 500

@@ -65,9 +65,16 @@
 <input class="input-info" value="{{ estudiante[6] }}" readonly />
 
           </div>
-          <div class="qr-container">
-            <img src="/static/images/cuere.png" class="qr-img" alt="QR Estudiante" />
-          </div>
+            <div class="qr-container">
+              {% if qr_path %}
+                <img src="{{ qr_path }}" class="qr-img" alt="QR Estudiante" />
+              {% else %}
+                <p>No se ha generado un código QR para este estudiante.</p>
+                <form method="GET" action="{{ url_for('qrs.generate_qr_by_id', id_usuario=estudiante[0]) }}">
+                  <button type="submit" class="btn-generar-qr">Generar QR</button>
+                </form>
+              {% endif %}
+            </div>
         </div>
       </div>
 
