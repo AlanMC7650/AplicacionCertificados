@@ -31,8 +31,10 @@
                 <button class="btn btn-primary edit-btn" data-id="{{ expositor.id_usuario }}">
                     Editar
                 </button>
-                <button class="btn btn-primary more-btn" data-id="{{ expositor.id_usuario }}">
-                    Mas Información
+                <button class="btn btn-info btn-sm more-exp-btn"
+                        data-id="{{ expositor.id_usuario }}"
+                        data-nombre="{{ expositor.apellido }} {{ expositor.nombre }}">
+                  Más Información
                 </button>
                 <button class="btn btn-danger del-btn" data-id="{{ expositor.id_usuario }}">
                     Eliminar
@@ -91,6 +93,44 @@
       <input type="hidden" name="id_rol" value="3">
       <button type="submit">Crear</button>
     </form>
+  </div>
+</div>
+
+
+<!-- Modal: Cursos dictados por un Ponente -->
+<div id="modal-info-curso" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="cerrarModalCursos()">&times;</span>
+    <h3>Cursos dictados por <span id="nombre"></span></h3>
+
+    <h6>Cursos asignados:</h6>
+    <table id="tabla-cursos-exp" class="table">
+      <thead>
+        <tr>
+          <th>Cursos</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <h6>Asignar nuevo curso:</h6>
+    <div class="input-group mb-3">
+      <select class="form-select" id="selectCursoDisponible">
+        <option value="">Selecciona un curso...</option>
+      </select>
+      <button class="btn btn-success" onclick="asignarCurso()">Asignar</button>
+    </div>
+
+    <!-- Form para añadir materia -->
+    <form id="form-agregar-materia-exp">
+      <label for="select-curso-ex">Agregar curso:</label>
+      <select id="select-curso´-exp">
+          <option value="">Selecciona un curso...</option>
+      </select>
+      <button type="submit">Agregar</button>
+    </form>
+
   </div>
 </div>
 

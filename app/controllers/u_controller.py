@@ -116,7 +116,7 @@ def eliminar_estudiante(id_usuario):
         conn.rollback()
         return {"status": "error", "mensaje": "Error al eliminar: " + str(e)}
 
-# ----------
+# ------------------------
 # def obtener_materias_estudiante(id_usuario):
 #     conn = get_connection()
 #     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
@@ -280,3 +280,61 @@ def eliminar_ponente(id_usuario):
     except psycopg2.Error as e:
         conn.rollback()
         return {"status": "error", "mensaje": "Error al eliminar: " + str(e)}
+
+
+# ------------------------
+
+# Cursos dictados por el ponente
+def get_cursos_ponente(id_usuario):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT c.id_curso, c.nombre, c.descripcion
+        FROM cursos c
+        WHERE c.id_ponente = %s
+    """, (id_usuario,))
+    cursos = cursor.fetchall()
+    result = [{'id_curso': c[0], 'nombre': c[1], 'descripcion': c[2]} for c in cursos]
+    cursor.close()
+    conn.close()
+    return (result)
+
+# Cursos disponibles (sin ponente)
+def get_cursos_disponibles_para_ponente():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT id_curso, nombre, descripcion
+        FROM cursos
+        WHERE id_ponente = 1
+    """)
+    cursos = cursor.fetchall()
+    result = [{'id_curso': c[0], 'nombre': c[1], 'descripcion': c[2]} for c in cursos]
+    cursor.close()
+    conn.close()
+    return (result)
+
+# Asignar curso a ponente
+def asignar_curso_a_ponente(id_usuario, id_curso):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE cursos SET id_ponente = %s WHERE id_curso = %s
+    """, (id_usuario, id_curso))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+# Quitar curso al ponente
+def quitar_curso_a_ponente(id_curso):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE cursos SET id_ponente = NULL WHERE id_curso = %s
+    """, (id_curso,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return jsonify({'message': 'Curso desasignado con éxito'})
+
+# ------------------------

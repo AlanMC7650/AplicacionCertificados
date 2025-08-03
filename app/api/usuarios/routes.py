@@ -81,7 +81,6 @@ def borrar_estudiante(id_usuario):
 #         "disponibles": disponibles
 #     })
 
-
 # Obtener materias + notas (JSON)
 @usuario_bp.route('/coor/estudiantes/info_detalle/<int:id_u>', methods=['GET'])
 @login_required
@@ -187,11 +186,29 @@ def borrar_ponente(id_usuario):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+#----------------
+
+# Rutas para ponentes
+@usuario_bp.route('/coor/expositores/<int:id_u>/dictados', methods=['GET'])
+def cursos_del_ponente(id_u):
+    return usu.get_cursos_ponente(id_u)
+
+@usuario_bp.route('/coor/expositores/disponibles', methods=['GET'])
+def cursos_disponibles():
+    return usu.get_cursos_disponibles_para_ponente()
+
+@usuario_bp.route('/coor/expositores/<int:id_u>/dictados', methods=['POST'])
+def asignar_dictado(id_u):
+    data = request.get_json()
+    id_curso = data.get('id_curso')
+    return usu.asignar_curso_a_ponente(id_u, id_curso)
+
+@usuario_bp.route('/coor/expositores/dictados/<int:id_curso>', methods=['DELETE'])
+def eliminar_dictado(id_curso):
+    return usu.quitar_curso_a_ponente(id_curso)
 
 
-
-
-
+#----------------
 
 
 # --- DEMAS ---
