@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Enviar Certificado</title>
-  <link rel="stylesheet" href="/static/css/enviar_certificado.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/certificados/enviar_certificado.css') }}">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -25,19 +25,21 @@
 
     <div class="info-izquierda">
       <a href="javascript:history.back()" class="volver">←</a>
-      <p class="enviar-a">Enviar Certificado a:<br> <strong>diego andres</strong></p>
+      <p class="enviar-a">Enviar Certificado a:<br> <strong>{{ student }} {{ apellido }}</strong></p>
       <p class="email-label">Email</p>
-      <input type="email" class="email-input"> 
+      <!-- Mostrar email en un input readonly para que se pueda copiar pero no modificar -->
+      <input type="email" class="email-input" name="email" value="{{ email }}" readonly>
     </div>
 
     <form method="POST" class="formulario">
       <label for="asunto">Asunto:</label>
-      <input type="text" id="asunto" name="asunto" required>
+      <input type="text" id="asunto" name="asunto" required
+             value="{{ asunto|default('Tu certificado generado') }}">
 
       <label for="mensaje">Cuerpo</label>
-      <textarea id="mensaje" name="mensaje" rows="10" required></textarea>
+      <textarea id="mensaje" name="mensaje" rows="10" required>{{ mensaje|default('Hola, adjuntamos tu certificado.') }}</textarea>
 
-      <button type="submit" class="boton-enviar">Enviar Certificados</button>
+      <button type="submit" class="boton-enviar">Enviar Certificado</button>
     </form>
 
   </main>
