@@ -176,6 +176,25 @@ body {
   min-height: 500px;
 }
 
+.btn-generar-qr {
+    font-family: 'Montserrat Alternates', sans-serif;
+    background-color: transparent;
+    border: 1px solid #0077c2;
+    color: #0077c2;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-generar-qr:hover {
+    background-color: #0077c2;
+    color: #fff;
+}
+
+
 @media (max-width: 600px) {
   .logo {
     height: 50px;
