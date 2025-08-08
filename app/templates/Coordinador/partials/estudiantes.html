@@ -124,7 +124,15 @@
 
 <br>
 
-<button onclick="" class="menu-btn-h create-btn">Agregar Estudiante</button>
-<button href="/rxls" class="menu-btn-h rxls-btn">Agregar Estudiantes Excel</button>
+<button onclick="" class="menu-btn-h create-btn">Agregar Usuarios</button>
+<!-- <a href="{{ url_for('rxls.index') }}" class="menu-btn-h rxls-btn">
+  Agregar Estudiantes Excel
+</a>
+
+ -->
+<button onclick="window.location.href='{{ url_for('rxls.index') }}'" class="menu-btn-h rxls-btn">
+  Agregar Estudiantes Excel
+</button>
+
 <button onclick="" class="menu-btn-h">Descargar Certificados</button>
 <button onclick="" class="menu-btn-h">Enviar Certificados</button>

@@ -126,6 +126,79 @@ def crear_estudiantes_bulk(lista_estudiantes):
         if conn:
             conn.close()
 
+#----------------
+import unicodedata
+import re
+
+def generar_contrasena(apellido, documento):
+    # Elimina acentos y caracteres especiales
+    apellido_normalizado = unicodedata.normalize('NFKD', apellido)
+    apellido_sin_tildes = ''.join([c for c in apellido_normalizado if not unicodedata.combining(c)])
+    apellido_limpio = re.sub(r'[^A-Za-z]', '', apellido_sin_tildes).lower()  # solo letras// ñ -> n
+    primeros_digitos = str(documento)
+    # return apellido_limpio + primeros_digitos[:3] #primeros 3 digidtos
+    return apellido_limpio + primeros_digitos
+
+def crear_estudiantes_con_inscripcion(lista_estudiantes):
+    conn = None
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        id_rol = 3  # Estudiante
+
+        for est in lista_estudiantes:
+            # 1) Buscar id_curso por nombre (case‐insensitive)
+            cursor.execute(
+                "SELECT id_curso FROM cursos WHERE LOWER(nombre) = LOWER(%s)",
+                (est.get("nombre_curso","").strip(),)
+            )
+            row = cursor.fetchone()
+            if not row:
+                raise ValueError(f"Curso '{est.get('nombre_curso')}' no encontrado.")
+            id_curso = row[0]
+
+            # Automatizacion contrasena
+            contrasena_auto = generar_contrasena(est["apellido"], est["documento"])
+            hashed = generate_password_hash(contrasena_auto)
+            # 2) Insertar usuario y obtener id_usuario
+            cursor.execute(
+                """
+                INSERT INTO usuarios (nombre, apellido, email, contrasena, documento, pais_origen, id_rol)
+                VALUES (%s,%s,%s,%s,%s,%s,%s)
+                RETURNING id_usuario
+                """,
+                (
+                    est["nombre"], est["apellido"], est["email"],
+                    hashed, est["documento"],
+                    est["pais_origen"], id_rol
+                )
+            )
+            id_usuario = cursor.fetchone()[0]
+
+            # 3) Crear inscripción
+            cursor.execute(
+                "INSERT INTO inscripciones (id_usuario, id_curso, fecha_inscripcion) VALUES (%s,%s,CURRENT_DATE) RETURNING id_inscripcion",
+                (id_usuario, id_curso)
+            )
+            id_insc = cursor.fetchone()[0]
+
+            # 4) Crear nota inicial
+            cursor.execute(
+                "INSERT INTO notas (id_inscripcion, nota_final) VALUES (%s, %s)",
+                (id_insc, 0.00)
+            )
+
+        conn.commit()
+
+    except Exception:
+        if conn:
+            conn.rollback()
+        raise
+    finally:
+        if conn:
+            conn.close()
+
+
 
 def eliminar_estudiante(id_usuario):
     try:

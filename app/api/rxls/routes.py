@@ -6,7 +6,7 @@ from . import rxls_bp
 from app import db
 from app.models.user import Usuario
 from flask_login import login_required
-from .controller import crear_estudiantes_bulk
+from app.controllers import u_controller as usu
 from app.api.auth.utils import role_required
 
 ALLOWED_EXTENSIONS = {"xlsx", "xls", "csv"}
@@ -47,14 +47,15 @@ def index():
                 return redirect(request.url)
 
         elif accion == "guardar":
+            if "df_data" not in session:
+                flash("No hay datos para guardar.")
+                return redirect(request.url)
             try:
-                if "df_data" not in session:
-                    flash("No hay datos para guardar.")
-                    return redirect(request.url)
-
+                
                 df = pd.read_json(io.StringIO(session["df_data"]))
                 insertados = df.to_dict(orient="records")
-                crear_estudiantes_bulk(insertados)
+                # usu.crear_estudiantes_bulk(insertados)
+                usu.crear_estudiantes_con_inscripcion(insertados)
 
                 session.pop("df_data", None)
                 flash(f"{len(insertados)} estudiantes guardados correctamente.")

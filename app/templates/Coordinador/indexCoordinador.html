@@ -365,99 +365,6 @@
             .catch(err => alert("Error al obtener datos del servidor " + err.message));
           }); 
         });
-
-
-// // Mostrar detalle cuando se hace click en “Más Información” de Ponentes
-// document.querySelectorAll('.more-exp-btn').forEach(btn => {
-//   btn.addEventListener('click', () => {
-//     const id = btn.dataset.id;
-//     // 1) Obtener los cursos dictados y disponibles
-//     Promise.all([
-//       fetch(`/usuarios/coor/expositores/${id}/dictados`).then(r => {
-//         if (!r.ok) throw new Error(`Error HTTP ${r.status}`);
-//         return r.json();
-//       }),
-//       fetch(`/usuarios/coor/expositores/disponibles`).then(r => {
-//         if (!r.ok) throw new Error(`Error HTTP ${r.status}`);
-//         return r.json();
-//       })
-//     ])
-//     .then(([dictados, disponibles]) => {
-//       // 2) Poblar lista de dictados
-//       const lista = document.getElementById('listaCursosPonente');
-//       lista.innerHTML = '';
-//       if (dictados.length === 0) {
-//         lista.innerHTML = '<li class="list-group-item">No tiene cursos asignados.</li>';
-//       } else {
-//         dictados.forEach(c => {
-//           const li = document.createElement('li');
-//           li.className = 'list-group-item d-flex justify-content-between align-items-center';
-//           li.innerHTML = `
-//             ${c.nombre} - ${c.descripcion}
-//             <button class="btn btn-sm btn-danger del-exp-curso" data-id_curso="${c.id_curso}">
-//               Quitar
-//             </button>`;
-//           lista.appendChild(li);
-//         });
-//       }
-
-//       // 3) Poblar select de cursos disponibles
-//       const select = document.getElementById('selectCursoDisponible');
-//       select.innerHTML = '<option value="">Selecciona un curso...</option>';
-//       disponibles.forEach(c => {
-//         const opt = document.createElement('option');
-//         opt.value = c.id_curso;
-//         opt.textContent = c.nombre;
-//         select.appendChild(opt);
-//       });
-
-//       // 4) Handler para quitar dictado
-//       document.querySelectorAll('.del-exp-curso').forEach(delBtn => {
-//         delBtn.onclick = () => {
-//           const idCurso = delBtn.dataset.id_curso;
-//           fetch(`/usuarios/coor/expositores/dictados/${idCurso}`, { method: 'DELETE' })
-//             .then(r => {
-//               if (!r.ok) throw new Error('Error al quitar curso');
-//               return r.json();
-//             })
-//             .then(() => {
-//               btn.click(); // recarga el modal
-//             })
-//             .catch(err => console.error(err));
-//         };
-//       });
-
-//       // 5) Handler para asignar nuevo curso
-//       const formAsignar = document.getElementById('form-agregar-curso-ponente');
-//       formAsignar.onsubmit = e => {
-//         e.preventDefault();
-//         const idCursoNuevo = select.value;
-//         if (!idCursoNuevo) return;
-//         fetch(`/usuarios/coor/expositores/${id}/dictados`, {
-//           method: 'POST',
-//           headers: {'Content-Type': 'application/json'},
-//           body: JSON.stringify({ id_curso: idCursoNuevo })
-//         })
-//         .then(r => {
-//           if (!r.ok) throw new Error('Error al asignar curso');
-//           return r.json();
-//         })
-//         .then(() => btn.click())
-//         .catch(err => console.error(err));
-//       };
-
-//       // 6) Actualizar título del modal y mostrarlo
-//       document.getElementById('nombrePonente').textContent = btn.dataset.nombre;
-//       document.getElementById('modalCursosPonente').classList.add('activo');
-//     })
-//     .catch(error => {
-//       console.error("Error al obtener datos del servidor:", error);
-//       alert('No se pudieron cargar los cursos. Intenta nuevamente.');
-//     });
-//   });
-// });
-
-
       }
 
       function inicializarEventosCursos(){
@@ -672,9 +579,6 @@
             .catch(err => alert("Error al obtener datos del servidor: " + err.message));
           });
         });
-
-
-
 
       }
       // Cerrar modales
