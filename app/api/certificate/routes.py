@@ -144,7 +144,7 @@ def enviar_certificado(user_id):
         return redirect(url_for("certificate.enviar_certificado", user_id=user_id))
 
     return render_template(
-        "send_certificate.html", student=student, apellido=apellido, email=email
+        "Certificados/SendCertificadoUnico.html", student=student, apellido=apellido, email=email
     )
 
 
@@ -225,4 +225,4 @@ def enviar_certificados_todos():
         return redirect(url_for("certificate.enviar_certificados_todos"))
 
     # GET: mostrar formulario con valores por defecto
-    return render_template("send_bulk_certificate.html")
+    return render_template("Certificados/SendMuchosCertificados.html")
