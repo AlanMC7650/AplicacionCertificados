@@ -385,6 +385,49 @@ def crear_ponentes_bulk(lista_expositores):
         if conn:
             conn.close()
 
+def crear_ponentes_con_lote(lista_ponentes):
+    conn = None
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        id_rol = 2  # Ponente
+
+        for p in lista_ponentes:
+            # 1) Generar y hashear contraseña
+            contrasena_auto = generar_contrasena(p["apellido"], p["documento"])
+            hashed = generate_password_hash(contrasena_auto)
+
+            # 2) Insertar usuario
+            cursor.execute(
+                """
+                INSERT INTO usuarios (
+                  nombre, apellido, email, contrasena, documento, pais_origen, id_rol
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s)
+                RETURNING id_usuario
+                """,
+                (
+                    p["nombre"],
+                    p["apellido"],
+                    p["email"],
+                    hashed,
+                    p["documento"],
+                    p["pais_origen"],
+                    id_rol
+                )
+            )
+            # Opcional: recoger id_usuario si necesitas usarlo
+            _ = cursor.fetchone()[0]
+
+        conn.commit()
+
+    except Exception:
+        if conn:
+            conn.rollback()
+        raise
+
+    finally:
+        if conn:
+            conn.close()
 
 def eliminar_ponente(id_usuario):
     try:

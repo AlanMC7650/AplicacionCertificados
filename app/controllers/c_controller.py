@@ -55,6 +55,38 @@ def crear_curso(nombre, descripcion, modalidad, id_version, id_ponente):
     except psycopg2.Error as e:
         print(f"[ERROR] crear_curso: {e}")
 
+import psycopg2
+from app.db_c import get_connection
+
+def crear_cursos_con_lote(lista_cursos):
+    conn = None
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        for c in lista_cursos:
+            cursor.execute(
+                """
+                INSERT INTO cursos (nombre, descripcion, modalidad, id_version, id_ponente)
+                VALUES (%s, %s, %s, %s, %s)
+                """,
+                (
+                    c["nombre"].strip(),
+                    c["descripcion"].strip(),
+                    c["modalidad"].strip(),
+                    1,
+                    1  # por defecto 1 = sin ponente
+                )
+            )
+        conn.commit()
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        # Aquí podrías loguear e informar el error
+        raise
+    finally:
+        if conn:
+            conn.close()
+
 def actualizar_curso_base(id_curso, nombre, descripcion, modalidad):
     try:
         with get_connection() as conn:

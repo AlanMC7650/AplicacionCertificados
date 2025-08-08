@@ -1,3 +1,2 @@
-nombre,apellido,email,documento,pais_origen,nombre_curso
-Mario Hernando,Peña Torrez,carlos.penazzz@example.com,984512,Bolivia,Curso CRUD 
-Lucia Merlina,Mendoza Torrez,lucia.mzzz@example.com,845123,Bolivia,Curso CRUD 
+nombre,descripcion,modalidad
+Introducción a Python,Curso básico de Python teórico,Catedra
