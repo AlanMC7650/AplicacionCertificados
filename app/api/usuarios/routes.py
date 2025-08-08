@@ -115,10 +115,10 @@ def agregar_materia(id_u):
     return jsonify({"mensaje": "Inscripción creada"}), 201
 
 # Quitar materia
-@usuario_bp.route('/coor/estudiantes/inscripciones/<int:id_insc>', methods=['DELETE'])
+@usuario_bp.route('/coor/estudiantes/inscripciones/<int:id_insc>/<int:id_not>', methods=['DELETE'])
 @login_required
-def quitar_materia(id_insc):
-    usu.eliminar_inscripcion(id_insc)
+def quitar_materia(id_insc,id_not):
+    usu.eliminar_inscripcion(id_insc,id_not)
     return jsonify({"mensaje": "Inscripción eliminada"}), 200
 
 #----------------------

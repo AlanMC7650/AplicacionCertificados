@@ -236,7 +236,8 @@ def obtener_materias_estudiante(id_usuario,cursor):
         SELECT i.id_inscripcion,
                c.id_curso,
                c.nombre AS nombre_curso,
-               n.nota_final
+               n.nota_final,
+               n.id_nota
         FROM inscripciones i
         JOIN cursos c USING(id_curso)
         LEFT JOIN notas n USING(id_inscripcion)
@@ -278,15 +279,22 @@ def crear_inscripcion(id_usuario, id_curso):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute(
-        "INSERT INTO inscripciones (id_usuario, id_curso, fecha_inscripcion) VALUES (%s, %s, CURRENT_DATE)",
+        "INSERT INTO inscripciones (id_usuario, id_curso, fecha_inscripcion) VALUES (%s,%s,CURRENT_DATE) RETURNING id_inscripcion",
         (id_usuario, id_curso)
+    )
+    id_insc = cursor.fetchone()[0]
+
+    cursor.execute(
+        "INSERT INTO notas (id_inscripcion, nota_final) VALUES (%s, %s)",
+        (id_insc, 0.00)
     )
     conn.commit()
     conn.close()
 
-def eliminar_inscripcion(id_inscripcion):
+def eliminar_inscripcion(id_inscripcion,id_nota):
     conn = get_connection()
     cursor = conn.cursor()
+    cursor.execute("DELETE FROM notas WHERE id_inscripcion = %s AND id_nota = %s", (id_inscripcion,id_nota))
     cursor.execute("DELETE FROM inscripciones WHERE id_inscripcion = %s", (id_inscripcion,))
     conn.commit()
     conn.close()

@@ -229,7 +229,8 @@
                     <td>${m.nombre_curso}</td>
                     <td>${m.nota_final ?? '–'}</td>
                     <td>
-                      <button class="btn btn-danger btn-sm del-materia" data-id_insc="${m.id_inscripcion}">
+                      <button class="btn btn-danger btn-sm del-materia"
+                       data-id_insc="${m.id_inscripcion}" data-id_nota="${m.id_nota}">
                         Quitar
                       </button>
                     </td>`;
@@ -246,11 +247,12 @@
                   select.appendChild(opt);
                 });
 
-                // Asignar handlers dinámicos
+                // Eliminar materias
                 document.querySelectorAll('.del-materia').forEach(btnDel => {
                   btnDel.onclick = () => {
                     const insc = btnDel.dataset.id_insc;
-                    fetch(`/usuarios/coor/estudiantes/inscripciones/${insc}`, { method: 'DELETE' })
+                    const not = btnDel.dataset.id_nota;
+                    fetch(`/usuarios/coor/estudiantes/inscripciones/${insc}/${not}`, { method: 'DELETE' })
                       .then(() => {
                         btn.click(); // recarga el modal
                       });
